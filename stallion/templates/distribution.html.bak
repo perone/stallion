@@ -1,0 +1,42 @@
+{% extends "main.html" %}
+
+{% block section_title %}
+	<img src="/static/terminal-icon.png" class="midicon"> {{ dist.project_name }} 
+	<small>version {{ dist.version }}</small><br/>
+	<small>{{ pkginfo.summary }}</small>
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+	<div class="span9">
+
+	{{ description_render|safe }}
+
+	<br /> <br />
+
+	{{ pkginfo.package_name }}
+
+	<br />	
+
+	{{ pkginfo.package_name }}
+
+
+	<br />
+
+	{{ pkginfo.author }}
+
+	<br />
+
+	{{ pkginfo.author_email }}
+
+	</div>
+	<div class="span7">
+		alalalal
+	</div>
+</div>
+
+
+
+
+{% endblock %}

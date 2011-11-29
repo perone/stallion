@@ -1,0 +1,43 @@
+{% extends "main.html" %}
+
+{% block section_title %}
+	<img src="/static/terminal-icon.png" class="midicon"> System Information
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+	<div class="span5">
+
+	Welcome to <strong>Stallion</strong>, a Package Manager for Python. In this page you'll find information
+	about the system the Python interpreter is running.
+
+	<br />	<br />
+
+	On the left side you'll find the packages currently installed on your Python installation.
+
+	<br />	<br />
+
+	Feel free to contribute to the project at <strong>Github</strong>.
+
+	</div>
+	<div class="span11">
+
+		<table class="zebra-striped">
+			<tbody>
+				{% for key, value in system_information|dictsort %}
+				<tr>
+					<td><strong>{{ key }}</strong></td>
+					<td>{{ value }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+	</div>
+</div>
+
+
+
+
+{% endblock %}
