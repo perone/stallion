@@ -1,3 +1,13 @@
+"""
+.. module:: main
+   :platform: Unix, Windows
+   :synopsis: Main Stallion entry-point.
+
+.. moduleauthor:: Christian S. Perone <christian.perone@gmail.com>
+
+:mod:`main` -- main Stallion entry-point
+==================================================================
+"""
 from flask import Flask
 from flask import render_template
 
@@ -49,14 +59,12 @@ def package(key=None):
 
     data["pkginfo"] = pkginfo_data
 
-
     settings_overrides={
-        'raw_enabled': 0,  # no raw HTML code
+        'raw_enabled': 0, # no raw HTML code
         'file_insertion_enabled': 0,  # no file/URL access
         'halt_level': 2,  # at warnings or errors, raise an exception
         'report_level': 5,  # never report problems with the reST code
     }
-
 
     parts = None
     try:

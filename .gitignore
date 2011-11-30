@@ -1,0 +1,5 @@
+# Use wildcards as well
+*~
+*.swp
+*.bak
+*.pyc
