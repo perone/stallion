@@ -80,10 +80,9 @@ def parse_metadata(metadata):
     return (parsed_metadata, key_exist, key_known)
 
 def run_test():
-
-
-    pkg = pkg_resources.get_distribution("nose")
+    pkg = pkg_resources.get_distribution("jinja2")
     parsed, key_exist, key_known = parse_metadata(pkg.get_metadata(METADATA_NAME))
+
     print parsed
     print key_exist
     print key_known
