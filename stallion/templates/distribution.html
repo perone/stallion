@@ -19,9 +19,11 @@
 	</div>
 	<div class="span7">
 		<div class="well" style="padding: 14px 19px;">
-			<div class="page-header"><h2>Package information</h2></div>
+			<div class="page-header"><h2><img src="/static/info.png" class="midicon"> Package information</h2><br /></div>
 
 				{% if pkginfo["metadata-version"] %}
+
+				{{ pkginfo["summary"] }} <br /> <br />
 
 					<table class="bordered-table">
 					<tbody>
@@ -31,13 +33,49 @@
 						</tr>
 
 						<tr>
+							<td><strong>Version</strong></td>
+							<td>{{ pkginfo["version"] }}</td>
+						</tr>
+
+						<tr>
+							<td><strong>Platform</strong></td>
+							<td>
+								{% set platforms = pkginfo.get_all("platform") %}
+								{% if platforms|count > 1 %}
+								<ul>
+									{% for platform in platforms %}
+										<li>{{ platform }}</li>
+									{% endfor %}
+								</ul>
+								{% else %}
+								{{ pkginfo["platform"] }}
+								{% endif %}
+							</td>
+						</tr>
+						
+						<tr>
+							<td><strong>Project License</strong></td>
+							<td>{{ pkginfo["license"] }}</td>
+						</tr>
+
+						<tr>
 							<td><strong>Author</strong></td>
 							<td>{{ pkginfo["author"] }}</td>
 						</tr>
 
 						<tr>
 							<td><strong>Author Email</strong></td>
-							<td>{{ pkginfo["author-email"] }}</td>
+							<td><a href="mailto:{{ pkginfo["author-email"] }}">{{ pkginfo["author-email"] }}</a></td>
+						</tr>
+
+						<tr>
+							<td><strong>Project site</strong></td>
+							<td><a href="{{ pkginfo["home-page"] }}">{{ pkginfo["home-page"] }}</a></td>
+						</tr>
+
+						<tr>
+							<td><strong>Keywords</strong></td>
+							<td>{{ pkginfo["keywords"] }}</td>
 						</tr>
 
 						<tr>

@@ -21,6 +21,8 @@ from docutils.core import publish_parts
 
 import metadata
 
+import __init__ as stallion
+
 app = Flask(__name__)
 
 class Crumb(object):
@@ -31,7 +33,7 @@ class Crumb(object):
 @app.route('/')
 def index():
     data = {}
-    data["breadpath"] = [Crumb("Main", "/")]
+    data["breadpath"] = [Crumb("Main")]
     
     data["distributions"] = [d for d in pkg_resources.working_set]
 
@@ -49,6 +51,15 @@ def index():
     data["system_information"] = sys_info
 
     return render_template('system_information.html', **data)
+
+@app.route('/about')
+def about():
+    data = {}
+    data["breadpath"] = [Crumb("About")]
+    data["version"] = stallion.__version__
+    data["author"] = stallion.__author__
+    data["author_url"] = stallion.__author_url__
+    return render_template('about.html', **data)
 
 @app.route('/distribution/<key>')
 def package(key=None):
