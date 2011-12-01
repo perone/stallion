@@ -59,6 +59,9 @@ def about():
     data["version"] = stallion.__version__
     data["author"] = stallion.__author__
     data["author_url"] = stallion.__author_url__
+
+    data["distributions"] = [d for d in pkg_resources.working_set]
+
     return render_template('about.html', **data)
 
 @app.route('/distribution/<key>')

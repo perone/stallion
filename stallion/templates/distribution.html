@@ -9,7 +9,12 @@
 {% block content %}
 
 <div class="row">
-	<div class="span9">
+	<div class="span8">
+
+	<div class="well" style="padding: 10px 12px;">
+	<div class="page-header"><h3>Available Actions</h3></div>
+	<button class="btn primary">Check integrity</button>&nbsp;<button class="btn success">Success</button>&nbsp;<button class="btn danger">Danger</button>
+	</div>
 
 	{% if  description_render %}
 		{{ description_render|safe }}
@@ -17,7 +22,7 @@
 	{% endif %}
 
 	</div>
-	<div class="span7">
+	<div class="span8">
 		<div class="well" style="padding: 14px 19px;">
 			<div class="page-header"><h2><img src="/static/info.png" class="midicon"> Package information</h2><br /></div>
 
@@ -79,10 +84,21 @@
 						</tr>
 
 						<tr>
+							<td><strong>Classifiers</strong></td>
+							<td>
+								{% set classifier = pkginfo.get_all("classifier") %}
+								<ul>
+									{% for cl in classifier %}
+										<li>{{ cl }}</li>
+									{% endfor %}
+								</ul>
+							</td>
+						</tr>
+
+						<tr>
 							<td><strong>Fields</strong></td>
 							<td>{{ pkginfo.keys() }}</td>
 						</tr>
-
 
 					</tbody>
 					</table>
@@ -100,9 +116,6 @@
 					</div>
 				{% endif %}
 
-			<div class="page-header"><h2>Available Actions</h2></div>
-			<button class="btn primary">Check integrity</button> <br /> <br />
-			<button class="btn success">Success</button> <br /> <br /><button class="btn danger">Danger</button>
 		</div>
 	</div>
 </div>
