@@ -59,53 +59,26 @@ def package(key=None):
     data["breadpath"] = [Crumb("Main", "/"), Crumb("Package"), Crumb(pkg_dist.project_name)]
     data["distributions"] = [d for d in pkg_resources.working_set]
 
-    settings_overrides={
+    settings_overrides = {
         'raw_enabled': 0, # no raw HTML code
-        'file_insertion_enabled': 0,  # no file/URL access
-        'halt_level': 2,  # at warnings or errors, raise an exception
-        'report_level': 5,  # never report problems with the reST code
+        'file_insertion_enabled': 0, # no file/URL access
+        'halt_level': 2, # at warnings or errors, raise an exception
+        'report_level': 5, # never report problems with the reST code
     }
 
     pkg_metadata = pkg_dist.get_metadata(metadata.METADATA_NAME)
     parsed_metadata, key_exist, key_known = metadata.parse_metadata(pkg_metadata)
     
-    xx = """
-Jinja2
-~~~~~~~~~~~~
-Jinja2 is a template engine written in pure Python.  It provides a
-`Django`_ inspired non-XML syntax but supports inline expressions and
-an optional `sandboxed`_ environment.
-Nutshell
-------------
-Here a small example of a Jinja template::
-{% extends 'base.html' %}
-{% block title %}Memberlist{% endblock %}
-{% block content %}
-<ul>
-{% for user in users %}
-<li><a href="{{ user.url }}">{{ user.username }}</a></li>
-{% endfor %}
-</ul>
-{% endblock %}
-Philosophy
---------------
-Application logic is for the controller but don't try to make the life
-for the template designer too hard by giving him too few functionality.
-For more informations visit the new `Jinja2 webpage`_ and `documentation`_.
-.. _sandboxed: http://en.wikipedia.org/wiki/Sandbox_(computer_security)
-.. _Django: http://www.djangoproject.com/
-.. _Jinja2 webpage: http://jinja.pocoo.org/
-.. _documentation: http://jinja.pocoo.org/2/documentation/
-"""
     parts = None
-    parts = publish_parts(source=xx, writer_name='html',
-                          settings_overrides=settings_overrides)
+    try:
+        parts = publish_parts(source = metadata.clean_leading_ws(parsed_metadata["description"], "description"),
+                              writer_name = 'html', settings_overrides = settings_overrides)
+    except:
+        pass
 
     data["pkginfo"] = parsed_metadata
 
-    if parts is None:
-        data["description_render"] = None
-    else:
+    if parts is not None:
         data["description_render"] = parts["body"]
     
     return render_template('distribution.html', **data)

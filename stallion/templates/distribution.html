@@ -9,43 +9,42 @@
 {% block content %}
 
 <div class="row">
-	<div class="span9">
+	<div class="span10">
 
-	{% if description_render %}
-	{{ description_render|safe }}
-	<br /> <br />
+	{% if  description_render %}
+		{{ description_render|safe }}
+		<br /> <br />
 	{% endif %}
 
-	{% if pkginfo.metadata_version %}
+	{% if pkginfo["metadata-version"] %}
 
-	{{ pkginfo.package_name }}
+		{{ pkginfo.package_name }}
 
-	<br />	
+		<br />	
 
-	{{ pkginfo.package_name }}
+		{{ pkginfo.package_name }}
 
 
-	<br />
+		<br />
 
-	{{ pkginfo.author }}
+		{{ pkginfo.author }}
 
-	<br />
+		<br />
 
-	{{ pkginfo.author_email }}
+		{{ pkginfo.author_email }}
 	{% else %}
-	<div class="alert-message block-message error">
-		<a class="close" href="#">&times;</a>
-		<p><strong>No metadata information available !</strong> Stallion wasn't able to find info.</p>
-        <ul>
-          <li>The package probably doesn't have the <strong>PKG-INFO</strong> metadata.</li>
-          <li>Stallion wasn't able to find the <strong>PKG-INFO</strong> metadata.</li>
-          <li>Eget lacinia odio sem nec elit</li>
-        </ul>
-	</div>
+		<div class="alert-message block-message error">
+			<a class="close" href="#">&times;</a>
+			<p><strong>No metadata information available !</strong> Stallion wasn't able to find info.</p>
+			<ul>
+			  <li>The package probably doesn't have the <strong>PKG-INFO</strong> metadata.</li>
+			  <li>Stallion wasn't able to find the <strong>PKG-INFO</strong> metadata.</li>
+			</ul>
+		</div>
 	{% endif %}
 
 	</div>
-	<div class="span7">
+	<div class="span6">
 		alalalal
 	</div>
 </div>
