@@ -9,43 +9,63 @@
 {% block content %}
 
 <div class="row">
-	<div class="span10">
+	<div class="span9">
 
 	{% if  description_render %}
 		{{ description_render|safe }}
 		<br /> <br />
 	{% endif %}
 
-	{% if pkginfo["metadata-version"] %}
-
-		{{ pkginfo.package_name }}
-
-		<br />	
-
-		{{ pkginfo.package_name }}
-
-
-		<br />
-
-		{{ pkginfo.author }}
-
-		<br />
-
-		{{ pkginfo.author_email }}
-	{% else %}
-		<div class="alert-message block-message error">
-			<a class="close" href="#">&times;</a>
-			<p><strong>No metadata information available !</strong> Stallion wasn't able to find info.</p>
-			<ul>
-			  <li>The package probably doesn't have the <strong>PKG-INFO</strong> metadata.</li>
-			  <li>Stallion wasn't able to find the <strong>PKG-INFO</strong> metadata.</li>
-			</ul>
-		</div>
-	{% endif %}
-
 	</div>
-	<div class="span6">
-		alalalal
+	<div class="span7">
+		<div class="well" style="padding: 14px 19px;">
+			<div class="page-header"><h2>Package information</h2></div>
+
+				{% if pkginfo["metadata-version"] %}
+
+					<table class="bordered-table">
+					<tbody>
+						<tr>
+							<td><strong>Package Name</strong></td>
+							<td>{{ pkginfo["name"] }}</td>
+						</tr>
+
+						<tr>
+							<td><strong>Author</strong></td>
+							<td>{{ pkginfo["author"] }}</td>
+						</tr>
+
+						<tr>
+							<td><strong>Author Email</strong></td>
+							<td>{{ pkginfo["author-email"] }}</td>
+						</tr>
+
+						<tr>
+							<td><strong>Fields</strong></td>
+							<td>{{ pkginfo.keys() }}</td>
+						</tr>
+
+
+					</tbody>
+					</table>
+
+					<br /> 
+					
+				{% else %}
+					<div class="alert-message block-message error">
+						<a class="close" href="#">&times;</a>
+						<p><strong>No metadata information available !</strong> Stallion wasn't able to find info.</p>
+						<ul>
+						  <li>The package probably doesn't have the <strong>PKG-INFO</strong> metadata.</li>
+						  <li>Stallion wasn't able to find the <strong>PKG-INFO</strong> metadata.</li>
+						</ul>
+					</div>
+				{% endif %}
+
+			<div class="page-header"><h2>Available Actions</h2></div>
+			<button class="btn primary">Check integrity</button> <br /> <br />
+			<button class="btn success">Success</button> <br /> <br /><button class="btn danger">Danger</button>
+		</div>
 	</div>
 </div>
 
