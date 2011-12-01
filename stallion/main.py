@@ -30,12 +30,18 @@ class Crumb(object):
         self.title = title
         self.href = href
 
+def get_shared_data():
+    shared_data = {}
+    shared_data["distributions"] = [d for d in pkg_resources.working_set]
+
+    return shared_data
+
 @app.route('/')
 def index():
     data = {}
     data["breadpath"] = [Crumb("Main")]
     
-    data["distributions"] = [d for d in pkg_resources.working_set]
+    data.update(get_shared_data())
 
     sys_info = {}
     sys_info["Python Platform"] = sys.platform
@@ -55,12 +61,12 @@ def index():
 @app.route('/about')
 def about():
     data = {}
+    data.update(get_shared_data())
+
     data["breadpath"] = [Crumb("About")]
     data["version"] = stallion.__version__
     data["author"] = stallion.__author__
     data["author_url"] = stallion.__author_url__
-
-    data["distributions"] = [d for d in pkg_resources.working_set]
 
     return render_template('about.html', **data)
 
@@ -69,9 +75,10 @@ def package(key=None):
     pkg_dist = pkg_resources.get_distribution(key)
 
     data = {}
+    data.update(get_shared_data())
+
     data["dist"] = pkg_dist
     data["breadpath"] = [Crumb("Main", "/"), Crumb("Package"), Crumb(pkg_dist.project_name)]
-    data["distributions"] = [d for d in pkg_resources.working_set]
 
     settings_overrides = {
         'raw_enabled': 0, # no raw HTML code
@@ -81,16 +88,17 @@ def package(key=None):
     }
 
     pkg_metadata = pkg_dist.get_metadata(metadata.METADATA_NAME)
-    parsed_metadata, key_exist, key_known = metadata.parse_metadata(pkg_metadata)
+    parsed, key_known = metadata.parse_metadata(pkg_metadata)
+    pkginfo = metadata.metadata_to_dict(parsed, key_known)
     
     parts = None
     try:
-        parts = publish_parts(source = metadata.clean_leading_ws(parsed_metadata["description"], "description"),
+        parts = publish_parts(source = pkginfo["description"],
                               writer_name = 'html', settings_overrides = settings_overrides)
     except:
         pass
 
-    data["pkginfo"] = parsed_metadata
+    data["pkginfo"] = parsed
 
     if parts is not None:
         data["description_render"] = parts["body"]

@@ -46,14 +46,18 @@
 							<td><strong>Platform</strong></td>
 							<td>
 								{% set platforms = pkginfo.get_all("platform") %}
-								{% if platforms|count > 1 %}
-								<ul>
-									{% for platform in platforms %}
-										<li>{{ platform }}</li>
-									{% endfor %}
-								</ul>
+								{% if platforms %}
+									{% if platforms|count > 1 %}
+									<ul>
+										{% for platform in platforms %}
+											<li>{{ platform }}</li>
+										{% endfor %}
+									</ul>
+									{% else %}
+									{{ pkginfo["platform"] }}
+									{% endif %}
 								{% else %}
-								{{ pkginfo["platform"] }}
+									<span class="label warning">Warning</span> <em>No platforms specified.</em>
 								{% endif %}
 							</td>
 						</tr>
@@ -87,11 +91,15 @@
 							<td><strong>Classifiers</strong></td>
 							<td>
 								{% set classifier = pkginfo.get_all("classifier") %}
+								{% if classifier %}
 								<ul>
 									{% for cl in classifier %}
 										<li>{{ cl }}</li>
 									{% endfor %}
 								</ul>
+								{% else %}
+								<span class="label warning">Warning</span> <em>No classifiers specified.</em>
+								{% endif %}
 							</td>
 						</tr>
 

@@ -9,7 +9,7 @@
 ==================================================================
 """
 
-#import rfc822
+import string
 from email.parser import Parser
 import pkg_resources
 
@@ -18,39 +18,40 @@ import pkg_resources
 
 # Based on the PEP-0241
 HEADER_META_1_0 = (
-    ('Metadata-Version', 'metadata-version', False),
-    ('Name', 'name', False),
-    ('Version', 'version', False),
-    ('Platform', 'platform', True),
-    ('Supported-Platform', 'supported-platform', True),
-    ('Summary', 'summary', False),
-    ('Description', 'description', False),
-    ('Keywords', 'keywords', False),
-    ('Home-Page', 'home-page', False),
-    ('Author', 'author', False),
-    ('Author-email', 'author-email', False),
-    ('License', 'license', False),
+    'metadata-version',
+    'name',
+    'version',
+    'platform',
+    'supported-platform',
+    'summary',
+    'description',
+    'keywords',
+    'home-page',
+    'author',
+    'author-email',
+    'license',
+    'classifier' # Not part of PEP
 )
 
 # Based on the PEP-0314
 HEADER_META_1_1 = HEADER_META_1_0 + ( 
-    ('Classifier', 'classifiers', True),
-    ('Download-URL', 'download-url', False),
-    ('Requires', 'requires', True),
-    ('Provides', 'provides', True),
-    ('Obsoletes', 'obsoletes', True),
+    'classifiers',
+    'download-url',
+    'requires',
+    'provides',
+    'obsoletes',
 )
 
 # Based on the PEP-0345
 HEADER_META_1_2 = HEADER_META_1_1 + (
-    ('Maintainer', 'maintainer', False),
-    ('Maintainer-email', 'maintainer-email', False),
-    ('Requires-Python', 'requires-python', False),
-    ('Requires-External', 'requires-external', True),
-    ('Requires-Dist', 'requires-dist', True),
-    ('Provides-Dist', 'provides-dist', True),
-    ('Obsoletes-Dist', 'obsoletes-dist', True),
-    ('Project-URL', 'project-url', True),
+    'maintainer',
+    'maintainer-email',
+    'requires-python',
+    'requires-external',
+    'requires-dist',
+    'provides-dist',
+    'obsoletes-dist',
+    'project-url',
 )
 
 HEADER_META = {
@@ -68,39 +69,90 @@ def parse_metadata(metadata):
     :param metadata: the raw PKG-INFO metadata text
     :type metadata: string
     :rtype: tuple 
-    :return: (parsed_metadata, key_exist, key_known), the parsed_metadata is the rfc822.Message
-             object, the key_exist are the fields which were found in the package, the key_known are
-             the valid fields according to its metadata version.
+    :return: (parsed_metadata, key_known), the parsed_metadata is the rfc822.Message
+             object and the key_known is the fields found in the metadata info which
+             is part of the metadata version specification
     """
     parsed_metadata = Parser().parsestr(metadata)
-    metadata_spec = HEADER_META[parsed_metadata["metadata-version"]]
-    key_exist = set(parsed_metadata.keys())
-    key_known = set([key_name for field_name, key_name, optional in metadata_spec])
-    return (parsed_metadata, key_exist, key_known)
+    metadata_spec = set(HEADER_META[parsed_metadata["metadata-version"]])
+    key_exist = set(map(string.lower, parsed_metadata.keys()))
+    return (parsed_metadata, key_exist.intersection(metadata_spec))
 
-def clean_leading_ws(txt, key_name):
+def clean_lead_ws_description(metadata, field_name):
+    """ Sometimes the metadata fields are a mess, this function is intended to remove the leading
+    extra space some authors add in front of the 'description' field and to handle some other
+    field cases.
+
+    :param metadata: the metadata text
+    :param field_name: the name of the field, like 'description'
+    :rtype: string
+    :return: the processed metadata
+    """
     def calc_leading(line):
         return len(line) - len(line.lstrip())
 
     def most_common(lst):
         return max(set(lst), key=lst.count)
 
-    if key_name.lower() == 'description':
-        leading_ws_count = [calc_leading(line) for line in txt.splitlines()]
+    if field_name.lower() == 'description':
+        leading_ws_count = [calc_leading(line) for line in metadata.splitlines()]
         most_common_ws_count = most_common(leading_ws_count)
         
-        strip_split = txt.strip().splitlines()
+        strip_split = metadata.strip().splitlines()
         return '\n'.join([line[most_common_ws_count:] if line.startswith(' ' * most_common_ws_count) else line
                           for line in strip_split])
     else:
-        return ' '.join([line.strip() for line in txt.splitlines()])
+        return ' '.join([line.strip() for line in metadata.splitlines()])
+
+def field_process(field_name, field_value):
+    """ Processes a field, it changes the 'UNKNOWN' values for None, clear leading whitespaces, etc.
+
+    :param field_name: the field name
+    :param field_value: the value of the field
+    :rtype: string or list
+    :return: field value processed
+    """
+
+    if isinstance(field_value, list):
+        return field_value
+
+    f_value = clean_lead_ws_description(field_value, field_name)
+
+    if f_value == "UNKNOWN":
+        f_value = None
+
+    return f_value
+
+def metadata_to_dict(parsed_metadata, key_known):
+    """ This is the main function used to process the parsed metadata into a structured
+    and pre-processed data dictionary.
+
+    :param parsed_metadata: the return of the function :func:`stallion.metadata.parse_metadata`.
+    :rtype: dictionary
+    :returns: the processed metadata dictionary
+    """
+
+    mdict = {}
+    
+    for field in set(parsed_metadata.keys()):
+        all_values = parsed_metadata.get_all(field)
+        if len(all_values) == 1:
+            all_values = all_values[0]
+
+        fl_name = field.lower()
+        fl_processed = field_process(fl_name, all_values)
+        if fl_processed:
+            mdict[fl_name] = fl_processed
+
+    return mdict
 
 def run_test():
     pkg = pkg_resources.get_distribution("jinja2")
-    parsed, key_exist, key_known = parse_metadata(pkg.get_metadata(METADATA_NAME))
-    print parsed
-    print key_exist
-    print key_known
+    parsed, key_known = parse_metadata(pkg.get_metadata(METADATA_NAME))
+    ret = metadata_to_dict(parsed, key_known)
+    
+    for k, v in ret.items():
+        print k, v
 
 if __name__ == "__main__":
     run_test()
