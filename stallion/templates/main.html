@@ -2,12 +2,13 @@
 <head>
   <meta charset="utf-8">
   <title>Stallion, package manager for Python</title>
-  <script type="text/javascript" src="/static/jquery-1.7.1.min.js"></script>
-  <link rel="stylesheet" href="/static/bootstrap.min.css">
-  <link href="/static/extra.css" rel="stylesheet">
+  <script type="text/javascript" src="{{ url_for('static', filename='jquery-1.7.1.min.js') }}"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+  <link href="{{ url_for('static', filename='extra.css') }}" rel="stylesheet">
   <style type="text/css">
 	img.midicon { vertical-align: middle; }
   </style>
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
 
 <body>
@@ -31,7 +32,7 @@
 		<h3>Packages</h3>
 		</div>
 		{% for dist in distributions|sort(attribute="project_name") %}
-			<img src="/static/box-icon.png">
+			<img src="/static/box-icon.png" class="midicon">
 			<a href="/distribution/{{ dist.key }}">{{ dist.project_name }} {{ dist.version }}</a> <br/>
 		{% endfor %}
 	</div>
