@@ -1,7 +1,7 @@
 {% extends "main.html" %}
 
 {% block section_title %}
-	<img src="/static/terminal-icon.png" class="midicon"> System Information
+	<img src="{{ url_for('static', filename='terminal-icon.png') }}" class="midicon"> System Information
 {% endblock %}
 
 {% block content %}
@@ -19,7 +19,7 @@
 	<br />	<br />
 
 	Feel free to contribute to the project at <strong>Github</strong>, see more information about it
-	on the <a href="/about">About</a> section.
+	on the <a href="{{ url_for('about') }}">About</a> section.
 
 	</div>
 	<div class="span9">

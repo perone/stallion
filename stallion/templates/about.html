@@ -1,7 +1,7 @@
 {% extends "main.html" %}
 
 {% block section_title %}
-	<img src="/static/about.png" class="midicon"> About Stallion
+	<img src="{{ url_for('static', filename='about.png') }}" class="midicon"> About Stallion
 	<small>version {{ version }}</small>
 {% endblock %}
 
@@ -13,7 +13,7 @@
 		nice distribution utilities like pip, distribute, etc, but we don't have a nice visual approach with these same goals.
 	</p> <br />
 
-	<div class="page-header"><h2><img src="/static/contribute.png" class="midicon"> Get involved !</h2></div>
+	<div class="page-header"><h2><img src="{{ url_for('static', filename='contribute.png') }}" class="midicon"> Get involved !</h2></div>
 	<p>
 		If you want to contribute (<em>even with documentation</em>), please <a href="https://github.com/perone/stallion">fork me at Github</a>, open issues, make suggestions. 
 	</p>

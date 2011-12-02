@@ -1,9 +1,9 @@
 {% extends "main.html" %}
 
 {% block section_title %}
-	<img src="/static/terminal-icon.png" class="midicon"> {{ dist.project_name }} 
+	<img src={{ url_for('static', filename='terminal-icon.png') }}" class="midicon"> {{ dist.project_name }} 
 	<small>version {{ dist.version }}</small><br/>
-	{% if pkginfo.summary %}<small>{{ pkginfo.summary }}</small>{% endif %}
+	{% if distinfo.summary %}<small>{{ distinfo.summary }}</small>{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -24,73 +24,72 @@
 	</div>
 	<div class="span8">
 		<div class="well" style="padding: 14px 19px;">
-			<div class="page-header"><h2><img src="/static/info.png" class="midicon"> Package information</h2><br /></div>
+			<div class="page-header"><h2><img src="{{ url_for('static', filename='info.png') }}" class="midicon"> Package information</h2><br /></div>
 
-				{% if pkginfo["metadata-version"] %}
+				{% if distinfo["metadata-version"] %}
 
-				{{ pkginfo["summary"] }} <br /> <br />
+				{{ distinfo["summary"] }} <br /> <br />
 
 					<table class="bordered-table">
 					<tbody>
 						<tr>
 							<td><strong>Package Name</strong></td>
-							<td>{{ pkginfo["name"] }}</td>
+							<td>{{ distinfo["name"] }}</td>
 						</tr>
 
 						<tr>
 							<td><strong>Version</strong></td>
-							<td>{{ pkginfo["version"] }}</td>
+							<td>{{ distinfo["version"] }}</td>
 						</tr>
 
 						<tr>
 							<td><strong>Platform</strong></td>
 							<td>
-								{% set platforms = pkginfo.get_all("platform") %}
-								{% if platforms %}
-									{% if platforms|count > 1 %}
-									<ul>
-										{% for platform in platforms %}
-											<li>{{ platform }}</li>
-										{% endfor %}
-									</ul>
-									{% else %}
-									{{ pkginfo["platform"] }}
-									{% endif %}
+								{% set platforms = distinfo["platform"] %}
+
+								{% if not platforms %}
+									<span class="label warning">No platform specified</span>
+								{% elif platforms is string %}
+									{{ platforms }}
 								{% else %}
-									<span class="label warning">Warning</span> <em>No platforms specified.</em>
+									<ul>
+									{% for platform in platforms %}
+										<li>{{ platform }}</li>
+									{% endfor %}
+									</ul>
 								{% endif %}
 							</td>
 						</tr>
 						
 						<tr>
 							<td><strong>Project License</strong></td>
-							<td>{{ pkginfo["license"] }}</td>
+							<td>{{ distinfo["license"] }}</td>
 						</tr>
 
 						<tr>
 							<td><strong>Author</strong></td>
-							<td>{{ pkginfo["author"] }}</td>
+							<td>{{ distinfo["author"] }}</td>
 						</tr>
 
 						<tr>
 							<td><strong>Author Email</strong></td>
-							<td><a href="mailto:{{ pkginfo["author-email"] }}">{{ pkginfo["author-email"] }}</a></td>
+							<td><a href="mailto:{{ distinfo["author-email"] }}"><img src="{{ url_for('static', filename='mail.png') }}" class="midicon"> {{ distinfo["author-email"] }}</a></td>
 						</tr>
 
 						<tr>
 							<td><strong>Project site</strong></td>
-							<td><a href="{{ pkginfo["home-page"] }}">{{ pkginfo["home-page"] }}</a></td>
+							<td><a href="{{ distinfo["home-page"] }}"><img src="{{ url_for('static', filename='world.png') }}" class="midicon"> {{ distinfo["home-page"] }}</a></td>
 						</tr>
 
 						<tr>
 							<td><strong>Keywords</strong></td>
-							<td>{{ pkginfo["keywords"] }}</td>
+							<td>{{ distinfo["keywords"] }}</td>
 						</tr>
 
 						<tr>
 							<td><strong>Classifiers</strong></td>
 							<td>
-								{% set classifier = pkginfo.get_all("classifier") %}
+								{% set classifier = distinfo["classifier"] %}
 								{% if classifier %}
 								<ul>
 									{% for cl in classifier %}
@@ -105,7 +104,7 @@
 
 						<tr>
 							<td><strong>Fields</strong></td>
-							<td>{{ pkginfo.keys() }}</td>
+							<td>{{ distinfo.keys() }}</td>
 						</tr>
 
 					</tbody>
@@ -127,8 +126,5 @@
 		</div>
 	</div>
 </div>
-
-
-
 
 {% endblock %}

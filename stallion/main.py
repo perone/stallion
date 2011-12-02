@@ -16,6 +16,7 @@ import pkg_resources
 
 from flask import Flask
 from flask import render_template
+from flask import url_for
 
 from docutils.core import publish_parts
 
@@ -42,6 +43,7 @@ def index():
     data["breadpath"] = [Crumb("Main")]
     
     data.update(get_shared_data())
+    data["menu_home"] = "active"
 
     sys_info = {}
     sys_info["Python Platform"] = sys.platform
@@ -62,6 +64,7 @@ def index():
 def about():
     data = {}
     data.update(get_shared_data())
+    data["menu_about"] = "active"
 
     data["breadpath"] = [Crumb("About")]
     data["version"] = stallion.__version__
@@ -70,15 +73,15 @@ def about():
 
     return render_template('about.html', **data)
 
-@app.route('/distribution/<key>')
-def package(key=None):
-    pkg_dist = pkg_resources.get_distribution(key)
+@app.route('/distribution/<dist_name>')
+def distribution(dist_name=None):
+    pkg_dist = pkg_resources.get_distribution(dist_name)
 
     data = {}
     data.update(get_shared_data())
 
     data["dist"] = pkg_dist
-    data["breadpath"] = [Crumb("Main", "/"), Crumb("Package"), Crumb(pkg_dist.project_name)]
+    data["breadpath"] = [Crumb("Main", url_for('index')), Crumb("Package"), Crumb(pkg_dist.project_name)]
 
     settings_overrides = {
         'raw_enabled': 0, # no raw HTML code
@@ -89,16 +92,16 @@ def package(key=None):
 
     pkg_metadata = pkg_dist.get_metadata(metadata.METADATA_NAME)
     parsed, key_known = metadata.parse_metadata(pkg_metadata)
-    pkginfo = metadata.metadata_to_dict(parsed, key_known)
+    distinfo = metadata.metadata_to_dict(parsed, key_known)
     
     parts = None
     try:
-        parts = publish_parts(source = pkginfo["description"],
+        parts = publish_parts(source = distinfo["description"],
                               writer_name = 'html', settings_overrides = settings_overrides)
     except:
         pass
 
-    data["pkginfo"] = parsed
+    data["distinfo"] = distinfo
 
     if parts is not None:
         data["description_render"] = parts["body"]

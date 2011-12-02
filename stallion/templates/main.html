@@ -15,25 +15,26 @@
     <div class="topbar" data-scrollspy="scrollspy" >
       <div class="topbar-inner">
         <div class="container">
-          <a class="brand" href="/"><img src="{{ url_for('static', filename='stallion_icon.png') }}" class="midicon"> Stallion</a>
+          <a class="brand" href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='stallion_icon.png') }}" class="midicon"> Stallion</a>
           <ul class="nav">
-            <li><a href="javascript:alert('Not implemented yet !');">Search for Packages</a></li>
-            <li><a href="/about">About</a></li>
+            <li class="{{ menu_home }}"><a href="{{ url_for('index') }}">Home</a></li>
+			<li><a href="javascript:alert('Not implemented yet !');">Search for Packages</a></li>
+            <li class="{{ menu_about }}"><a href="{{ url_for('about') }}">About</a></li>
           </ul>
         </div>
       </div>
     </div>
 
 
-<div class="container-fluid">
+	<div class="container-fluid">
 	<div class="sidebar">
-		<div align="center"><a href="/"><img src="{{ url_for('static', filename='box.png') }}"></a></div>
+		<div align="center"><a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='box.png') }}"></a></div>
 		<div class="page-header">
 		<h3>Packages</h3>
 		</div>
 		{% for dist in distributions|sort(attribute="project_name") %}
 			<img src="{{ url_for('static', filename='box-icon.png') }}" class="midicon">
-			<a href="/distribution/{{ dist.key }}">{{ dist.project_name }} {{ dist.version }}</a> <br/>
+			<a href="{{ url_for('distribution', dist_name=dist.key) }}">{{ dist.project_name }} {{ dist.version }}</a> <br/>
 		{% endfor %}
 	</div>
 
