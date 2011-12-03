@@ -1,18 +1,36 @@
 <tr>
 	<td><strong>Maintainer</strong></td>
-	<td>{{ distinfo["maintainer"] }}</td>
+	<td>
+	{% if distinfo["maintainer"] %}
+		{{ distinfo["maintainer"] }}
+	{% else %}
+		<span class="label warning">No maintainer specified</span>
+	{% endif %}
+	</td>
 </tr>
 
 <tr>
 	<td><strong>Maintainer Email</strong></td>
-	<td><a href="mailto:{{ distinfo["maintainer-email"] }}">
-	<img src="{{ url_for('static', filename='mail.png') }}" class="midicon"> 
-	{{ distinfo["author-email"] }}</a></td>
+	<td>
+	{% if distinfo["maintainer-email"] %}
+		<a href="mailto:{{ distinfo["maintainer-email"] }}">
+		<img src="{{ url_for('static', filename='mail.png') }}" class="midicon"> 
+		{{ distinfo["author-email"] }}</a>
+	{% else %}
+		<span class="label warning">No maintainer email specified</span>
+	{% endif %}
+	</td>
 </tr>
 
 <tr>
 	<td><strong>Requires Python</strong></td>
-	<td>{{ distinfo["requires-python"] }}</td>
+	<td>
+	{% if distinfo["requires-python"] %}
+		{{ distinfo["requires-python"] }}
+	{% else %}
+		<span class="label warning">No python requirement specified</span>
+	{% endif %}
+	</td>
 </tr>
 
 <tr>
@@ -21,7 +39,7 @@
 		{% set requires_external = distinfo["requires-external"] %}
 
 		{% if not requires_external %}
-			<span class="label warning">No requirements specified</span>
+			<span class="label warning">No external requirements specified</span>
 		{% elif requires_external is string %}
 			{{ requires_external }}
 		{% else %}
