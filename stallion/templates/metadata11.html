@@ -1,0 +1,63 @@
+<tr>
+	<td><strong>Download URL</strong></td>
+	<td><a href="{{ distinfo["download-url"] }}">
+	<img src="{{ url_for('static', filename='world.png') }}" class="midicon"> 
+	{{ distinfo["download-url"] }}</a></td>
+</tr>
+
+<tr>
+	<td><strong>Requires</strong></td>
+	<td>
+		{% set requires = distinfo["requires"] %}
+
+		{% if not requires %}
+			<span class="label warning">No requirements specified</span>
+		{% elif requires is string %}
+			{{ requires }}
+		{% else %}
+			<ul>
+			{% for requirement in requires %}
+				<li>{{ requirement }}</li>
+			{% endfor %}
+			</ul>
+		{% endif %}
+	</td>
+</tr>
+
+<tr>
+	<td><strong>Provides</strong></td>
+	<td>
+		{% set provides = distinfo["provides"] %}
+
+		{% if not provides %}
+			<span class="label warning">No providers specified</span>
+		{% elif provides is string %}
+			{{ provides }}
+		{% else %}
+			<ul>
+			{% for prov in provides %}
+				<li>{{ prov }}</li>
+			{% endfor %}
+			</ul>
+		{% endif %}
+	</td>
+</tr>
+
+<tr>
+	<td><strong>Obsoletes</strong></td>
+	<td>
+		{% set obsoletes = distinfo["obsoletes"] %}
+
+		{% if not obsoletes %}
+			<span class="label warning">No obsoletes specified</span>
+		{% elif obsoletes is string %}
+			{{ obsoletes }}
+		{% else %}
+			<ul>
+			{% for obs in obsoletes %}
+				<li>{{ obs }}</li>
+			{% endfor %}
+			</ul>
+		{% endif %}
+	</td>
+</tr>

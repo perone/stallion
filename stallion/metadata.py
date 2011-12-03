@@ -30,12 +30,12 @@ HEADER_META_1_0 = (
     'author',
     'author-email',
     'license',
-    'classifier' # Not part of PEP
+    # Not part of PEP, but PEP-0314 (everyone uses anyway in 1.0)
+    'classifier' 
 )
 
 # Based on the PEP-0314
 HEADER_META_1_1 = HEADER_META_1_0 + ( 
-    'classifiers',
     'download-url',
     'requires',
     'provides',
