@@ -103,8 +103,6 @@ def distribution(dist_name=None):
 
     data["distinfo"] = distinfo
 
-    print distinfo["metadata-version"]
-
     if parts is not None:
         data["description_render"] = parts["body"]
     
