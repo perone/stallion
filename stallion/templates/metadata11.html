@@ -1,8 +1,14 @@
 <tr>
 	<td><strong>Download URL</strong></td>
-	<td><a href="{{ distinfo["download-url"] }}">
-	<img src="{{ url_for('static', filename='world.png') }}" class="midicon"> 
-	{{ distinfo["download-url"] }}</a></td>
+	<td>
+	{% if distinfo["download-url"] %}
+		<a href="{{ distinfo["download-url"] }}">
+		<img src="{{ url_for('static', filename='world.png') }}" class="midicon"> 
+		{{ distinfo["download-url"] }}</a>
+	{% else %}
+		<span class="label warning">No download url specified</span>
+	{% endif %}
+	</td>
 </tr>
 
 <tr>
