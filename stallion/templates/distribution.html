@@ -19,6 +19,15 @@
 	{% if  description_render %}
 		{{ description_render|safe }}
 		<br /> <br />
+	{% else %}
+		<div class="alert-message block-message error">
+			<p><strong>No description information available !</strong> Stallion wasn't able to find 
+			the description information.</p><br />
+			<ul>
+			  <li>The package probably doesn't have the <strong>Description</strong> field metadata.</li>
+			  <li>Stallion wasn't able to find the <strong>PKG-INFO</strong> metadata.</li>
+			</ul>
+		</div>
 	{% endif %}
 
 	</div>
@@ -28,20 +37,9 @@
 
 				{% if distinfo["metadata-version"] %}
 
-				{{ distinfo["summary"] }} <br /> <br />
+					{{ distinfo["summary"] }} <br /> <br />
 
-					<table class="bordered-table">
-					<tbody>
-
-						{% include 'metadata.html' %}
-
-						<tr>
-							<td><strong>Fields</strong></td>
-							<td>{{ distinfo.keys() }}</td>
-						</tr>
-
-					</tbody>
-					</table>
+					{% include 'metadata.html' %}
 
 					<br /> 
 					

@@ -3,7 +3,7 @@
 <tr>
 	<td><strong>Metadata Version</strong></td>
 	<td>{{ distinfo["metadata-version"] }}</td>
-</tr>
+</tr>	
 
 <tr>
 	<td><strong>Package Name</strong></td>
@@ -55,31 +55,62 @@
 
 <tr>
 	<td><strong>Keywords</strong></td>
-	<td>{{ distinfo["keywords"] }}</td>
+	<td>
+	{% if distinfo["keywords"] %}
+		{{ distinfo["keywords"] }}
+	{% else %}
+		<span class="label warning">No keywords specified</span>
+	{% endif %}
+	</td>
 </tr>
 
 <tr>
-	<td><strong>Project site</strong></td>
-	<td><a href="{{ distinfo["home-page"] }}">
-	<img src="{{ url_for('static', filename='world.png') }}" class="midicon"> 
-	{{ distinfo["home-page"] }}</a></td>
+	<td><strong>Home page</strong></td>
+	<td>
+	{% if distinfo["home-page"] %}
+		<a href="{{ distinfo["home-page"] }}">
+		<img src="{{ url_for('static', filename='world.png') }}" class="midicon"> 
+		{{ distinfo["home-page"] }}</a>
+	{% else %}
+		<span class="label warning">No home page specified</span>
+	{% endif %}
+	</td>
 </tr>
+
 
 <tr>
 	<td><strong>Author</strong></td>
-	<td>{{ distinfo["author"] }}</td>
+	<td>
+	{% if distinfo["author"] %}
+		{{ distinfo["author"] }}
+	{% else %}
+		<span class="label warning">No author specified</span>
+	{% endif %}
+	</td>
 </tr>
 
 <tr>
 	<td><strong>Author Email</strong></td>
-	<td><a href="mailto:{{ distinfo["author-email"] }}">
-	<img src="{{ url_for('static', filename='mail.png') }}" class="midicon"> 
-	{{ distinfo["author-email"] }}</a></td>
+	<td>
+	{% if distinfo["author-email"] %}
+		<a href="mailto:{{ distinfo["author-email"] }}">
+		<img src="{{ url_for('static', filename='mail.png') }}" class="midicon"> 
+		{{ distinfo["author-email"] }}</a>
+	{% else %}
+		<span class="label important">No author email specified</span>
+	{% endif %}
+	</td>
 </tr>
 
 <tr>
 	<td><strong>Project License</strong></td>
-	<td>{{ distinfo["license"] }}</td>
+	<td>
+	{% if distinfo["license"] %}
+		{{ distinfo["license"] }}
+	{% else %}
+		<span class="label important">No license specified</span>
+	{% endif %}
+	</td>
 </tr>
 
 <tr>
@@ -93,7 +124,7 @@
 			{% endfor %}
 		</ul>
 		{% else %}
-		<span class="label warning">Warning</span> <em>No classifiers specified.</em>
+			<span class="label warning">No classifiers specified</span>
 		{% endif %}
 	</td>
 </tr>

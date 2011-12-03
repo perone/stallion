@@ -1,20 +1,29 @@
-{% if distinfo["metadata-version"]=="1.0" %}
+<table class="bordered-table">
+<tbody>
 
-	{% include 'metadata10.html' %}
+	{% if distinfo["metadata-version"]=="1.0" %}
 
-{% endif %}
+		{% include 'metadata10.html' %}
 
-{% if distinfo["metadata-version"]=="1.1" %}
+	{% endif %}
 
-	{% include 'metadata10.html' %}
-	{% include 'metadata11.html' %}
+	{% if distinfo["metadata-version"]=="1.1" %}
 
-{% endif %}
+		{% include 'metadata10.html' %}
+		{% include 'metadata11.html' %}
 
-{% if distinfo["metadata-version"]=="1.2" %}
+	{% endif %}
 
-	{% include 'metadata10.html' %}
-	{% include 'metadata11.html' %}
-	{% include 'metadata12.html' %}
+	{% if distinfo["metadata-version"]=="1.2" %}
 
-{% endif %}
+		{% include 'metadata10.html' %}
+		{% include 'metadata11.html' %}
+		{% include 'metadata12.html' %}
+
+	{% endif %}
+
+</tbody>
+</table>
+
+
+

@@ -1,0 +1,111 @@
+<tr>
+	<td><strong>Maintainer</strong></td>
+	<td>{{ distinfo["maintainer"] }}</td>
+</tr>
+
+<tr>
+	<td><strong>Maintainer Email</strong></td>
+	<td><a href="mailto:{{ distinfo["maintainer-email"] }}">
+	<img src="{{ url_for('static', filename='mail.png') }}" class="midicon"> 
+	{{ distinfo["author-email"] }}</a></td>
+</tr>
+
+<tr>
+	<td><strong>Requires Python</strong></td>
+	<td>{{ distinfo["requires-python"] }}</td>
+</tr>
+
+<tr>
+	<td><strong>Requires External</strong></td>
+	<td>
+		{% set requires_external = distinfo["requires-external"] %}
+
+		{% if not requires_external %}
+			<span class="label warning">No requirements specified</span>
+		{% elif requires_external is string %}
+			{{ requires_external }}
+		{% else %}
+			<ul>
+			{% for req in requires_external %}
+				<li>{{ req }}</li>
+			{% endfor %}
+			</ul>
+		{% endif %}
+	</td>
+</tr>
+
+<tr>
+	<td><strong>Requires Dist</strong></td>
+	<td>
+		{% set requires_dist = distinfo["requires-dist"] %}
+
+		{% if not requires_dist %}
+			<span class="label warning">No requirements specified</span>
+		{% elif requires_dist is string %}
+			{{ requires_dist }}
+		{% else %}
+			<ul>
+			{% for req in requires_dist %}
+				<li>{{ req }}</li>
+			{% endfor %}
+			</ul>
+		{% endif %}
+	</td>
+</tr>
+
+<tr>
+	<td><strong>Provides Dist</strong></td>
+	<td>
+		{% set provides_dist = distinfo["provides-dist"] %}
+
+		{% if not provides_dist %}
+			<span class="label warning">No providers specified</span>
+		{% elif provides_dist is string %}
+			{{ provides_dist }}
+		{% else %}
+			<ul>
+			{% for prov in provides_dist %}
+				<li>{{ prov }}</li>
+			{% endfor %}
+			</ul>
+		{% endif %}
+	</td>
+</tr>
+
+<tr>
+	<td><strong>Obsoletes Dist</strong></td>
+	<td>
+		{% set obsoletes_dist = distinfo["obsoletes-dist"] %}
+
+		{% if not obsoletes_dist %}
+			<span class="label warning">No obsoletes specified</span>
+		{% elif obsoletes_dist is string %}
+			{{ obsoletes_dist }}
+		{% else %}
+			<ul>
+			{% for obs in obsoletes_dist %}
+				<li>{{ obs }}</li>
+			{% endfor %}
+			</ul>
+		{% endif %}
+	</td>
+</tr>
+
+<tr>
+	<td><strong>Project URL</strong></td>
+	<td>
+		{% set project_url = distinfo["project-url"] %}
+
+		{% if not project_url %}
+			<span class="label warning">No Project URL specified</span>
+		{% elif project_url is string %}
+			{{ project_url }}
+		{% else %}
+			<ul>
+			{% for url in project_url %}
+				<li>{{ url }}</li>
+			{% endfor %}
+			</ul>
+		{% endif %}
+	</td>
+</tr>
