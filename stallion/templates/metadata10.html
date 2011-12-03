@@ -21,7 +21,7 @@
 		{% set platforms = distinfo["platform"] %}
 
 		{% if not platforms %}
-			<span class="label warning">No platform specified</span>
+			<span class="label important">No platform specified</span>
 		{% elif platforms is string %}
 			{{ platforms }}
 		{% else %}

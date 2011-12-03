@@ -1,29 +1,42 @@
-<table class="bordered-table">
-<tbody>
+{% if distinfo["metadata-version"] %}
 
-	{% if distinfo["metadata-version"]=="1.0" %}
+	{{ distinfo["summary"] }} <br /> <br />
 
-		{% include 'metadata10.html' %}
+	<table class="bordered-table">
+	<tbody>
 
-	{% endif %}
+		{% if distinfo["metadata-version"]=="1.0" %}
 
-	{% if distinfo["metadata-version"]=="1.1" %}
+			{% include 'metadata10.html' %}
 
-		{% include 'metadata10.html' %}
-		{% include 'metadata11.html' %}
+		{% endif %}
 
-	{% endif %}
+		{% if distinfo["metadata-version"]=="1.1" %}
 
-	{% if distinfo["metadata-version"]=="1.2" %}
+			{% include 'metadata10.html' %}
+			{% include 'metadata11.html' %}
 
-		{% include 'metadata10.html' %}
-		{% include 'metadata11.html' %}
-		{% include 'metadata12.html' %}
+		{% endif %}
 
-	{% endif %}
+		{% if distinfo["metadata-version"]=="1.2" %}
 
-</tbody>
-</table>
+			{% include 'metadata10.html' %}
+			{% include 'metadata11.html' %}
+			{% include 'metadata12.html' %}
 
+		{% endif %}
 
+	</tbody>
+	</table>
+
+{% else %}
+	<div class="alert-message block-message error">
+		<p><strong>No metadata information available !</strong> Stallion wasn't able to find 
+		the package information.</p><br />
+		<ul>
+		  <li>The package probably doesn't have the <strong>PKG-INFO</strong> metadata.</li>
+		  <li>Stallion wasn't able to find the <strong>PKG-INFO</strong> metadata.</li>
+		</ul>
+	</div>
+{% endif %}
 

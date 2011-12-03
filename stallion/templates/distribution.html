@@ -35,24 +35,7 @@
 		<div class="well" style="padding: 14px 19px;">
 			<div class="page-header"><h2><img src="{{ url_for('static', filename='info.png') }}" class="midicon"> Package information</h2><br /></div>
 
-				{% if distinfo["metadata-version"] %}
-
-					{{ distinfo["summary"] }} <br /> <br />
-
-					{% include 'metadata.html' %}
-
-					<br /> 
-					
-				{% else %}
-					<div class="alert-message block-message error">
-						<p><strong>No metadata information available !</strong> Stallion wasn't able to find 
-						the package information.</p><br />
-						<ul>
-						  <li>The package probably doesn't have the <strong>PKG-INFO</strong> metadata.</li>
-						  <li>Stallion wasn't able to find the <strong>PKG-INFO</strong> metadata.</li>
-						</ul>
-					</div>
-				{% endif %}
+				{% include 'metadata.html' %}
 
 		</div>
 	</div>
