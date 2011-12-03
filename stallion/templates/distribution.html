@@ -1,7 +1,7 @@
 {% extends "main.html" %}
 
 {% block section_title %}
-	<img src={{ url_for('static', filename='terminal-icon.png') }}" class="midicon"> {{ dist.project_name }} 
+	<img src="{{ url_for('static', filename='terminal-icon.png') }}" class="midicon"> {{ dist.project_name }} 
 	<small>version {{ dist.version }}</small><br/>
 	{% if distinfo.summary %}<small>{{ distinfo.summary }}</small>{% endif %}
 {% endblock %}
