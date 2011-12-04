@@ -1,8 +1,3 @@
-Under development
-===============================================================================
-
-Stallion is still under development and on its early stages.
-
 Stallion
 =========
 
