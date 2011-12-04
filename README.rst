@@ -10,6 +10,8 @@ Stallion is a Python Package Manager interface created to provide an "easy-to-us
 for Python newcomers. Today we have many nice distribution utilities like pip, distribute, etc, but
 we don't have a nice visual approach with these same goals. 
 
+See screenshots at http://pyevolve.sourceforge.net/wordpress/?p=2200
+
 Using Stallion
 -------------------------------------------------------------------------------
 
