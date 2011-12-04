@@ -1,5 +1,31 @@
 {% extends "main.html" %}
 
+{% block js %}
+<script type="text/javascript">
+
+ $(document).ready(function() {
+
+    $('#modal-update').modal({
+	    keyboard: true
+    });
+
+
+	$('#btn_check_updates').click(function() {
+
+		$.get('/pypi/releases/{{ dist.project_name }}', function(data) {
+			$('#modal-update').html(data);
+			$('#modal-update').modal('show');
+		});
+
+	});
+
+ });
+
+
+</script>
+{% endblock %}
+
+
 {% block section_title %}
 	<img src="{{ url_for('static', filename='terminal-icon.png') }}" class="midicon"> {{ dist.project_name }} 
 	<small>version {{ dist.version }}</small><br/>
@@ -8,12 +34,27 @@
 
 {% block content %}
 
+  <div id="modal-update" class="modal hide fade">
+	<div class="modal-header">
+	  <a href="#" class="close">&times;</a>
+	  <h3>Update information <small>(PyPI Repository)</small></h3>
+	</div>
+	<div class="modal-body" id="modal-update-body">
+	  <p></p>
+	</div>
+	<div class="modal-footer">
+	  <a id="btn_dismiss" href="#" class="btn primary">Dismiss</a>
+	</div>
+  </div>
+
+
+
 <div class="row">
 	<div class="span8">
 
 	<div class="well" style="padding: 10px 12px;">
 	<div class="page-header"><h3>Available Actions</h3></div>
-	<button class="btn primary">Check integrity</button>&nbsp;<button class="btn success">Success</button>&nbsp;<button class="btn danger">Danger</button>
+	<button class="btn primary" id="btn_check_updates">Check updates</button>
 	</div>
 
 	{% if  description_render %}

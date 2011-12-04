@@ -14,12 +14,14 @@ from optparse import OptionGroup
 import sys
 import platform
 import logging
+import xmlrpclib
 
 import pkg_resources
 
 from flask import Flask
 from flask import render_template
 from flask import url_for
+from flask import jsonify
 
 from docutils.core import publish_parts
 
@@ -36,8 +38,38 @@ class Crumb(object):
 def get_shared_data():
     shared_data = {}
     shared_data['distributions'] = [d for d in pkg_resources.working_set]
-
     return shared_data
+
+PYPI_XMLRPC = 'http://pypi.python.org/pypi'
+
+def get_pypi_proxy():
+    return xmlrpclib.ServerProxy(PYPI_XMLRPC)
+    
+@app.route('/pypi/releases/<dist_name>')
+def releases(dist_name):
+    data = {}
+
+    pkg_dist_version = pkg_resources.get_distribution(dist_name).version
+
+    pypi = get_pypi_proxy()
+    show_hidden = True
+    ret = pypi.package_releases(dist_name, show_hidden)
+
+    if not ret:
+        ret = pypi.package_releases(dist_name.capitalize(), show_hidden)
+
+    ret.sort(key=lambda v: pkg_resources.parse_version(v), reverse=True)
+
+    data["dist_name"] = dist_name
+    data["pypi_info"] = ret
+    data["current_version"] = pkg_dist_version
+    data["last_is_great"] = pkg_resources.parse_version(ret[0]) > pkg_resources.parse_version(pkg_dist_version)
+
+    if ret:
+        data["last_version_differ"] = pkg_dist_version.lower() != ret[0].lower()
+    
+    return render_template('pypi_update.html', **data)
+
 
 @app.route('/')
 def index():

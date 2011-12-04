@@ -1,0 +1,105 @@
+
+<div class="modal-header">
+	<a href="#" class="close">&times;</a>
+	<h3>Update information <small>PyPI Repository</small></h3>
+</div>
+<div class="modal-body" id="modal-update-body">
+	{% if not pypi_info %}
+
+		<div class="alert-message block-message error">
+			<p><strong>No PyPI information available !</strong> Stallion wasn't able to find 
+			the package information at PyPI repository. Some reasons of this failure:</p><br />
+			<ul>
+			  <li>The PyPI repository doesn't have the inforation.</li>
+ 			  <li>Stallion wasn't able to connect to PyPI.</li>
+			  <li>The package was manually installed.</li>
+			</ul>
+		</div>
+	{% elif last_version_differ and not last_is_great %}
+
+		<div class="alert-message warning">
+			<p><strong>Only old version available ?!</strong> Your version is newer than the PyPI
+			version !</p>
+		</div>
+		<p>
+			The last version available at the PyPI repository seems to be older than the version
+			you have installed on your Python distribution. Some reasons of this:
+			<ul>
+				<li>You have manually installed a development version not available at PyPI repository.</li>
+			</ul>
+		</p>
+		<div class="page-header">
+		<h3>PyPI Information <small>via RPC</small></h3>
+		</div>
+		<p>
+		PyPI has <strong>{{ pypi_info|length }}</strong> releases available for the
+		package <strong>{{ dist_name }}</strong>, the last five of them are:
+		</p>
+		<ul>
+		{% for version in pypi_info[:5] %}
+			{% if version|lower == current_version|lower %}
+				<li>{{ version }} <span class="label">YOUR VERSION</span></li>
+			{% elif version|lower == pypi_info[0]|lower %}
+				<li>{{ version }} <span class="label success">NEW</span></li>
+			{% else %}
+				<li>{{ version }}</li>
+			{% endif %}
+
+		{% endfor %}
+		</ul>
+
+	{% elif last_version_differ and last_is_great %}
+
+		<div class="alert-message info">
+			<p><strong>New version available !</strong> PyPI repository has a new version of the package !</p>
+		</div>
+		<p>
+			A new version of the package <strong>{{ dist_name }}</strong> was found in the official
+			PyPI repository. You have the version <strong>{{ current_version }}</strong> 
+			<span class="label">YOUR VERSION</span>, and the last version on the PyPI repository
+			is <strong>{{ pypi_info[0] }}</strong> <span class="label success">NEW</span>.
+		</p>
+		<p>
+			You can use <strong>pip</strong> to update it using the following
+			command:
+		</p> <br />
+		<code>
+				pip install --upgrade {{ dist_name }}
+		</code> <br /> <br />
+		
+		<p>
+			You can check more information about <strong>pip</strong> on the
+			<a href="http://www.pip-installer.org">project documentation site</a>.
+		</p>
+		<div class="page-header">
+		<h3>PyPI Information <small>via RPC</small></h3>
+		</div>
+		<p>
+		PyPI has <strong>{{ pypi_info|length }}</strong> releases available for the
+		package <strong>{{ dist_name }}</strong>, the last five of them are:
+		</p>
+		<ul>
+		{% for version in pypi_info[:5] %}
+			{% if version|lower == current_version|lower %}
+				<li>{{ version }} <span class="label">YOUR VERSION</span></li>
+			{% elif version|lower == pypi_info[0]|lower %}
+				<li>{{ version }} <span class="label success">NEW</span></li>
+			{% else %}
+				<li>{{ version }}</li>
+			{% endif %}
+
+		{% endfor %}
+		</ul>
+	{% else %}
+		Same version
+	{% endif %}
+</div>
+<div class="modal-footer">
+	<a id="btn_dismiss" href="#" class="btn primary">Dismiss</a>
+</div>
+
+<script type="text/javascript">
+$('#btn_dismiss').click(function() {
+	$('#modal-update').modal('hide');
+});
+</script>

@@ -3,12 +3,14 @@
   <meta charset="utf-8">
   <title>Stallion, package manager for Python</title>
   <script type="text/javascript" src="{{ url_for('static', filename='jquery-1.7.1.min.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='bootstrap-modal.js') }}"></script>
   <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
   <link href="{{ url_for('static', filename='extra.css') }}" rel="stylesheet">
   <style type="text/css">
 	img.midicon { vertical-align: middle; }
   </style>
   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  {% block js %}{% endblock %}
 </head>
 
 <body>
@@ -23,7 +25,6 @@
         </div>
       </div>
     </div>
-
 
 	<div class="container-fluid">
 	<div class="sidebar">
