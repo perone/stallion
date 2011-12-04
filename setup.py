@@ -50,7 +50,8 @@ setup(
     },
     install_requires=[
         'Flask>=0.8',
-        'setuptools>=0.6c11'
+        'setuptools>=0.6c11',
+        'docutils>=0.8.1',
     ],
     classifiers=[
         'Development Status :: 4 - Beta',
