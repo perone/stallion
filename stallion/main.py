@@ -58,8 +58,6 @@ def releases(dist_name):
     if not ret:
         ret = pypi.package_releases(dist_name.capitalize(), show_hidden)
 
-    print pypi.user_packages('hpk')
-
     ret.sort(key=lambda v: pkg_resources.parse_version(v), reverse=True)
 
     data["dist_name"] = dist_name
