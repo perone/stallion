@@ -9,12 +9,15 @@
 	    keyboard: true
     });
 
+	$('#btn_check_updates').button()
 
 	$('#btn_check_updates').click(function() {
+		$('#btn_check_updates').button('loading');
 
 		$.get('/pypi/releases/{{ dist.project_name }}', function(data) {
 			$('#modal-update').html(data);
 			$('#modal-update').modal('show');
+			$('#btn_check_updates').button('reset');
 		});
 
 	});
@@ -34,27 +37,23 @@
 
 {% block content %}
 
-  <div id="modal-update" class="modal hide fade">
+<div id="modal-update" class="modal hide fade">
 	<div class="modal-header">
-	  <a href="#" class="close">&times;</a>
-	  <h3>Update information <small>(PyPI Repository)</small></h3>
+		<a href="#" class="close">&times;</a>
+		<h3>Update information <small>(PyPI Repository)</small></h3>
 	</div>
-	<div class="modal-body" id="modal-update-body">
-	  <p></p>
-	</div>
+	<div class="modal-body" id="modal-update-body"></div>
 	<div class="modal-footer">
-	  <a id="btn_dismiss" href="#" class="btn primary">Dismiss</a>
+		<a id="btn_dismiss" href="#" class="btn primary">Dismiss</a>
 	</div>
-  </div>
-
-
+</div>
 
 <div class="row">
 	<div class="span8">
 
 	<div class="well" style="padding: 10px 12px;">
-	<div class="page-header"><h3>Available Actions</h3></div>
-	<button class="btn primary" id="btn_check_updates">Check updates</button>
+		<div class="page-header"><h3>Available Actions</h3></div>
+		<button class="btn primary" id="btn_check_updates" data-loading-text="Checking...">Check updates</button>
 	</div>
 
 	{% if  description_render %}

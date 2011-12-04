@@ -22,32 +22,12 @@
 			version !</p>
 		</div>
 		<p>
-			The last version available at the PyPI repository seems to be older than the version
-			you have installed on your Python distribution. Some reasons of this:
+			The last version available at the PyPI repository (<strong>{{ pypi_info[0] }}</strong>) seems
+			to be older than the version (<strong>{{ current_version }}</strong>) you have installed on your Python distribution. Some reasons of this:
 			<ul>
-				<li>You have manually installed a development version not available at PyPI repository.</li>
+				<li>You have manually installed a development version not yet available at PyPI repository.</li>
 			</ul>
 		</p>
-		<div class="page-header">
-		<h3>PyPI Information <small>via RPC</small></h3>
-		</div>
-		<p>
-		PyPI has <strong>{{ pypi_info|length }}</strong> releases available for the
-		package <strong>{{ dist_name }}</strong>, the last five of them are:
-		</p>
-		<ul>
-		{% for version in pypi_info[:5] %}
-			{% if version|lower == current_version|lower %}
-				<li>{{ version }} <span class="label">YOUR VERSION</span></li>
-			{% elif version|lower == pypi_info[0]|lower %}
-				<li>{{ version }} <span class="label success">NEW</span></li>
-			{% else %}
-				<li>{{ version }}</li>
-			{% endif %}
-
-		{% endfor %}
-		</ul>
-
 	{% elif last_version_differ and last_is_great %}
 
 		<div class="alert-message info">
@@ -71,6 +51,20 @@
 			You can check more information about <strong>pip</strong> on the
 			<a href="http://www.pip-installer.org">project documentation site</a>.
 		</p>
+	{% else %}
+		<div class="alert-message success">
+			<p><strong>Already ok !</strong> Your version is the last version !</p>
+		</div>
+		<p>
+			The version <strong>{{ current_version }}</strong> you have installed on
+			your Python distribution is the same as the last version available at 
+			PyPI repository.
+		</p>
+
+	{% endif %}
+
+	{% if pypi_info %}
+
 		<div class="page-header">
 		<h3>PyPI Information <small>via RPC</small></h3>
 		</div>
@@ -90,9 +84,9 @@
 
 		{% endfor %}
 		</ul>
-	{% else %}
-		Same version
+
 	{% endif %}
+
 </div>
 <div class="modal-footer">
 	<a id="btn_dismiss" href="#" class="btn primary">Dismiss</a>
