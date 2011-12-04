@@ -1,0 +1,9 @@
+include LICENSE README
+
+recursive-exclude stallion *.pyc
+recursive-exclude stallion *.pyo
+recursive-exclude docs *
+
+recursive-include stallion/static *
+recursive-include stallion/templates *
+

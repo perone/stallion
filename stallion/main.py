@@ -31,11 +31,23 @@ import __init__ as stallion
 app = Flask(__name__)
 
 class Crumb(object):
+    """ Represents each level on the bootstrap breadcrumb. """
     def __init__(self, title, href='#'):
+        """ Instatiates a new breadcrum level.
+
+        :param title: the title
+        :param href: the link
+        """
         self.title = title
         self.href = href
 
 def get_shared_data():
+    """ Returns a new dictionary with the shared-data between different
+    Stallion views (ie. a lista of distribution packages).
+
+    :rtype: dict
+    :return: the dictionary with the shared data.
+    """
     shared_data = {}
     shared_data['distributions'] = [d for d in pkg_resources.working_set]
     return shared_data
@@ -43,10 +55,21 @@ def get_shared_data():
 PYPI_XMLRPC = 'http://pypi.python.org/pypi'
 
 def get_pypi_proxy():
+    """ Returns a RPC ServerProxy object pointing to the PyPI RPC
+    URL.
+
+    :rtype: xmlrpclib.ServerProxy
+    :return: the RPC ServerProxy to PyPI repository.
+    """
     return xmlrpclib.ServerProxy(PYPI_XMLRPC)
     
 @app.route('/pypi/releases/<dist_name>')
 def releases(dist_name):
+    """ This is the /pypi/releases/<dist_name> entry point, it is the interface
+    between Stallion and the PyPI RPC service when checking for updates. 
+    
+    :param dist_name: the package name (distribution name).
+    """
     data = {}
 
     pkg_dist_version = pkg_resources.get_distribution(dist_name).version
@@ -63,16 +86,16 @@ def releases(dist_name):
     data["dist_name"] = dist_name
     data["pypi_info"] = ret
     data["current_version"] = pkg_dist_version
-    data["last_is_great"] = pkg_resources.parse_version(ret[0]) > pkg_resources.parse_version(pkg_dist_version)
 
     if ret:
+        data["last_is_great"] = pkg_resources.parse_version(ret[0]) > pkg_resources.parse_version(pkg_dist_version)
         data["last_version_differ"] = pkg_dist_version.lower() != ret[0].lower()
     
     return render_template('pypi_update.html', **data)
 
-
 @app.route('/')
 def index():
+    """ The main Flask entry-point (/) for the Stallion server. """
     data = {}
     data['breadpath'] = [Crumb('Main')]
     
@@ -96,6 +119,8 @@ def index():
 
 @app.route('/about')
 def about():
+    """ The About entry-point (/about) for the Stallion server. """
+
     data = {}
     data.update(get_shared_data())
     data['menu_about'] = 'active'
@@ -109,6 +134,10 @@ def about():
 
 @app.route('/distribution/<dist_name>')
 def distribution(dist_name=None):
+    """ The Distribution entry-point (/distribution/<dist_name>) for the Stallion server.
+    
+    :param dist_name: the package name
+    """
     pkg_dist = pkg_resources.get_distribution(dist_name)
 
     data = {}
@@ -143,6 +172,8 @@ def distribution(dist_name=None):
     return render_template('distribution.html', **data)
 
 def run_main():
+    """ The main entry-point of Stallion. """
+
     print 'Stallion %s - Python Package Manager' % (stallion.__version__,)
     print 'By %s 2011\n' % (stallion.__author__,)
     parser = OptionParser()
