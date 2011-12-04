@@ -1,4 +1,4 @@
-include LICENSE README
+include LICENSE README.rst
 
 recursive-exclude stallion *.pyc
 recursive-exclude stallion *.pyo
