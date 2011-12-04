@@ -60,7 +60,7 @@ HEADER_META = {
     '1.2': HEADER_META_1_2,
 }
 
-METADATA_NAME = "PKG-INFO"
+METADATA_NAME = 'PKG-INFO'
 
 def parse_metadata(metadata):
     """ Parse the package PKG-INFO metadata. Currently supports versions 1.0 (PEP-0241),
@@ -74,7 +74,7 @@ def parse_metadata(metadata):
              is part of the metadata version specification
     """
     parsed_metadata = Parser().parsestr(metadata)
-    metadata_spec = set(HEADER_META[parsed_metadata["metadata-version"]])
+    metadata_spec = set(HEADER_META[parsed_metadata['metadata-version']])
     key_exist = set(map(string.lower, parsed_metadata.keys()))
     return (parsed_metadata, key_exist.intersection(metadata_spec))
 
@@ -118,8 +118,11 @@ def field_process(field_name, field_value):
 
     f_value = clean_lead_ws_description(field_value, field_name)
 
-    if f_value == "UNKNOWN":
-        f_value = None
+    if f_value == 'UNKNOWN':
+        return None
+
+    if field_name == 'keywords':
+        f_value = field_value.split(',' if ',' in field_value else ' ')
 
     return f_value
 
@@ -147,7 +150,7 @@ def metadata_to_dict(parsed_metadata, key_known):
     return mdict
 
 def run_test():
-    pkg = pkg_resources.get_distribution("jinja2")
+    pkg = pkg_resources.get_distribution('jinja2')
     parsed, key_known = parse_metadata(pkg.get_metadata(METADATA_NAME))
     ret = metadata_to_dict(parsed, key_known)
     

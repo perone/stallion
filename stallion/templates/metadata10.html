@@ -56,11 +56,21 @@
 <tr>
 	<td><strong>Keywords</strong></td>
 	<td>
-	{% if distinfo["keywords"] %}
-		{{ distinfo["keywords"] }}
-	{% else %}
-		<span class="label warning">No keywords specified</span>
-	{% endif %}
+		{% set keywords = distinfo["keywords"] %}
+		{% if not keywords %}
+			<span class="label warning">No keywords specified</span>
+		{% elif keywords is string %}
+			<span class="tag-lvl1">
+				<span class="tag-lvl2">{{ keywords }}</span>
+			</span>
+		{% else %}
+			{% for keyw in keywords %}
+			<span class="tag-lvl1">
+				<span class="tag-lvl2">{{ keyw|title }}</span>
+			</span>
+			{% endfor %}
+		{% endif %}
+
 	</td>
 </tr>
 
@@ -126,6 +136,8 @@
 		{% else %}
 			<span class="label warning">No classifiers specified</span>
 		{% endif %}
+
+		<br />
 	</td>
 </tr>
 

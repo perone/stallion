@@ -1,3 +1,27 @@
-      body {
-        padding-top: 60px;
-      }
+body {
+	padding-top: 60px;
+}
+
+img.midicon { 
+	vertical-align: middle; 
+}
+
+.tag-lvl1 {
+	background: #10B240;
+	border: 1px solid #059430;
+	border-radius: 3px 3px 3px 3px;
+	color: #FFFFFF;
+	cursor: default;
+	display: inline-block;
+	margin: 2px;
+	vertical-align: middle;
+	border-style: solid;
+}
+
+.tag-lvl2 {
+	border-top: 1px solid #62EF88;
+	display: inline-block;
+	padding: 0 10px 2px 10px;
+	font-size: 12px
+}
+
