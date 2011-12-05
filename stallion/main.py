@@ -197,7 +197,7 @@ def run_main():
 
     parser.add_option('-p', '--port', dest='port',
                     help='The port to listen on. Default is the port \'5000\'.',
-                    metavar="HOST", default='5000')
+                    metavar="PORT", default='5000')
 
     parser.add_option('-v', '--verbose', dest='verbose', action='store_true',
                     help='Turn on verbose messages (show HTTP requests). Default is False.',
@@ -210,7 +210,7 @@ def run_main():
         werk_log = logging.getLogger('werkzeug')
         werk_log.setLevel(logging.WARNING)
 
-    app.run(debug=options.debug, host=options.host,
+    app.run(debug=options.debug, host=options.host, port=options.port,
             use_evalex=options.evalx, use_reloader=options.reloader)
 
 if __name__ == '__main__':
