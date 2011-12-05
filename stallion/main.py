@@ -171,6 +171,15 @@ def distribution(dist_name=None):
     
     return render_template('distribution.html', **data)
 
+@app.route('/global_update')
+def global_update():
+    data = {}
+    data.update(get_shared_data())
+    data['menu_global_update'] = 'active'
+    data['breadpath'] = [Crumb('Global Update')]
+
+    return render_template('global_update.html', **data)
+
 def run_main():
     """ The main entry-point of Stallion. """
 

@@ -18,6 +18,9 @@
           <a class="brand" href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='stallion_icon.png') }}" class="midicon"> Stallion</a>
           <ul class="nav">
             <li class="{{ menu_home }}"><a href="{{ url_for('index') }}">Home</a></li>
+		   <li class="{{ menu_global_update }}"><a href="{{ url_for('global_update') }}">
+				   Check all updates
+		   </a></li>
             <li class="{{ menu_about }}"><a href="{{ url_for('about') }}">About</a></li>
           </ul>
         </div>
@@ -30,10 +33,12 @@
 		<div class="page-header">
 		<h3>Packages</h3>
 		</div>
+		<ul class="unstyled">
 		{% for dist in distributions|sort(attribute="project_name") %}
-			<img src="{{ url_for('static', filename='box-icon.png') }}" class="midicon">
-			<a href="{{ url_for('distribution', dist_name=dist.key) }}">{{ dist.project_name }} {{ dist.version }}</a> <br/>
+			<li><img src="{{ url_for('static', filename='box-icon.png') }}" class="midicon">
+			<a href="{{ url_for('distribution', dist_name=dist.key) }}">{{ dist.project_name }} {{ dist.version }}</a></li> <br/>
 		{% endfor %}
+		</ul>
 	</div>
 
 	<div class="content">

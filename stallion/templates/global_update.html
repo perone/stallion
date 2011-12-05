@@ -1,0 +1,70 @@
+{% extends "main.html" %}		
+
+{% block js %}
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+	$('#btn_global_update').button()
+
+	$('#btn_global_update').click(function() {
+		$('#btn_global_update').button('loading');
+		$('#django').append(" <img src=\"/static/loader.gif\"> ");
+		$('#btn_global_update').button('reset');
+	});
+
+});
+
+
+</script>
+{% endblock %}
+
+
+{% block section_title %}
+	<img src="{{ url_for('static', filename='refresh-icon.png') }}" class="midicon"> Check updates <br />
+	<small>Check updates for all installed packages.</small>
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+	<div class="span8">
+		<div class="well" style="padding: 10px 12px;">
+			<div class="page-header"><h3>Available Actions</h3></div>
+			<button class="btn primary" id="btn_global_update" data-loading-text="Please wait...">Start the checking process</button>
+		</div>
+	</div>
+
+	<div class="span8">
+		<div class="page-header"><h3>Package list</h3></div>
+			<p>These are the packages that are going to be checked on
+			the checking process. Stallion will check the PyPI official
+			repository <strong>for each package</strong> you have currently installed on your
+			Python distribution.
+			</p>
+
+			<table class="bordered-table zebra-striped condensed-table">
+			<thead>
+				<tr>
+					<th>Package Name</th>
+					<th>Installed Version</th>
+					<th>PyPI Information</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for dist in distributions|sort(attribute="project_name") %}
+					<tr>
+					<td id="{{ dist.project_name }}"><img src="{{ url_for('static', filename='box-icon.png') }}" class="midicon">
+					<a href="{{ url_for('distribution', dist_name=dist.key) }}" target="_blank">
+					{{ dist.project_name }}</a></td>
+					<td>{{ dist.version }}</td>
+					<td><span class="label warning">not checked yet</span></td>
+					</tr>
+				{% endfor %}
+
+			</tbody>
+			</table>
+	</div>
+</div>
+
+{% endblock %}
