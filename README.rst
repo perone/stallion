@@ -22,22 +22,6 @@ Easy to Install
     $ easy_install stallion
     $ python -m stallion.main
 
-License
--------------------------------------------------------------------------------
-
-   Copyright 2011 Christian S. Perone
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
 
 Requirements
 -------------------------------------------------------------------------------
@@ -59,6 +43,32 @@ Jinja2 (Flask requirement) (https://github.com/mitsuhiko/jinja2)
 
 Werkzeug (Flask requirement) (https://github.com/mitsuhiko/werkzeug)
    A flexible WSGI implementation and toolkit
+
+
+Compatibility
+-------------------------------------------------------------------------------
+Stallion is compatible with:
+
+  - Python 2.6
+  - Python 2.7
+  - PyPy 1.7 *(and possibly older versions too)*
+
+License
+-------------------------------------------------------------------------------
+
+   Copyright 2011 Christian S. Perone
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
 
 Links
 -------------------------------------------------------------------------------
