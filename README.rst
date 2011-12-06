@@ -39,6 +39,27 @@ License
    See the License for the specific language governing permissions and
    limitations under the License.
 
+Requirements
+-------------------------------------------------------------------------------
+
+Stallion uses the following external projects:
+
+Flask (https://github.com/mitsuhiko/flask)
+   A microframework based on Werkzeug, Jinja2 and good intentions
+
+Twitter Bootstrap (https://github.com/twitter/bootstrap)
+   HTML, CSS, and JS toolkit from Twitter
+
+docutils (http://docutils.sourceforge.net/)
+   Docutils is an open-source text processing system for processing plaintext documentation
+   into useful formats, such as HTML or LaTeX.
+
+Jinja2 (Flask requirement) (https://github.com/mitsuhiko/jinja2)
+   The Jinja2 template engine
+
+Werkzeug (Flask requirement) (https://github.com/mitsuhiko/werkzeug)
+   A flexible WSGI implementation and toolkit
+
 Links
 -------------------------------------------------------------------------------
 
