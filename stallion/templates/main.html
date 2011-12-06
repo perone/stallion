@@ -36,7 +36,7 @@
 		<ul class="unstyled">
 		{% for dist in distributions|sort(attribute="project_name") %}
 			<li><img src="{{ url_for('static', filename='box-icon.png') }}" class="midicon">
-			<a href="{{ url_for('distribution', dist_name=dist.key) }}">{{ dist.project_name }} {{ dist.version }}</a></li> <br/>
+			<a href="{{ url_for('distribution', dist_name=dist.key) }}">{{ dist.project_name }} {{ dist.version }}</a></li>
 		{% endfor %}
 		</ul>
 	</div>
