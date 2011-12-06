@@ -1,4 +1,5 @@
 import unittest
+from stallion import __version__
 from stallion.metadata import parse_metadata, metadata_to_dict
 
 
@@ -33,4 +34,5 @@ class Test_metadata(unittest.TestCase):
         }, ret)
 
 if __name__ == '__main__':
+    print "Stallion v.%s" % __version__
     unittest.main()
