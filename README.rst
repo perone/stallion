@@ -22,6 +22,7 @@ Easy to Install
     $ easy_install stallion
     $ python -m stallion.main
 
+*(this will install Stallion as well the requirements listed below)*
 
 Requirements
 -------------------------------------------------------------------------------
