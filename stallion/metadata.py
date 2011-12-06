@@ -149,16 +149,6 @@ def metadata_to_dict(parsed_metadata, key_known):
 
     return mdict
 
-def run_test():
-    pkg = pkg_resources.get_distribution('jinja2')
-    parsed, key_known = parse_metadata(pkg.get_metadata(METADATA_NAME))
-    ret = metadata_to_dict(parsed, key_known)
-    
-    for k, v in ret.items():
-        print k, v
-
-if __name__ == "__main__":
-    run_test()
 
 
 
