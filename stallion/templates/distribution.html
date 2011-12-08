@@ -5,6 +5,11 @@
 
  $(document).ready(function() {
 
+	$('#back-to-top').click(function() {
+		window.scrollTo(0,0);
+		return false;
+	});
+
     $('#modal-update').modal({
 	    keyboard: true
     });
@@ -58,7 +63,8 @@
 
 	{% if  description_render %}
 		{{ description_render|safe }}
-		<br /> <br />
+		<br />
+		<a href="#" id="back-to-top">Back to Top</a>
 	{% else %}
 		<div class="alert-message block-message error">
 			<p><strong>No description information available !</strong> Stallion wasn't able to find 
