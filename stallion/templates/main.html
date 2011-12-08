@@ -9,6 +9,7 @@
 
   <script type="text/javascript" src="{{ url_for('static', filename='bootstrap-modal.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='bootstrap-buttons.js') }}"></script>
+
   <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
 
   <link href="{{ url_for('static', filename='extra.css') }}" rel="stylesheet">
@@ -16,6 +17,7 @@
   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
   <script type="text/javascript">
+
 	function check_all_updates()
 	{
 		$("#check_updates").fadeIn("slow");
@@ -53,7 +55,7 @@
 					});
 
 					if(data.has_update) {
-						$("#" + dist_id).attr("src", "/static/world.png").stop(true,true).hide().fadeIn();
+						$("#" + dist_id).attr("src", "/static/down-arrow.png").stop(true,true).hide().fadeIn();
 					} else {
 						$("#" + dist_id).attr("src", "/static/box-icon.png").stop(true,true).hide().fadeIn();
 					}
@@ -110,12 +112,17 @@
 		<ul class="unstyled">
 		{% for dist in distributions|sort(attribute="project_name") %}
 			{% if dist.key|lower in pypi_update_cache %}
-				{% set img_src = '/static/world.png' %}
+				{% set img_src = '/static/down-arrow.png' %}
 			{% else %}
 				{% set img_src = '/static/box-icon.png' %}
 			{% endif %}
-			<li><img id="img_{{ dist.key|lower|replace('.','-') }}" src="{{ img_src }}" class="midicon" pname="{{ dist.key|lower }}" />
-			<a href="{{ url_for('distribution', dist_name=dist.key) }}">{{ dist.project_name }} {{ dist.version }}</a></li>
+			<li>
+			<a href="{{ url_for('distribution', dist_name=dist.key) }}">
+			<img id="img_{{ dist.key|lower|replace('.','-') }}" src="{{ img_src }}" class="midicon" pname="{{ dist.key|lower }}" />
+			{{ dist.project_name }} {{ dist.version }}</a></li>
+
+
+
 		{% endfor %}
 		</ul>
 	</div>
