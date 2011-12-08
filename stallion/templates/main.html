@@ -15,13 +15,37 @@
 
   <script type="text/javascript">
 
+	// This is going to bind the events ajaxStart and ajaxStop into the
+	// global ajax progress animation on the left of the topbar navigation
+    $(document).ready(function() {
+		$("#ajax_load").bind("ajaxStart", function(){
+			$(this).show();
+		}).bind("ajaxStop", function(){
+			$(this).hide();
+		});
+
+		$('#progressbar').progressbar();
+    });
+
+	// Animates the value of the progress bar
+	function set_progress_bar_value(prog_value)
+	{
+		var pfun = setInterval(function() {
+			var pval = $('#progressbar').progressbar('option', 'value');
+			var pcnt = !isNaN(pval) ? (pval + 1) : 1;
+			if (pcnt >= prog_value) {
+				clearInterval(pfun);
+			} else {
+				$('#progressbar').progressbar({value: pcnt});
+			}
+		}, 10);
+	}
+
+	// Main function to check all updates, it is going to send multiple
+	// ajax requests to a queue
 	function check_all_updates()
 	{
-		$(function() {
-			$("#progressbar").progressbar({
-				value: 0
-			});
-		});
+		set_progress_bar_value(1);
 
 		$("#check_updates").fadeIn("slow");
 	
@@ -32,6 +56,7 @@
 			$.ajaxQueue({
 				url: '/pypi/check_update/' + dist_key,
 				dataType: "json",
+				cache: false,
 				beforeSend: function(a,b) { 
 					$(dist_id).attr("src", "{{ url_for('static', filename='loader.gif') }}");
 					$(dist_id).parent().animate({"padding-left": "+=12px"}, "fast");
@@ -41,37 +66,29 @@
 					var prog_value = $("#progressbar").progressbar("option", "value");
 
 					if((current_distr+1) >= {{ distributions|length }})
-					{
 						$("#check_updates").fadeOut("slow");
-					}
 
 					prog_value = prog_value + 100.0/{{ distributions|length }};
 
-					$("#progressbar").progressbar({
-						value: prog_value,
-					});
+					set_progress_bar_value(prog_value);
 
 					if(data.has_update) {
 						$(dist_id).attr("src", 
-						                      "{{ url_for('static', filename='down-arrow.png') }}")
-									    .stop(true,true).hide().fadeIn();
+										"{{ url_for('static', filename='down-arrow.png') }}")
+										.stop(true,true).hide().fadeIn();
 					} else {
 						$(dist_id).attr("src", 
-											  "{{ url_for('static', filename='box-icon.png') }}")
-									    .stop(true,true).hide().fadeIn();
+										"{{ url_for('static', filename='box-icon.png') }}")
+										.stop(true,true).hide().fadeIn();
 					}
 
 					$(dist_id).parent().animate({"padding-left": "-=12px"}, "fast");
 
-
 				}
 			}); // ajax
-
 		}); // each img
-
 	}
-
-  </script>
+</script>
 
   {% block js %}{% endblock %}
 </head>
@@ -93,11 +110,10 @@
 				</ul>
 
 				<ul class="nav secondary-nav">
-				<li><a href="#"><span id="check_updates" class="progress-span">
-				<div id="progressbar" style="width: 130px; height: 19px;"></div>
+				<li><a href="#"><span id="ajax_load" class="progress-span">
+				<img src="{{ url_for('static', filename='ajax-global.png') }}" />
 				</span></a></li>
 				</ul>
-
 
 			</div>
 		</div>
@@ -114,20 +130,37 @@
 		<h3>Packages</h3>
 		</div>
 
+		<div id="check_updates" class="progress-span">
+				Checking for updates... <br />
+				<div id="progressbar" style="width: 220px; height: 19px;"></div>
+				<br />
+		</div>
+
+
 		<ul class="unstyled">
-		{% for dist in distributions|sort(attribute="project_name") %}
-			{% if dist.key|lower in pypi_update_cache %}
+		{% for dist_item in distributions|sort(attribute="project_name") %}
+
+			{% if dist_item.key|lower in pypi_update_cache %}
 				{% set img_src = url_for('static', filename='down-arrow.png') %}
 			{% else %}
 				{% set img_src = url_for('static', filename='box-icon.png') %}
 			{% endif %}
+
 			<li>
-				<a href="{{ url_for('distribution', dist_name=dist.key) }}">
-					<img id="img_{{ dist.key|lower|replace('.','-') }}" src="{{ img_src }}"
-					class="midicon" pname="{{ dist.key|lower }}" />
-					{{ dist.project_name }} {{ dist.version }}
+				<a href="{{ url_for('distribution', dist_name=dist_item.key) }}">
+					<img id="img_{{ dist_item.key|lower|replace('.','-') }}" src="{{ img_src }}"
+					class="midicon" pname="{{ dist_item.key|lower }}" />
+
+				{% if dist and dist.key == dist_item.key %}
+					{{ dist_item.project_name }} {{ dist_item.version }} <img src="{{ url_for('static', filename='left-arrow.png') }}" class="midicon" />
+				{% else %}
+					{{ dist_item.project_name }} {{ dist_item.version }}
+				{% endif %}
+
 				</a>
+
 			</li>
+
 		{% endfor %}
 		</ul>
 	</div>
@@ -142,7 +175,7 @@
 				{% if loop.last %}
 					<li class="active">{{ path.title }}</li>
 				{% else %}
-					<li><a href="{{ path.href }}">{{ path.title }}</a> <span class="divider">/</span></li>
+					<li><a href="{{ path.href }}">{{ path.title }}</a><span class="divider">/</span></li>
 				{% endif %}
 			{% endfor %}
 		</ul>
