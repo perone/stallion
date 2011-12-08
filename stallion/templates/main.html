@@ -18,6 +18,7 @@
 	// This is going to bind the events ajaxStart and ajaxStop into the
 	// global ajax progress animation on the left of the topbar navigation
     $(document).ready(function() {
+
 		$("#ajax_load").bind("ajaxStart", function(){
 			$(this).show();
 		}).bind("ajaxStop", function(){
@@ -27,25 +28,17 @@
 		$('#progressbar').progressbar();
     });
 
-	// Animates the value of the progress bar
+	// Sets the value of the progress bar
 	function set_progress_bar_value(prog_value)
 	{
-		var pfun = setInterval(function() {
-			var pval = $('#progressbar').progressbar('option', 'value');
-			var pcnt = !isNaN(pval) ? (pval + 1) : 1;
-			if (pcnt >= prog_value) {
-				clearInterval(pfun);
-			} else {
-				$('#progressbar').progressbar({value: pcnt});
-			}
-		}, 10);
+		$('#progressbar').progressbar({value: prog_value});
 	}
 
 	// Main function to check all updates, it is going to send multiple
 	// ajax requests to a queue
 	function check_all_updates()
 	{
-		set_progress_bar_value(1);
+		set_progress_bar_value(0);
 
 		$("#check_updates").fadeIn("slow");
 	
