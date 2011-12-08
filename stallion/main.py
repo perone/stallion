@@ -16,7 +16,7 @@ import platform
 import logging
 import xmlrpclib
 
-import pkg_resources
+import pkg_resources as _pkg_resources
 
 from flask import Flask
 from flask import render_template
@@ -47,6 +47,10 @@ class Crumb(object):
         self.title = title
         self.href = href
 
+def get_pkg_res():
+    reload(_pkg_resources)
+    return _pkg_resources
+
 def get_shared_data():
     """ Returns a new dictionary with the shared-data between different
     Stallion views (ie. a lista of distribution packages).
@@ -56,7 +60,7 @@ def get_shared_data():
     """
     shared_data = {}
     shared_data['pypi_update_cache'] = DIST_PYPI_CACHE
-    shared_data['distributions'] = [d for d in pkg_resources.working_set]
+    shared_data['distributions'] = [d for d in get_pkg_res().working_set]
 
     return shared_data
 
@@ -85,7 +89,7 @@ def get_pypi_releases(dist_name):
     if not ret:
         ret = pypi.package_releases(dist_name.capitalize(), show_hidden)
 
-    ret.sort(key=lambda v: pkg_resources.parse_version(v), reverse=True)
+    ret.sort(key=lambda v: _pkg_resources.parse_version(v), reverse=True)
 
     return ret
 
@@ -97,12 +101,13 @@ def check_pypi_update(dist_name):
     :rtype: json
     :return: json with the attribute "has_update"
     """
-    pkg_dist_version = pkg_resources.get_distribution(dist_name).version
+    pkg_res = get_pkg_res()
+    pkg_dist_version = pkg_res.get_distribution(dist_name).version
     pypi_rel = get_pypi_releases(dist_name)
 
     if pypi_rel:
-        pypi_last_version = pkg_resources.parse_version(pypi_rel[0])
-        current_version = pkg_resources.parse_version(pkg_dist_version)
+        pypi_last_version = pkg_res.parse_version(pypi_rel[0])
+        current_version = pkg_res.parse_version(pkg_dist_version)
 
         if pypi_last_version > current_version:
             DIST_PYPI_CACHE.add(dist_name.lower())
@@ -122,9 +127,11 @@ def releases(dist_name):
     
     :param dist_name: the package name (distribution name).
     """
+    pkg_res = get_pkg_res()
+
     data = {}
 
-    pkg_dist_version = pkg_resources.get_distribution(dist_name).version
+    pkg_dist_version = pkg_res.get_distribution(dist_name).version
     pypi_rel = get_pypi_releases(dist_name)
 
     data["dist_name"] = dist_name
@@ -132,11 +139,19 @@ def releases(dist_name):
     data["current_version"] = pkg_dist_version
 
     if pypi_rel:
-        pypi_last_version = pkg_resources.parse_version(pypi_rel[0])
-        current_version = pkg_resources.parse_version(pkg_dist_version)
+        pypi_last_version = pkg_res.parse_version(pypi_rel[0])
+        current_version = pkg_res.parse_version(pkg_dist_version)
 
         data["last_is_great"] = pypi_last_version > current_version
         data["last_version_differ"] = pkg_dist_version.lower() != pypi_rel[0].lower()
+
+        if data["last_is_great"]:
+            DIST_PYPI_CACHE.add(dist_name.lower())
+        else:
+            try:
+                DIST_PYPI_CACHE.remove(dist_name.lower())
+            except KeyError:
+                pass
     
     return render_template('pypi_update.html', **data)
 
@@ -186,7 +201,8 @@ def distribution(dist_name=None):
     
     :param dist_name: the package name
     """
-    pkg_dist = pkg_resources.get_distribution(dist_name)
+
+    pkg_dist = get_pkg_res().get_distribution(dist_name)
 
     data = {}
     data.update(get_shared_data())
