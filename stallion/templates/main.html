@@ -8,6 +8,7 @@
   <script type="text/javascript" src="{{ url_for('static', filename='ajax-queue.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='bootstrap-modal.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='bootstrap-buttons.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='bootstrap-dropdown.js') }}"></script>
 
   <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
   <link href="{{ url_for('static', filename='extra.css') }}" rel="stylesheet">
@@ -26,6 +27,7 @@
 		});
 
 		$('#progressbar').progressbar();
+		$('#topbar').dropdown();
     });
 
 	// Sets the value of the progress bar
@@ -96,9 +98,18 @@
 
 				<ul class="nav">
 					<li class="{{ menu_home }}"><a href="{{ url_for('index') }}">Home</a></li>
-					<li>
-							<a href="javascript:check_all_updates();">Check all updates</a>
+
+					<li class="dropdown" data-dropdown="dropdown" >
+						<a href="#" class="dropdown-toggle">PyPI Repository</a>
+						<ul class="dropdown-menu">
+							<li><a href="javascript:check_all_updates();">Check all updates</a></li>
+						</ul>
 					</li>
+
+
+
+
+
 					<li class="{{ menu_about }}"><a href="{{ url_for('about') }}">About</a></li>
 				</ul>
 
