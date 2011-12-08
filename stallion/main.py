@@ -70,6 +70,13 @@ def get_pypi_proxy():
     return xmlrpclib.ServerProxy(PYPI_XMLRPC)
     
 def get_pypi_releases(dist_name):
+    """ Return the releases available at PyPI repository and sort them using
+    the pkg_resources.parse_version, the lastest version is on the 0 index.
+
+    :param dist_name: the distribution name
+    :rtype: list
+    :return: a list with the releases available at PyPI
+    """
     pypi = get_pypi_proxy()
     
     show_hidden = True
@@ -84,6 +91,12 @@ def get_pypi_releases(dist_name):
 
 @app.route('/pypi/check_update/<dist_name>')
 def check_pypi_update(dist_name):
+    """ Just check for updates and return a json with the attribute "has_update".
+
+    :param dist_name: distribution name
+    :rtype: json
+    :return: json with the attribute "has_update"
+    """
     pkg_dist_version = pkg_resources.get_distribution(dist_name).version
     pypi_rel = get_pypi_releases(dist_name)
 

@@ -6,61 +6,62 @@
   <script type="text/javascript" src="{{ url_for('static', filename='jquery-1.7.1.min.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='jquery-ui-1.8.16.custom.min.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='ajax-queue.js') }}"></script>
-
   <script type="text/javascript" src="{{ url_for('static', filename='bootstrap-modal.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='bootstrap-buttons.js') }}"></script>
 
   <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
-
   <link href="{{ url_for('static', filename='extra.css') }}" rel="stylesheet">
-  
   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
   <script type="text/javascript">
 
 	function check_all_updates()
 	{
-		$("#check_updates").fadeIn("slow");
-	
 		$(function() {
-			$( "#progressbar" ).progressbar({
+			$("#progressbar").progressbar({
 				value: 0
 			});
 		});
 
+		$("#check_updates").fadeIn("slow");
+	
 		$('img[id^=img]').each(function(current_distr) {
-			var dist_id = $(this).prop("id");
+			var dist_id = "#" + $(this).prop("id");
 			var dist_key = $(this).attr("pname");
 
 			$.ajaxQueue({
 				url: '/pypi/check_update/' + dist_key,
 				dataType: "json",
-				beforeSend: function(a,b) {
-					$("#" + dist_id).attr("src", "/static/loader.gif");
-					$("#" + dist_id).parent().animate({"padding-left": "+=12px"}, "fast");
+				beforeSend: function(a,b) { 
+					$(dist_id).attr("src", "{{ url_for('static', filename='loader.gif') }}");
+					$(dist_id).parent().animate({"padding-left": "+=12px"}, "fast");
 				},
 				success: function(data) {
 
-					var v = $("#progressbar").progressbar("option", "value");
+					var prog_value = $("#progressbar").progressbar("option", "value");
 
 					if((current_distr+1) >= {{ distributions|length }})
 					{
 						$("#check_updates").fadeOut("slow");
 					}
 
-					v = v + 100.0/{{ distributions|length }};
+					prog_value = prog_value + 100.0/{{ distributions|length }};
 
 					$("#progressbar").progressbar({
-						value: v,
+						value: prog_value,
 					});
 
 					if(data.has_update) {
-						$("#" + dist_id).attr("src", "/static/down-arrow.png").stop(true,true).hide().fadeIn();
+						$(dist_id).attr("src", 
+						                      "{{ url_for('static', filename='down-arrow.png') }}")
+									    .stop(true,true).hide().fadeIn();
 					} else {
-						$("#" + dist_id).attr("src", "/static/box-icon.png").stop(true,true).hide().fadeIn();
+						$(dist_id).attr("src", 
+											  "{{ url_for('static', filename='box-icon.png') }}")
+									    .stop(true,true).hide().fadeIn();
 					}
 
-					$("#" + dist_id).parent().animate({"padding-left": "-=12px"}, "fast");
+					$(dist_id).parent().animate({"padding-left": "-=12px"}, "fast");
 
 
 				}
@@ -104,7 +105,11 @@
 
 	<div class="container-fluid">
 	<div class="sidebar">
-		<div align="center"><a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='box.png') }}"></a></div>
+		<div align="center">
+			<a href="{{ url_for('index') }}">
+				<img src="{{ url_for('static', filename='box.png') }}">
+			</a>
+		</div>
 		<div class="page-header">
 		<h3>Packages</h3>
 		</div>
@@ -112,17 +117,17 @@
 		<ul class="unstyled">
 		{% for dist in distributions|sort(attribute="project_name") %}
 			{% if dist.key|lower in pypi_update_cache %}
-				{% set img_src = '/static/down-arrow.png' %}
+				{% set img_src = url_for('static', filename='down-arrow.png') %}
 			{% else %}
-				{% set img_src = '/static/box-icon.png' %}
+				{% set img_src = url_for('static', filename='box-icon.png') %}
 			{% endif %}
 			<li>
-			<a href="{{ url_for('distribution', dist_name=dist.key) }}">
-			<img id="img_{{ dist.key|lower|replace('.','-') }}" src="{{ img_src }}" class="midicon" pname="{{ dist.key|lower }}" />
-			{{ dist.project_name }} {{ dist.version }}</a></li>
-
-
-
+				<a href="{{ url_for('distribution', dist_name=dist.key) }}">
+					<img id="img_{{ dist.key|lower|replace('.','-') }}" src="{{ img_src }}"
+					class="midicon" pname="{{ dist.key|lower }}" />
+					{{ dist.project_name }} {{ dist.version }}
+				</a>
+			</li>
 		{% endfor %}
 		</ul>
 	</div>
