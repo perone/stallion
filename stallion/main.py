@@ -30,6 +30,12 @@ import __init__ as stallion
 
 app = Flask(__name__)
 
+PYPI_XMLRPC = 'http://pypi.python.org/pypi'
+
+# This is a cache with flags to show if a distribution
+# has an update available 
+DIST_PYPI_CACHE = set()
+
 class Crumb(object):
     """ Represents each level on the bootstrap breadcrumb. """
     def __init__(self, title, href='#'):
@@ -49,10 +55,10 @@ def get_shared_data():
     :return: the dictionary with the shared data.
     """
     shared_data = {}
+    shared_data['pypi_update_cache'] = DIST_PYPI_CACHE
     shared_data['distributions'] = [d for d in pkg_resources.working_set]
-    return shared_data
 
-PYPI_XMLRPC = 'http://pypi.python.org/pypi'
+    return shared_data
 
 def get_pypi_proxy():
     """ Returns a RPC ServerProxy object pointing to the PyPI RPC
@@ -63,6 +69,39 @@ def get_pypi_proxy():
     """
     return xmlrpclib.ServerProxy(PYPI_XMLRPC)
     
+def get_pypi_releases(dist_name):
+    pypi = get_pypi_proxy()
+    
+    show_hidden = True
+    ret = pypi.package_releases(dist_name, show_hidden)
+
+    if not ret:
+        ret = pypi.package_releases(dist_name.capitalize(), show_hidden)
+
+    ret.sort(key=lambda v: pkg_resources.parse_version(v), reverse=True)
+
+    return ret
+
+@app.route('/pypi/check_update/<dist_name>')
+def check_pypi_update(dist_name):
+    pkg_dist_version = pkg_resources.get_distribution(dist_name).version
+    pypi_rel = get_pypi_releases(dist_name)
+
+    if pypi_rel:
+        pypi_last_version = pkg_resources.parse_version(pypi_rel[0])
+        current_version = pkg_resources.parse_version(pkg_dist_version)
+
+        if pypi_last_version > current_version:
+            DIST_PYPI_CACHE.add(dist_name.lower())
+            return jsonify({"has_update" : 1})
+
+    try:
+        DIST_PYPI_CACHE.remove(dist_name.lower())
+    except KeyError:
+        pass
+
+    return jsonify({"has_update" : 0})
+
 @app.route('/pypi/releases/<dist_name>')
 def releases(dist_name):
     """ This is the /pypi/releases/<dist_name> entry point, it is the interface
@@ -73,23 +112,18 @@ def releases(dist_name):
     data = {}
 
     pkg_dist_version = pkg_resources.get_distribution(dist_name).version
-
-    pypi = get_pypi_proxy()
-    show_hidden = True
-    ret = pypi.package_releases(dist_name, show_hidden)
-
-    if not ret:
-        ret = pypi.package_releases(dist_name.capitalize(), show_hidden)
-
-    ret.sort(key=lambda v: pkg_resources.parse_version(v), reverse=True)
+    pypi_rel = get_pypi_releases(dist_name)
 
     data["dist_name"] = dist_name
-    data["pypi_info"] = ret
+    data["pypi_info"] = pypi_rel
     data["current_version"] = pkg_dist_version
 
-    if ret:
-        data["last_is_great"] = pkg_resources.parse_version(ret[0]) > pkg_resources.parse_version(pkg_dist_version)
-        data["last_version_differ"] = pkg_dist_version.lower() != ret[0].lower()
+    if pypi_rel:
+        pypi_last_version = pkg_resources.parse_version(pypi_rel[0])
+        current_version = pkg_resources.parse_version(pkg_dist_version)
+
+        data["last_is_great"] = pypi_last_version > current_version
+        data["last_version_differ"] = pkg_dist_version.lower() != pypi_rel[0].lower()
     
     return render_template('pypi_update.html', **data)
 
@@ -134,7 +168,8 @@ def about():
 
 @app.route('/distribution/<dist_name>')
 def distribution(dist_name=None):
-    """ The Distribution entry-point (/distribution/<dist_name>) for the Stallion server.
+    """ The Distribution entry-point (/distribution/<dist_name>)
+    for the Stallion server.
     
     :param dist_name: the package name
     """
@@ -144,7 +179,8 @@ def distribution(dist_name=None):
     data.update(get_shared_data())
 
     data['dist'] = pkg_dist
-    data['breadpath'] = [Crumb('Main', url_for('index')), Crumb('Package'), Crumb(pkg_dist.project_name)]
+    data['breadpath'] = [Crumb('Main', url_for('index')),
+                         Crumb('Package'), Crumb(pkg_dist.project_name)]
 
     settings_overrides = {
         'raw_enabled': 0, # no raw HTML code
@@ -160,7 +196,8 @@ def distribution(dist_name=None):
     parts = None
     try:
         parts = publish_parts(source = distinfo['description'],
-                              writer_name = 'html', settings_overrides = settings_overrides)
+                              writer_name = 'html',
+                              settings_overrides = settings_overrides)
     except:
         pass
 
@@ -170,15 +207,6 @@ def distribution(dist_name=None):
         data['description_render'] = parts['body']
     
     return render_template('distribution.html', **data)
-
-@app.route('/global_update')
-def global_update():
-    data = {}
-    data.update(get_shared_data())
-    data['menu_global_update'] = 'active'
-    data['breadpath'] = [Crumb('Global Update')]
-
-    return render_template('global_update.html', **data)
 
 def run_main():
     """ The main entry-point of Stallion. """

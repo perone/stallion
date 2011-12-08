@@ -25,3 +25,6 @@ img.midicon {
 	font-size: 12px
 }
 
+.progress-span {
+	display:none;
+}

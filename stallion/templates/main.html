@@ -2,30 +2,103 @@
 <head>
   <meta charset="utf-8">
   <title>Stallion, package manager for Python</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/redmond/jquery-ui-1.8.16.custom.css') }}">
   <script type="text/javascript" src="{{ url_for('static', filename='jquery-1.7.1.min.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='jquery-ui-1.8.16.custom.min.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='ajax-queue.js') }}"></script>
+
   <script type="text/javascript" src="{{ url_for('static', filename='bootstrap-modal.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='bootstrap-buttons.js') }}"></script>
   <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+
   <link href="{{ url_for('static', filename='extra.css') }}" rel="stylesheet">
+  
   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+  <script type="text/javascript">
+	function check_all_updates()
+	{
+		$("#check_updates").fadeIn("slow");
+	
+		$(function() {
+			$( "#progressbar" ).progressbar({
+				value: 0
+			});
+		});
+
+		$('img[id^=img]').each(function(current_distr) {
+			var dist_id = $(this).prop("id");
+			var dist_key = $(this).attr("pname");
+
+			$.ajaxQueue({
+				url: '/pypi/check_update/' + dist_key,
+				dataType: "json",
+				beforeSend: function(a,b) {
+					$("#" + dist_id).attr("src", "/static/loader.gif");
+					$("#" + dist_id).parent().animate({"padding-left": "+=12px"}, "fast");
+				},
+				success: function(data) {
+
+					var v = $("#progressbar").progressbar("option", "value");
+
+					if((current_distr+1) >= {{ distributions|length }})
+					{
+						$("#check_updates").fadeOut("slow");
+					}
+
+					v = v + 100.0/{{ distributions|length }};
+
+					$("#progressbar").progressbar({
+						value: v,
+					});
+
+					if(data.has_update) {
+						$("#" + dist_id).attr("src", "/static/world.png").stop(true,true).hide().fadeIn();
+					} else {
+						$("#" + dist_id).attr("src", "/static/box-icon.png").stop(true,true).hide().fadeIn();
+					}
+
+					$("#" + dist_id).parent().animate({"padding-left": "-=12px"}, "fast");
+
+
+				}
+			}); // ajax
+
+		}); // each img
+
+	}
+
+  </script>
+
   {% block js %}{% endblock %}
 </head>
 
 <body>
-    <div class="topbar" data-scrollspy="scrollspy" >
-      <div class="topbar-inner">
-        <div class="container">
-          <a class="brand" href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='stallion_icon.png') }}" class="midicon"> Stallion</a>
-          <ul class="nav">
-            <li class="{{ menu_home }}"><a href="{{ url_for('index') }}">Home</a></li>
-		   <li class="{{ menu_global_update }}"><a href="{{ url_for('global_update') }}">
-				   Check all updates
-		   </a></li>
-            <li class="{{ menu_about }}"><a href="{{ url_for('about') }}">About</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
+	<div class="topbar">
+		<div class="topbar-inner">
+			<div class="container">
+				<a class="brand" href="{{ url_for('index') }}">
+					<img src="{{ url_for('static', filename='stallion_icon.png') }}" class="midicon"> Stallion
+				</a>
+
+				<ul class="nav">
+					<li class="{{ menu_home }}"><a href="{{ url_for('index') }}">Home</a></li>
+					<li>
+							<a href="javascript:check_all_updates();">Check all updates</a>
+					</li>
+					<li class="{{ menu_about }}"><a href="{{ url_for('about') }}">About</a></li>
+				</ul>
+
+				<ul class="nav secondary-nav">
+				<li><a href="#"><span id="check_updates" class="progress-span">
+				<div id="progressbar" style="width: 130px; height: 19px;"></div>
+				</span></a></li>
+				</ul>
+
+
+			</div>
+		</div>
+	</div>
 
 	<div class="container-fluid">
 	<div class="sidebar">
@@ -33,9 +106,15 @@
 		<div class="page-header">
 		<h3>Packages</h3>
 		</div>
+
 		<ul class="unstyled">
 		{% for dist in distributions|sort(attribute="project_name") %}
-			<li><img src="{{ url_for('static', filename='box-icon.png') }}" class="midicon">
+			{% if dist.key|lower in pypi_update_cache %}
+				{% set img_src = '/static/world.png' %}
+			{% else %}
+				{% set img_src = '/static/box-icon.png' %}
+			{% endif %}
+			<li><img id="img_{{ dist.key|lower|replace('.','-') }}" src="{{ img_src }}" class="midicon" pname="{{ dist.key|lower }}" />
 			<a href="{{ url_for('distribution', dist_name=dist.key) }}">{{ dist.project_name }} {{ dist.version }}</a></li>
 		{% endfor %}
 		</ul>
