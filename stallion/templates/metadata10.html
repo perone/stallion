@@ -128,11 +128,11 @@
 	<td>
 		{% set classifier = distinfo["classifier"] %}
 		{% if classifier %}
-		<ul>
+		<ul class="classifier_un">
 			{% for key,value in classifier.items() recursive %}
-				<li>{{ key }}</li>
+				<li class="classifier_li">{{ key }}</li>
 				{% if value %}
-					<ul>{{ loop(value.items()) }}</ul>
+					<ul class="classifier_un">{{ loop(value.items()) }}</ul>
 				{% endif %}
 			{% endfor %}
 

@@ -30,3 +30,24 @@ img.midicon {
 	text-align: center;
 }
 
+li.classifier_li {
+	color: #606060;
+	padding: 2px 0px;
+}
+
+ul.classifier_un {
+	padding: 8px 10px;
+	list-style: none;
+	background: #F5F5F5; 
+	margin: 0px 0px;
+}
+
+ul.classifier_un ul {
+	background: #E5E5E5; 
+	border-width: 1px;
+	border-style: solid;
+	border-color: #C0C0C0;
+}
+
+ul.classifier_un ul ul          { background: #D5D5D5; }
+ul.classifier_un ul ul ul       { background: #C5C5C5; }
