@@ -113,6 +113,21 @@ def field_process(field_name, field_value):
     :return: field value processed
     """
 
+    if field_name == 'classifier':
+        root = {}
+        for line in field_value:
+            d = root
+            path_split = tuple([s.strip() for s in line.split('::')])
+            for level in path_split:
+                if d.has_key(level):
+                    d = d[level]
+                else:
+                    b = {}
+                    d[level] = b
+                    d = b
+
+        return root
+
     if isinstance(field_value, list):
         return field_value
 

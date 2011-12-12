@@ -129,9 +129,14 @@
 		{% set classifier = distinfo["classifier"] %}
 		{% if classifier %}
 		<ul>
-			{% for cl in classifier %}
-				<li>{{ cl }}</li>
+			{% for key,value in classifier.items() recursive %}
+				<li>{{ key }}</li>
+				{% if value %}
+					<ul>{{ loop(value.items()) }}</ul>
+				{% endif %}
 			{% endfor %}
+
+
 		</ul>
 		{% else %}
 			<span class="label warning">No classifiers specified</span>

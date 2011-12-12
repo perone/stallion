@@ -221,7 +221,7 @@ def distribution(dist_name=None):
     pkg_metadata = pkg_dist.get_metadata(metadata.METADATA_NAME)
     parsed, key_known = metadata.parse_metadata(pkg_metadata)
     distinfo = metadata.metadata_to_dict(parsed, key_known)
-    
+
     parts = None
     try:
         parts = publish_parts(source = distinfo['description'],
