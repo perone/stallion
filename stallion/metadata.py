@@ -132,6 +132,7 @@ def field_process(field_name, field_value):
         return field_value
 
     f_value = clean_lead_ws_description(field_value, field_name)
+    f_value = f_value.decode('utf-8')
 
     if f_value == 'UNKNOWN':
         return None
