@@ -75,6 +75,16 @@ Stallion is compatible with:
   - Internet Explorer 9 (IE9)
   - Safari (not tested yet, let me know if it's working)
 
+Reporting bug
+-------------------------------------------------------------------------------
+
+Open an issue in Github with the traceback. To get the traceback, you'll 
+have to run Stallion in debugging mode:
+
+::
+
+    $ python -m stallion.main -drvi
+
 License
 -------------------------------------------------------------------------------
 
