@@ -58,6 +58,14 @@ Stallion is compatible with:
   - Python 2.7
   - PyPy 1.7 *(and possibly older versions too)*
 
+Supported browsers
+-------------------------------------------------------------------------------
+Stallion is compatible with:
+
+  - Firefox
+  - Google Chrome
+  - Safari (not tested)
+
 License
 -------------------------------------------------------------------------------
 
