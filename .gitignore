@@ -5,4 +5,5 @@
 *.pyc
 build/
 *.egg-info
+*.class
 
