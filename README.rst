@@ -72,7 +72,8 @@ Stallion is compatible with:
 
   - Firefox
   - Google Chrome
-  - Safari (not tested)
+  - Internet Explorer 9 (IE9)
+  - Safari (not tested yet, let me know if it's working)
 
 License
 -------------------------------------------------------------------------------
