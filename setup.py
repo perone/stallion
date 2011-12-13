@@ -1,33 +1,3 @@
-"""
-Stallion
---------
-
-Stallion is a Python Package Manager interface created to provide an "easy-to-use" visual interface
-for Python newcomers. Today we have many nice distribution utilities like pip, distribute, etc, but
-we don't have a nice visual approach with these same goals. 
-
-Using Stallion
-'''''''''''''''''
-
-::
-
-    python -m stallion.main [--help]
-
-Easy to Setup
-''''''''''''''''
-
-::
-
-    $ easy_install stallion
-    $ python -m stallion.main
-
-Links
-'''''''''''''
-
-* `Project Site (github) <https://github.com/perone/stallion>`_
-
-"""
-
 from setuptools import setup
 import stallion
 
@@ -39,7 +9,7 @@ setup(
     author=stallion.__author__,
     author_email='christian.perone@gmail.com',
     description='A Python Package Manager interface.',
-    long_description=__doc__,
+    long_description=open("README.rst", "r").read(),
     packages=['stallion'],
     keywords='package manager, distribution tool, stallion',
     platforms='Any',
