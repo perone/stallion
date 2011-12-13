@@ -50,6 +50,7 @@ Compatibility
 -------------------------------------------------------------------------------
 Stallion is compatible with:
 
+  - Python 2.5
   - Python 2.6
   - Python 2.7
   - PyPy 1.7 *(and possibly older versions too)*
