@@ -24,6 +24,14 @@ Easy to Install
 
 *(this will install Stallion as well the requirements listed below)*
 
+Setting a development environment
+-------------------------------------------------------------------------------
+
+::
+
+    $ python setup.py develop
+    $ python -m stallion.main
+
 Requirements
 -------------------------------------------------------------------------------
 
