@@ -45,6 +45,8 @@ Jinja2 (Flask requirement) (https://github.com/mitsuhiko/jinja2)
 Werkzeug (Flask requirement) (https://github.com/mitsuhiko/werkzeug)
    A flexible WSGI implementation and toolkit
 
+Simplejson (If you use Python 2.5) (http://pypi.python.org/pypi/simplejson/)
+   Simple, fast, extensible JSON encoder/decoder for Python
 
 Compatibility
 -------------------------------------------------------------------------------
