@@ -171,6 +171,12 @@ def index():
     sys_info['Machine Type'] = platform.machine()
     sys_info['Platform'] = platform.platform()
     sys_info['Processor'] = platform.processor()
+
+    try:
+        sys_info['Python Implementation'] = platform.python_implementation()
+    except:
+        pass
+
     sys_info['System'] = platform.system()
     sys_info['System Arch'] = platform.architecture()
 
