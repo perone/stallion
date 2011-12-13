@@ -25,8 +25,8 @@ from flask import jsonify
 
 from docutils.core import publish_parts
 
-import metadata
-import __init__ as stallion
+import stallion
+from stallion import metadata
 
 app = Flask(__name__)
 
@@ -171,7 +171,6 @@ def index():
     sys_info['Machine Type'] = platform.machine()
     sys_info['Platform'] = platform.platform()
     sys_info['Processor'] = platform.processor()
-    sys_info['Python Implementation'] = platform.python_implementation()
     sys_info['System'] = platform.system()
     sys_info['System Arch'] = platform.architecture()
 

@@ -53,6 +53,7 @@ setup(
         'setuptools>=0.6c11',
         'docutils>=0.8.1',
         'jinja2>=2.6',
+        'simplejson>=2.3.0',
     ],
     classifiers=[
         'Development Status :: 4 - Beta',
