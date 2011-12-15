@@ -17,12 +17,37 @@ Using Stallion
 Easy to Install
 -------------------------------------------------------------------------------
 
+Installing using easy_install:
+
 ::
 
     $ easy_install stallion
     $ python -m stallion.main
 
-*(this will install Stallion as well the requirements listed below)*
+Upgrading using easy_install:
+
+::
+
+    $ easy_install -U stallion
+    $ python -m stallion.main
+ 
+
+or using pip:
+
+Installing using pip:
+
+::
+
+    $ pip install stallion
+    $ python -m stallion.main
+
+Upgrading using pip:
+
+::
+
+    $ pip install --upgrade stallion
+    $ python -m stallion.main
+
 
 Setting a development environment
 -------------------------------------------------------------------------------
