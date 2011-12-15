@@ -85,6 +85,27 @@ have to run Stallion in debugging mode:
 
     $ python -m stallion.main -drvi
 
+What's new in release v0.2
+-------------------------------------------------------------------------------
+
+Bug fixes
+   Lot's of bugs were fixed:
+     - Unicode problem (https://github.com/perone/stallion/issues/15)
+     - Python 2.5 compatibility (https://github.com/perone/stallion/issues/12)
+     - Ignored explicit port (https://github.com/perone/stallion/issues/6)
+     - Internet Explorer 9 compatibility (https://github.com/perone/stallion/issues/4)
+     - Jinja2 version dependency (https://github.com/perone/stallion/issues/1)
+     - Other small fixes
+
+   Global checking feature
+      Many people asked for a global version updates checking, now you have this
+      feature under the menu "PyPI Repository". This option is going to check
+      updates for all your packages. A new icon will appear on the sidebar
+      packages menu warning in case of a new available update.
+   
+   Classifiers refactoring
+      The classifiers of the package are now visually different.
+
 License
 -------------------------------------------------------------------------------
 
