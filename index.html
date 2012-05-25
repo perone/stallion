@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=640" />
+
+    <link rel="stylesheet" href="stylesheets/core.css" media="screen"/>
+    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)"/>
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
+
+    <script type="text/javascript" src="javascripts/modernizr.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $('#main_content').headsmart()
+      })
+    </script>
+    <title>Stallion by perone</title>
+  </head>
+
+  <body>
+    <a id="forkme_banner" href="https://github.com/perone/stallion">View on GitHub</a>
+    <div class="shell">
+
+      <header>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <h1>Stallion</h1>
+            <h2>Stallion - A Python Package Manager</h2>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+      </header>
+
+      <section id="downloads">
+        <span class="inner">
+          <a href="https://github.com/perone/stallion/zipball/master" class="zip"><em>download</em> .ZIP</a><a href="https://github.com/perone/stallion/tarball/master" class="tgz"><em>download</em> .TGZ</a>
+        </span>
+      </section>
+
+
+      <span class="banner-fix"></span>
+
+
+      <section id="main_content">
+        <h1>Stallion</h1>
+
+<p>Stallion is a Python Package Manager interface created to provide an "easy-to-use" visual interface
+for Python newcomers. Today we have many nice distribution utilities like pip, distribute, etc, but
+we don't have a nice visual approach with these same goals. </p>
+
+<h2>Screenshots</h2>
+
+<h3>Screenshot: The home</h3>
+
+<p><img src="http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/main_page.png" alt="The home"></p>
+
+<h3>Screenshot: Installed package information</h3>
+
+<p><img src="http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/distr.png" alt="Installed package information"></p>
+
+<h3>Screenshot: Package metadata</h3>
+
+<p><img src="http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/metadata.png" alt="Package metadata"></p>
+
+<h3>Screenshot: Check PyPI for updates available</h3>
+
+<p><img src="http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/updates_avail.png" alt="Updates"></p>
+
+<p><img src="http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/updates.png" alt="Updates"></p>
+
+<p><img src="http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/updates2.png" alt="Updates"></p>
+
+<h2>Screenshot: PyPI version mismatch diagnosis</h2>
+
+<p><img src="http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/diagnosis.png" alt="Version mismatch"></p>
+
+<h2>Using Stallion</h2>
+
+<pre><code>python -m stallion.main [--help]
+</code></pre>
+
+<h2>Easy to Install</h2>
+
+<p>Installing using easy_install:</p>
+
+<pre><code>$ easy_install stallion
+$ python -m stallion.main
+</code></pre>
+
+<p>Upgrading using easy_install:</p>
+
+<pre><code>$ easy_install -U stallion
+$ python -m stallion.main
+</code></pre>
+
+<p>or using pip:</p>
+
+<p>Installing using pip:</p>
+
+<pre><code>$ pip install stallion
+$ python -m stallion.main
+</code></pre>
+
+<p>Upgrading using pip:</p>
+
+<pre><code>$ pip install --upgrade stallion
+$ python -m stallion.main
+</code></pre>
+
+<h2>Setting a development environment</h2>
+
+<hr><pre><code>$ python setup.py develop
+$ python -m stallion.main
+</code></pre>
+
+<h2>Requirements</h2>
+
+<p>Stallion uses the following external projects:</p>
+
+<p><a href="https://github.com/mitsuhiko/flask">Flask</a></p>
+
+<blockquote>
+<p>A microframework based on Werkzeug, Jinja2 and good intentions</p>
+</blockquote>
+
+<p><a href="https://github.com/twitter/bootstrap">Twitter Bootstrap</a></p>
+
+<blockquote>
+<p>HTML, CSS, and JS toolkit from Twitter</p>
+</blockquote>
+
+<p><a href="http://docutils.sourceforge.net/">docutils</a></p>
+
+<blockquote>
+<p>Docutils is an open-source text processing system for processing plaintext documentation
+into useful formats, such as HTML or LaTeX.</p>
+</blockquote>
+
+<p><a href="https://github.com/mitsuhiko/jinja2">Jinja2</a> (Flask requirement)</p>
+
+<blockquote>
+<p>The Jinja2 template engine</p>
+</blockquote>
+
+<p><a href="https://github.com/mitsuhiko/werkzeug">Werkzeug</a> (Flask requirement)</p>
+
+<blockquote>
+<p>A flexible WSGI implementation and toolkit</p>
+</blockquote>
+
+<p><a href="http://pypi.python.org/pypi/simplejson/">Simplejson</a> (If you use Python 2.5)</p>
+
+<blockquote>
+<p>Simple, fast, extensible JSON encoder/decoder for Python</p>
+</blockquote>
+
+<h2>Compatibility</h2>
+
+<p>Stallion is compatible with:</p>
+
+<ul>
+<li>Python 2.5</li>
+<li>Jython 2.5.2</li>
+<li>Python 2.6</li>
+<li>Python 2.7</li>
+<li>PyPy 1.7 <em>(and possibly older versions too)</em>
+</li>
+</ul><h2>Supported browsers</h2>
+
+<p>Stallion is compatible with:</p>
+
+<ul>
+<li>Firefox</li>
+<li>Google Chrome</li>
+<li>Internet Explorer 9 (IE9)</li>
+<li>Safari</li>
+</ul><h2>What's new in release v0.2</h2>
+
+<p>Bug fixes</p>
+
+<p>Lot's of bugs were fixed:</p>
+
+<pre><code> - Unicode problem (https://github.com/perone/stallion/issues/15)
+ - Python 2.5 compatibility (https://github.com/perone/stallion/issues/12)
+ - Ignored explicit port (https://github.com/perone/stallion/issues/6)
+ - Internet Explorer 9 compatibility (https://github.com/perone/stallion/issues/4)
+ - Jinja2 version dependency (https://github.com/perone/stallion/issues/1)
+ - Other small fixes
+</code></pre>
+
+<p>Global checking feature</p>
+
+<pre><code>  Many people asked for a global version updates checking, now you have this
+  feature under the menu "PyPI Repository". This option is going to check
+  updates for all your packages. A new icon will appear on the sidebar
+  packages menu warning in case of a new available update.
+</code></pre>
+
+<p>Classifiers refactoring</p>
+
+<pre><code>  The classifiers of the package are now visually different.
+</code></pre>
+
+<h2>Reporting bug</h2>
+
+<p>Open an issue in Github with the traceback. To get the traceback, you'll 
+have to run Stallion in debugging mode:</p>
+
+<pre><code>$ python -m stallion.main -drvi
+</code></pre>
+
+<h2>License</h2>
+
+<p>Copyright 2011 Christian S. Perone</p>
+
+<p>Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at</p>
+
+<pre><code>   http://www.apache.org/licenses/LICENSE-2.0
+</code></pre>
+
+<p>Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.</p>
+
+<h2>Links</h2>
+
+<p><a href="https://github.com/perone/stallion">Project Site - Github</a></p>
+      </section>
+
+      <footer>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <p>this project by <a href="https://github.com/perone">perone</a> can be found on <a href="https://github.com/perone/stallion">GitHub</a></p>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+        <p>Generated with <a href="http://pages.github.com">GitHub Pages</a> using Merlot</p>
+        <span class="octocat"></span>
+      </footer>
+
+    </div>
+
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("<script type="text/javascript">    var _gaq = _gaq || [];   _gaq.push(['_setAccount', 'UA-30560129-1']);   _gaq.push(['_trackPageview']);    (function() {     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);   })();  </script>");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
