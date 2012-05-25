@@ -5,7 +5,38 @@ Stallion is a Python Package Manager interface created to provide an "easy-to-us
 for Python newcomers. Today we have many nice distribution utilities like pip, distribute, etc, but
 we don't have a nice visual approach with these same goals. 
 
-See screenshots at http://pyevolve.sourceforge.net/wordpress/?p=2200
+Screenshots
+-------------------------------------------------------------------------------
+
+Screenshot: The home
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. image:: http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/main_page.png
+
+Screenshot: Installed package information
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. image:: http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/distr.png
+
+Screenshot: Package metadata
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. image:: http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/metadata.png
+
+Screenshot: Check PyPI for updates available
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. image:: http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/updates_avail.png
+
+.. image:: http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/updates.png
+
+.. image:: http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/updates2.png
+
+Screenshot: PyPI version mismatch diagnosis
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. image:: http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/diagnosis.png
+
 
 Using Stallion
 -------------------------------------------------------------------------------
