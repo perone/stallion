@@ -34,4 +34,5 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries :: Python Modules'
     ],
+    scripts=['scripts/stallion'],
 )
