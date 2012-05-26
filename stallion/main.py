@@ -9,7 +9,6 @@
 ==================================================================
 """
 from optparse import OptionParser
-from optparse import OptionGroup
 
 import sys
 import platform
@@ -18,10 +17,7 @@ import xmlrpclib
 
 import pkg_resources as _pkg_resources
 
-from flask import Flask
-from flask import render_template
-from flask import url_for
-from flask import jsonify
+from flask import Flask, render_template, url_for, jsonify
 
 from docutils.core import publish_parts
 
@@ -33,8 +29,9 @@ app = Flask(__name__)
 PYPI_XMLRPC = 'http://pypi.python.org/pypi'
 
 # This is a cache with flags to show if a distribution
-# has an update available 
+# has an update available
 DIST_PYPI_CACHE = set()
+
 
 class Crumb(object):
     """ Represents each level on the bootstrap breadcrumb. """
@@ -47,9 +44,11 @@ class Crumb(object):
         self.title = title
         self.href = href
 
+
 def get_pkg_res():
     reload(_pkg_resources)
     return _pkg_resources
+
 
 def get_shared_data():
     """ Returns a new dictionary with the shared-data between different
@@ -58,11 +57,11 @@ def get_shared_data():
     :rtype: dict
     :return: the dictionary with the shared data.
     """
-    shared_data = {}
-    shared_data['pypi_update_cache'] = DIST_PYPI_CACHE
-    shared_data['distributions'] = [d for d in get_pkg_res().working_set]
+    shared_data = {'pypi_update_cache': DIST_PYPI_CACHE,
+                   'distributions': [d for d in get_pkg_res().working_set]}
 
     return shared_data
+
 
 def get_pypi_proxy():
     """ Returns a RPC ServerProxy object pointing to the PyPI RPC
@@ -72,7 +71,8 @@ def get_pypi_proxy():
     :return: the RPC ServerProxy to PyPI repository.
     """
     return xmlrpclib.ServerProxy(PYPI_XMLRPC)
-    
+
+
 def get_pypi_releases(dist_name):
     """ Return the releases available at PyPI repository and sort them using
     the pkg_resources.parse_version, the lastest version is on the 0 index.
@@ -82,7 +82,7 @@ def get_pypi_releases(dist_name):
     :return: a list with the releases available at PyPI
     """
     pypi = get_pypi_proxy()
-    
+
     show_hidden = True
     ret = pypi.package_releases(dist_name, show_hidden)
 
@@ -93,9 +93,11 @@ def get_pypi_releases(dist_name):
 
     return ret
 
+
 @app.route('/pypi/check_update/<dist_name>')
 def check_pypi_update(dist_name):
-    """ Just check for updates and return a json with the attribute "has_update".
+    """ Just check for updates and return a json
+    with the attribute "has_update".
 
     :param dist_name: distribution name
     :rtype: json
@@ -111,20 +113,21 @@ def check_pypi_update(dist_name):
 
         if pypi_last_version > current_version:
             DIST_PYPI_CACHE.add(dist_name.lower())
-            return jsonify({"has_update" : 1})
+            return jsonify({"has_update": 1})
 
     try:
         DIST_PYPI_CACHE.remove(dist_name.lower())
     except KeyError:
         pass
 
-    return jsonify({"has_update" : 0})
+    return jsonify({"has_update": 0})
+
 
 @app.route('/pypi/releases/<dist_name>')
 def releases(dist_name):
     """ This is the /pypi/releases/<dist_name> entry point, it is the interface
-    between Stallion and the PyPI RPC service when checking for updates. 
-    
+    between Stallion and the PyPI RPC service when checking for updates.
+
     :param dist_name: the package name (distribution name).
     """
     pkg_res = get_pkg_res()
@@ -141,9 +144,10 @@ def releases(dist_name):
     if pypi_rel:
         pypi_last_version = pkg_res.parse_version(pypi_rel[0])
         current_version = pkg_res.parse_version(pkg_dist_version)
+        last_version = pkg_dist_version.lower() != pypi_rel[0].lower()
 
         data["last_is_great"] = pypi_last_version > current_version
-        data["last_version_differ"] = pkg_dist_version.lower() != pypi_rel[0].lower()
+        data["last_version_differ"] = last_version
 
         if data["last_is_great"]:
             DIST_PYPI_CACHE.add(dist_name.lower())
@@ -152,25 +156,26 @@ def releases(dist_name):
                 DIST_PYPI_CACHE.remove(dist_name.lower())
             except KeyError:
                 pass
-    
+
     return render_template('pypi_update.html', **data)
+
 
 @app.route('/')
 def index():
     """ The main Flask entry-point (/) for the Stallion server. """
-    data = {}
-    data['breadpath'] = [Crumb('Main')]
-    
+    data = {
+        'breadpath': [Crumb('Main')]
+    }
+
     data.update(get_shared_data())
     data['menu_home'] = 'active'
 
-    sys_info = {}
-    sys_info['Python Platform'] = sys.platform
-    sys_info['Python Version'] = sys.version
-    sys_info['Python Prefix'] = sys.prefix
-    sys_info['Machine Type'] = platform.machine()
-    sys_info['Platform'] = platform.platform()
-    sys_info['Processor'] = platform.processor()
+    sys_info = {'Python Platform': sys.platform,
+                'Python Version': sys.version,
+                'Python Prefix': sys.prefix,
+                'Machine Type': platform.machine(),
+                'Platform': platform.platform(),
+                'Processor': platform.processor()}
 
     try:
         sys_info['Python Implementation'] = platform.python_implementation()
@@ -183,6 +188,7 @@ def index():
     data['system_information'] = sys_info
 
     return render_template('system_information.html', **data)
+
 
 @app.route('/about')
 def about():
@@ -199,11 +205,12 @@ def about():
 
     return render_template('about.html', **data)
 
+
 @app.route('/distribution/<dist_name>')
 def distribution(dist_name=None):
     """ The Distribution entry-point (/distribution/<dist_name>)
     for the Stallion server.
-    
+
     :param dist_name: the package name
     """
 
@@ -217,10 +224,10 @@ def distribution(dist_name=None):
                          Crumb('Package'), Crumb(pkg_dist.project_name)]
 
     settings_overrides = {
-        'raw_enabled': 0, # no raw HTML code
-        'file_insertion_enabled': 0, # no file/URL access
-        'halt_level': 2, # at warnings or errors, raise an exception
-        'report_level': 5, # never report problems with the reST code
+        'raw_enabled': 0,  # no raw HTML code
+        'file_insertion_enabled': 0,  # no file/URL access
+        'halt_level': 2,  # at warnings or errors, raise an exception
+        'report_level': 5,  # never report problems with the reST code
     }
 
     pkg_metadata = pkg_dist.get_metadata(metadata.METADATA_NAME)
@@ -229,9 +236,9 @@ def distribution(dist_name=None):
 
     parts = None
     try:
-        parts = publish_parts(source = distinfo['description'],
-                              writer_name = 'html',
-                              settings_overrides = settings_overrides)
+        parts = publish_parts(source=distinfo['description'],
+                              writer_name='html',
+                              settings_overrides=settings_overrides)
     except:
         pass
 
@@ -239,8 +246,9 @@ def distribution(dist_name=None):
 
     if parts is not None:
         data['description_render'] = parts['body']
-    
+
     return render_template('distribution.html', **data)
+
 
 def run_main():
     """ The main entry-point of Stallion. """
@@ -250,7 +258,8 @@ def run_main():
     parser = OptionParser()
 
     parser.add_option('-s', '--host', dest='host',
-                    help='The hostname to listen on, set to \'0.0.0.0\' to have the'
+                    help='The hostname to listen on, ' \
+                         'set to \'0.0.0.0\' to have the'
                          'server available externally as well. '
                          'Default is \'127.0.0.1\' (localhost only).',
                     metavar="HOST", default='127.0.0.1')
@@ -263,15 +272,18 @@ def run_main():
                   help='Uses the reloader.', dest='reloader', default=False)
 
     parser.add_option('-i', '--interactive', action='store_true',
-                  help='Enable the interactive interpreter for debugging (useful to debug errors).',
+                  help='Enable the interactive interpreter' \
+                       ' for debugging (useful to debug errors).',
                   dest='evalx', default=False)
 
     parser.add_option('-p', '--port', dest='port',
-                    help='The port to listen on. Default is the port \'5000\'.',
+                    help='The port to listen on. ' \
+                         'Default is the port \'5000\'.',
                     metavar="PORT", default='5000')
 
     parser.add_option('-v', '--verbose', dest='verbose', action='store_true',
-                    help='Turn on verbose messages (show HTTP requests). Default is False.',
+                    help='Turn on verbose messages (show HTTP requests).' \
+                         ' Default is False.',
                     default=False)
 
     (options, args) = parser.parse_args()
