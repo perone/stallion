@@ -1,6 +1,22 @@
 from setuptools import setup
 import stallion
 
+# Stallion requirements
+install_requirements = [
+        'Flask>=0.8',
+        'setuptools>=0.6c11',
+        'docutils>=0.8.1',
+        'jinja2>=2.6',
+]
+
+# Try to import json, only present as std module
+# after Python 2.5. Fallback to simplejson insted.
+try:
+    import json
+except ImportError:
+    install_requirements.append('simplejson>=2.3.0')
+
+
 setup(
     name='Stallion',
     version=stallion.__version__,
@@ -18,13 +34,7 @@ setup(
     package_data={
       'stallion': ['static/*.*', 'templates/*.*'],
     },
-    install_requires=[
-        'Flask>=0.8',
-        'setuptools>=0.6c11',
-        'docutils>=0.8.1',
-        'jinja2>=2.6',
-        'simplejson>=2.3.0',
-    ],
+    install_requires=install_requirements,
     tests_require=['unittest2'],
     test_suite='unittest2.collector',
     classifiers=[
