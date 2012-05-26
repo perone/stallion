@@ -4,6 +4,6 @@
 *.bak
 *.pyc
 build/
+dist/
 *.egg-info
 *.class
-

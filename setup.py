@@ -1,5 +1,14 @@
 from setuptools import setup
 import stallion
+import sys
+
+req = ['Flask>=0.8',
+       'setuptools>=0.6c11',
+       'docutils>=0.8.1',
+       'jinja2>=2.6',
+       'simplejson>=2.3.0']
+
+if sys.platform == 'win32': req += ['pywin32']
 
 setup(
     name='Stallion',
@@ -16,15 +25,13 @@ setup(
     zip_safe=False,
     include_package_data=True,
     package_data={
-      'stallion': ['static/*.*', 'templates/*.*'],
+      'stallion': ['static/*.*', 'templates/*.*', 'scripts/*.*'],
     },
-    install_requires=[
-        'Flask>=0.8',
-        'setuptools>=0.6c11',
-        'docutils>=0.8.1',
-        'jinja2>=2.6',
-        'simplejson>=2.3.0',
-    ],
+    entry_points={
+        'console_scripts': ['stallion = stallion.main:run_main',
+                            'stallion-service = stallion.scripts.stallion_service:run']
+    },
+    install_requires=req,
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Web Environment',

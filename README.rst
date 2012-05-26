@@ -43,7 +43,7 @@ Using Stallion
 
 ::
 
-    python -m stallion.main [--help]
+    stallion [--help]
 
 Easy to Install
 -------------------------------------------------------------------------------
@@ -53,14 +53,14 @@ Installing using easy_install:
 ::
 
     $ easy_install stallion
-    $ python -m stallion.main
+    $ stallion
 
 Upgrading using easy_install:
 
 ::
 
     $ easy_install -U stallion
-    $ python -m stallion.main
+    $ stallion
  
 
 or using pip:
@@ -70,14 +70,14 @@ Installing using pip:
 ::
 
     $ pip install stallion
-    $ python -m stallion.main
+    $ stallion
 
 Upgrading using pip:
 
 ::
 
     $ pip install --upgrade stallion
-    $ python -m stallion.main
+    $ stallion
 
 
 Setting a development environment
@@ -86,7 +86,7 @@ Setting a development environment
 ::
 
     $ python setup.py develop
-    $ python -m stallion.main
+    $ stallion
 
 Requirements
 -------------------------------------------------------------------------------
@@ -130,6 +130,23 @@ Stallion is compatible with:
   - Google Chrome
   - Internet Explorer 9 (IE9)
   - Safari
+
+Run as service
+-------------------------------------------------------------------------------
+Windows:
+
+  Requirements:
+    - PyWin32: https://sourceforge.net/projects/pywin32/
+
+  How To Install:
+    - Install Stallion
+    - Install PyWin32 package
+    - Run from console
+    ::
+        > stallion-service.exe --wait=1000 --startup=auto install
+        > stallion-service.exe start
+        > Open http://127.0.0.1:5000/
+
 
 What's new in release v0.2
 -------------------------------------------------------------------------------
