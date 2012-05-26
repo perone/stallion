@@ -187,6 +187,7 @@ Thanks to all contributors, in order of appearence:
 - Christian S. Perone
 - Thomas Léveil
 - Simon J Greenhill
+- Roman Gladkov
 
 Links
 -------------------------------------------------------------------------------
