@@ -28,8 +28,9 @@ setup(
       'stallion': ['static/*.*', 'templates/*.*', 'scripts/*.*'],
     },
     entry_points={
-        'console_scripts': ['stallion = stallion.main:run_main',
-                            'stallion-service = stallion.scripts.stallion_service:run']
+        'console_scripts': [
+            'stallion-service = stallion.scripts.stallion_service:run'
+        ]
     },
     install_requires=req,
     classifiers=[

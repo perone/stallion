@@ -7,6 +7,7 @@ import win32event
 import servicemanager
 import threading
 
+
 class StallionSvc(win32serviceutil.ServiceFramework):
 
     _svc_name_ = 'Stallion'
@@ -66,7 +67,8 @@ class StallionSvc(win32serviceutil.ServiceFramework):
             if self._paused:
                 servicemanager.LogInfoMsg("I'm paused... Keep waiting...")
             while self._paused:
-                rc = win32event.WaitForSingleObject(self.hWaitResume, self.resumeTimeout)
+                rc = win32event.WaitForSingleObject(self.hWaitResume,
+                                                    self.resumeTimeout)
                 if rc == win32event.WAIT_OBJECT_0:
                     self._paused = False
                     servicemanager.LogInfoMsg("Yeah! Let's continue!")
