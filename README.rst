@@ -122,6 +122,11 @@ Stallion is compatible with:
   - Python 2.7
   - PyPy 1.7 *(and possibly older versions too)*
 
+Status
+-------------------------------------------------------------------------------
+.. image:: https://secure.travis-ci.org/perone/stallion.png?branch=master
+   :target: http://travis-ci.org/perone/stallion
+
 Supported browsers
 -------------------------------------------------------------------------------
 Stallion is compatible with:
