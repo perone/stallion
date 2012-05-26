@@ -163,9 +163,7 @@ def releases(dist_name):
 @app.route('/')
 def index():
     """ The main Flask entry-point (/) for the Stallion server. """
-    data = {
-        'breadpath': [Crumb('Main')]
-    }
+    data = {'breadpath': [Crumb('Main')]}
 
     data.update(get_shared_data())
     data['menu_home'] = 'active'
@@ -259,7 +257,7 @@ def run_main():
 
     parser.add_option('-s', '--host', dest='host',
                     help='The hostname to listen on, ' \
-                         'set to \'0.0.0.0\' to have the'
+                         'set to \'0.0.0.0\' to have the '
                          'server available externally as well. '
                          'Default is \'127.0.0.1\' (localhost only).',
                     metavar="HOST", default='127.0.0.1')
