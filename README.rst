@@ -188,6 +188,7 @@ Thanks to all contributors, in order of appearence:
 - Thomas Léveil
 - Simon J Greenhill
 - Roman Gladkov
+- Marc Abramowitz
 
 Links
 -------------------------------------------------------------------------------
