@@ -45,6 +45,14 @@ Using Stallion
 
     python -m stallion.main [--help]
 
+
+
+or from anywhere on the command line just run
+
+::
+
+    stallion [--help]
+
 Easy to Install
 -------------------------------------------------------------------------------
 
