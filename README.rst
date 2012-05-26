@@ -142,10 +142,13 @@ Windows:
     - Install Stallion
     - Install PyWin32 package
     - Run from console
+
     ::
-        > stallion-service.exe --wait=1000 --startup=auto install
-        > stallion-service.exe start
-        > Open http://127.0.0.1:5000/
+
+      $stallion-service.exe --wait=1000 --startup=auto install
+      $stallion-service.exe start
+
+    - Open http://127.0.0.1:5000/
 
 
 What's new in release v0.2
@@ -177,7 +180,7 @@ have to run Stallion in debugging mode:
 
 ::
 
-    $ python -m stallion.main -drvi
+    $ stallion -drvi
 
 License
 -------------------------------------------------------------------------------

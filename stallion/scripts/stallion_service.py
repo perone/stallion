@@ -9,8 +9,8 @@ import threading
 
 class StallionSvc(win32serviceutil.ServiceFramework):
 
-    _svc_name_ = 'Stallionnnn'
-    _svc_display_name_ = 'Stallionnnn - Python Package Manager'
+    _svc_name_ = 'Stallion'
+    _svc_display_name_ = 'Stallion - Python Package Manager'
     _svc_description_ = 'A Python Package Manager interface.'
 
     def __init__(self, args):
