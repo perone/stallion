@@ -2,6 +2,7 @@ import sys
 sys.path.insert(0, '.')
 
 import unittest
+
 from stallion import __version__
 from stallion.metadata import parse_metadata, metadata_to_dict
 

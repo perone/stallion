@@ -35,8 +35,8 @@ setup(
       'stallion': ['static/*.*', 'templates/*.*'],
     },
     install_requires=install_requirements,
-    tests_require=['unittest2'],
-    test_suite='unittest2.collector',
+    tests_require=['nose'],
+    test_suite='nose.collector',
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
