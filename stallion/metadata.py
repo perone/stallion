@@ -31,11 +31,11 @@ HEADER_META_1_0 = (
     'author-email',
     'license',
     # Not part of PEP, but PEP-0314 (everyone uses anyway in 1.0)
-    'classifier' 
+    'classifier'
 )
 
 # Based on the PEP-0314
-HEADER_META_1_1 = HEADER_META_1_0 + ( 
+HEADER_META_1_1 = HEADER_META_1_0 + (
     'download-url',
     'requires',
     'provides',
@@ -62,13 +62,14 @@ HEADER_META = {
 
 METADATA_NAME = 'PKG-INFO'
 
+
 def parse_metadata(metadata):
     """ Parse the package PKG-INFO metadata. Currently supports versions 1.0 (PEP-0241),
     1.1 (PEP-0314), 1.2 (PEP-0345).
-    
+
     :param metadata: the raw PKG-INFO metadata text
     :type metadata: string
-    :rtype: tuple 
+    :rtype: tuple
     :return: (parsed_metadata, key_known), the parsed_metadata is the rfc822.Message
              object and the key_known is the fields found in the metadata info which
              is part of the metadata version specification
@@ -77,6 +78,7 @@ def parse_metadata(metadata):
     metadata_spec = set(HEADER_META[parsed_metadata['metadata-version']])
     key_exist = set(map(string.lower, parsed_metadata.keys()))
     return (parsed_metadata, key_exist.intersection(metadata_spec))
+
 
 def clean_lead_ws_description(metadata, field_name):
     """ Sometimes the metadata fields are a mess, this function is intended to remove the leading
@@ -97,12 +99,13 @@ def clean_lead_ws_description(metadata, field_name):
     if field_name.lower() == 'description':
         leading_ws_count = [calc_leading(line) for line in metadata.splitlines()]
         most_common_ws_count = most_common(leading_ws_count)
-        
+
         strip_split = metadata.strip().splitlines()
         return '\n'.join([line[most_common_ws_count:] if line.startswith(' ' * most_common_ws_count) else line
                           for line in strip_split])
     else:
         return ' '.join([line.strip() for line in metadata.splitlines()])
+
 
 def field_process(field_name, field_value):
     """ Processes a field, it changes the 'UNKNOWN' values for None, clear leading whitespaces, etc.
@@ -142,6 +145,7 @@ def field_process(field_name, field_value):
 
     return f_value
 
+
 def metadata_to_dict(parsed_metadata, key_known):
     """ This is the main function used to process the parsed metadata into a structured
     and pre-processed data dictionary.
@@ -152,7 +156,7 @@ def metadata_to_dict(parsed_metadata, key_known):
     """
 
     mdict = {}
-    
+
     for field in set(parsed_metadata.keys()):
         all_values = parsed_metadata.get_all(field)
         if len(all_values) == 1:
@@ -164,8 +168,3 @@ def metadata_to_dict(parsed_metadata, key_known):
             mdict[fl_name] = fl_processed
 
     return mdict
-
-
-
-
-
