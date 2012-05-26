@@ -25,6 +25,8 @@ setup(
         'jinja2>=2.6',
         'simplejson>=2.3.0',
     ],
+    tests_require=['unittest2'],
+    test_suite='unittest2.collector',
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
