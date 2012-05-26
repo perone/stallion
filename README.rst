@@ -179,6 +179,15 @@ License
    See the License for the specific language governing permissions and
    limitations under the License.
 
+Contributors
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Thanks to all contributors, in order of appearence:
+
+- Christian S. Perone
+- Thomas Léveil
+- Simon J Greenhill
+
 Links
 -------------------------------------------------------------------------------
 

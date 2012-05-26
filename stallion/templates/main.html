@@ -152,7 +152,7 @@
 			<li>
 				<a href="{{ url_for('distribution', dist_name=dist_item.key) }}">
 					<img id="img_{{ dist_item.key|lower|replace('.','-') }}" src="{{ img_src }}"
-					class="midicon" pname="{{ dist_item.key|lower }}" />
+					class="midicon" pname="{{ dist_item.project_name }}"/>
 
 				{% if dist and dist.key == dist_item.key %}
 					{{ dist_item.project_name }} {{ dist_item.version }} <img src="{{ url_for('static', filename='left-arrow.png') }}" class="midicon" />
