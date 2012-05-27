@@ -145,11 +145,18 @@ Windows:
 
     ::
 
-      $stallion-service.exe --wait=1000 --startup=auto install
-      $stallion-service.exe start
+      $ stallion-service.exe --wait=1000 --startup=auto install
+      $ stallion-service.exe start
 
     - Open http://127.0.0.1:5000/
 
+  Uninstall:
+    - Before remove Stallion package, need remove he service
+
+    ::
+
+      $ stallion-service.exe stop
+      $ stallion-serivce.exe remove
 
 What's new in release v0.2
 -------------------------------------------------------------------------------
