@@ -2,13 +2,24 @@ from setuptools import setup
 import stallion
 import sys
 
-req = ['Flask>=0.8',
-       'setuptools>=0.6c11',
-       'docutils>=0.8.1',
-       'jinja2>=2.6',
-       'simplejson>=2.3.0']
+# Stallion requirements
+install_requirements = [
+        'Flask>=0.8',
+        'setuptools>=0.6c11',
+        'docutils>=0.8.1',
+        'jinja2>=2.6',
+]
 
-if sys.platform == 'win32': req += ['pywin32']
+# Try to import json, only present as std module
+# after Python 2.5. Fallback to simplejson insted.
+try:
+    import json
+except ImportError:
+    install_requirements.append('simplejson>=2.3.0')
+
+# For run as Windows service
+if sys.platform == 'win32':
+    install_requirements.append('pywin32')
 
 setup(
     name='Stallion',
@@ -32,7 +43,9 @@ setup(
             'stallion-service = stallion.scripts.stallion_service:run'
         ]
     },
-    install_requires=req,
+    install_requires=install_requirements,
+    tests_require=['nose'],
+    test_suite='nose.collector',
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Web Environment',

@@ -122,6 +122,11 @@ Stallion is compatible with:
   - Python 2.7
   - PyPy 1.7 *(and possibly older versions too)*
 
+Status
+-------------------------------------------------------------------------------
+.. image:: https://secure.travis-ci.org/perone/stallion.png?branch=master
+   :target: http://travis-ci.org/perone/stallion
+
 Supported browsers
 -------------------------------------------------------------------------------
 Stallion is compatible with:
@@ -205,6 +210,17 @@ License
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
+
+Contributors
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Thanks to all contributors, in order of appearence:
+
+- Christian S. Perone
+- Thomas Léveil
+- Simon J Greenhill
+- Roman Gladkov
+- Marc Abramowitz
 
 Links
 -------------------------------------------------------------------------------
