@@ -13,7 +13,11 @@ from optparse import OptionParser
 import sys
 import platform
 import logging
-import xmlrpclib
+
+try:
+    import xmlrpclib
+except ImportError:
+    import xmlrpc.client
 
 import pkg_resources as _pkg_resources
 
@@ -251,8 +255,8 @@ def distribution(dist_name=None):
 def run_main():
     """ The main entry-point of Stallion. """
 
-    print 'Stallion %s - Python Package Manager' % (stallion.__version__,)
-    print 'By %s 2011\n' % (stallion.__author__,)
+    print('Stallion %s - Python Package Manager' % (stallion.__version__,))
+    print('By %s 2011\n' % (stallion.__author__,))
     parser = OptionParser()
 
     parser.add_option('-s', '--host', dest='host',
@@ -287,7 +291,7 @@ def run_main():
     (options, args) = parser.parse_args()
 
     if not options.verbose:
-        print " * Running on http://%s:%s/" % (options.host, options.port)
+        print(" * Running on http://%s:%s/" % (options.host, options.port))
         werk_log = logging.getLogger('werkzeug')
         werk_log.setLevel(logging.WARNING)
 

@@ -76,7 +76,7 @@ def parse_metadata(metadata):
     """
     parsed_metadata = Parser().parsestr(metadata)
     metadata_spec = set(HEADER_META[parsed_metadata['metadata-version']])
-    key_exist = set(map(string.lower, parsed_metadata.keys()))
+    key_exist = set([s.lower() for s in parsed_metadata.keys()])
     return (parsed_metadata, key_exist.intersection(metadata_spec))
 
 
@@ -122,7 +122,7 @@ def field_process(field_name, field_value):
             d = root
             path_split = tuple([s.strip() for s in line.split('::')])
             for level in path_split:
-                if d.has_key(level):
+                if level in d:
                     d = d[level]
                 else:
                     b = {}
@@ -135,7 +135,9 @@ def field_process(field_name, field_value):
         return field_value
 
     f_value = clean_lead_ws_description(field_value, field_name)
-    f_value = f_value.decode('utf-8')
+
+    if hasattr(f_value, 'decode'):
+        f_value = f_value.decode('utf-8')
 
     if f_value == 'UNKNOWN':
         return None

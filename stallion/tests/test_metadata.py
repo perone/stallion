@@ -37,5 +37,5 @@ class Test_metadata(unittest.TestCase):
         }, ret)
 
 if __name__ == '__main__':
-    print "Stallion v.%s" % __version__
+    print("Stallion v.%s" % __version__)
     unittest.main()
