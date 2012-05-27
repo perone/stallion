@@ -24,7 +24,6 @@ class TestMain(unittest.TestCase):
         self.assertTrue(isinstance(data, dict))
         self.assertEqual(data.keys(), ['pypi_update_cache', 'distributions'])
 
-
     def test_get_pkg_res_instance_true(self):
         pkg = main.get_pkg_res()
         self.assertEqual(pkg, _pkg_resources)
