@@ -146,14 +146,14 @@ Windows:
   How To Install:
     - Install Stallion
     - Install PyWin32 package
-    - Run from console
+    - Run from Administrator console (Start -> All programs -> Accessories -> Command Prompt -> Run as Administrator)
 
     ::
 
       $ stallion-service.exe --wait=1000 --startup=auto install
       $ stallion-service.exe start
 
-    - Open http://127.0.0.1:5000/
+    - Open http://127.0.0.1:5000/ in browser
 
   Uninstall:
     - Before remove Stallion package, need remove he service
