@@ -1,5 +1,6 @@
 from setuptools import setup
 import stallion
+import sys
 
 # Stallion requirements
 install_requirements = [
@@ -17,6 +18,15 @@ except ImportError:
     install_requirements.append('simplejson>=2.3.0')
 
 
+def long_description():
+    if sys.version_info >= (3, 0, 0):
+        f = open("README.rst", mode="r", encoding="utf-8")
+    else:
+        f = open("README.rst", mode="r")
+
+    return f.read()
+
+
 setup(
     name='Stallion',
     version=stallion.__version__,
@@ -25,7 +35,7 @@ setup(
     author=stallion.__author__,
     author_email='christian.perone@gmail.com',
     description='A Python Package Manager interface.',
-    long_description=open("README.rst", "r").read(),
+    long_description=long_description(),
     packages=['stallion'],
     keywords='package manager, distribution tool, stallion',
     platforms='Any',
