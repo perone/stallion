@@ -163,6 +163,18 @@ Windows:
       $ stallion-service.exe stop
       $ stallion-serivce.exe remove
 
+Linux:
+
+  Supported:
+    - Ubuntu 12.4
+
+  How To use:
+
+  ::
+
+    $ stallion-service (start|stop|restart)
+
+
 What's new in release v0.2
 -------------------------------------------------------------------------------
 
