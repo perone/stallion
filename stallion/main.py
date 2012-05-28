@@ -288,12 +288,21 @@ def run_main():
                          ' Default is False.',
                     default=False)
 
+    parser.add_option('-w', '--web-browser', dest='web_browser', action='store_true',
+                    help='Open a web browser to show Stallion.' \
+                         ' Default is False.',
+                    default=False)
+
     (options, args) = parser.parse_args()
 
     if not options.verbose:
         print(" * Running on http://%s:%s/" % (options.host, options.port))
         werk_log = logging.getLogger('werkzeug')
         werk_log.setLevel(logging.WARNING)
+
+    if options.web_browser:
+        import webbrowser
+        webbrowser.open('http://%s:%s/' % (options.host, options.port))
 
     app.run(debug=options.debug, host=options.host, port=int(options.port),
             use_evalex=options.evalx, use_reloader=options.reloader)
