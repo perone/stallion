@@ -22,7 +22,7 @@ class TestMain(unittest.TestCase):
     def test_get_shared_data_instance_true(self):
         data = main.get_shared_data()
         self.assertTrue(isinstance(data, dict))
-        self.assertEqual(data.keys(), ['pypi_update_cache', 'distributions'])
+        self.assertEqual(sorted(data.keys()), ['distributions', 'pypi_update_cache'])
 
     def test_get_pkg_res_instance_true(self):
         pkg = main.get_pkg_res()
