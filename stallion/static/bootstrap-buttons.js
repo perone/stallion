@@ -1,8 +1,8 @@
 /* ============================================================
- * bootstrap-button.js v2.0.3
+ * bootstrap-buttons.js v1.4.0
  * http://twitter.github.com/bootstrap/javascript.html#buttons
  * ============================================================
- * Copyright 2012 Twitter, Inc.
+ * Copyright 2011 Twitter, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,61 +17,35 @@
  * limitations under the License.
  * ============================================================ */
 
+!function( $ ){
 
-!function ($) {
+  "use strict"
 
-  "use strict"; // jshint ;_;
-
-
- /* BUTTON PUBLIC CLASS DEFINITION
-  * ============================== */
-
-  var Button = function (element, options) {
-    this.$element = $(element)
-    this.options = $.extend({}, $.fn.button.defaults, options)
-  }
-
-  Button.prototype.setState = function (state) {
+  function setState(el, state) {
     var d = 'disabled'
-      , $el = this.$element
+      , $el = $(el)
       , data = $el.data()
-      , val = $el.is('input') ? 'val' : 'html'
 
     state = state + 'Text'
-    data.resetText || $el.data('resetText', $el[val]())
+    data.resetText || $el.data('resetText', $el.html())
 
-    $el[val](data[state] || this.options[state])
+    $el.html( data[state] || $.fn.button.defaults[state] )
 
-    // push to event loop to allow forms to submit
-    setTimeout(function () {
-      state == 'loadingText' ?
-        $el.addClass(d).attr(d, d) :
-        $el.removeClass(d).removeAttr(d)
-    }, 0)
+    state == 'loadingText' ?
+      $el.addClass(d).attr(d, d) :
+      $el.removeClass(d).removeAttr(d)
   }
 
-  Button.prototype.toggle = function () {
-    var $parent = this.$element.parent('[data-toggle="buttons-radio"]')
-
-    $parent && $parent
-      .find('.active')
-      .removeClass('active')
-
-    this.$element.toggleClass('active')
+  function toggle(el) {
+    $(el).toggleClass('active')
   }
 
-
- /* BUTTON PLUGIN DEFINITION
-  * ======================== */
-
-  $.fn.button = function (option) {
+  $.fn.button = function(options) {
     return this.each(function () {
-      var $this = $(this)
-        , data = $this.data('button')
-        , options = typeof option == 'object' && option
-      if (!data) $this.data('button', (data = new Button(this, options)))
-      if (option == 'toggle') data.toggle()
-      else if (option) data.setState(option)
+      if (options == 'toggle') {
+        return toggle(this)
+      }
+      options && setState(this, options)
     })
   }
 
@@ -79,18 +53,10 @@
     loadingText: 'loading...'
   }
 
-  $.fn.button.Constructor = Button
-
-
- /* BUTTON DATA-API
-  * =============== */
-
   $(function () {
-    $('body').on('click.button.data-api', '[data-toggle^=button]', function ( e ) {
-      var $btn = $(e.target)
-      if (!$btn.hasClass('btn')) $btn = $btn.closest('.btn')
-      $btn.button('toggle')
+    $('body').delegate('.btn[data-toggle]', 'click', function () {
+      $(this).button('toggle')
     })
   })
 
-}(window.jQuery);
+}( window.jQuery || window.ender );
