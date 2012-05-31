@@ -1,8 +1,8 @@
 /* ============================================================
- * bootstrap-buttons.js v1.4.0
+ * bootstrap-button.js v2.0.3
  * http://twitter.github.com/bootstrap/javascript.html#buttons
  * ============================================================
- * Copyright 2011 Twitter, Inc.
+ * Copyright 2012 Twitter, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,35 +17,61 @@
  * limitations under the License.
  * ============================================================ */
 
-!function( $ ){
 
-  "use strict"
+!function ($) {
 
-  function setState(el, state) {
+  "use strict"; // jshint ;_;
+
+
+ /* BUTTON PUBLIC CLASS DEFINITION
+  * ============================== */
+
+  var Button = function (element, options) {
+    this.$element = $(element)
+    this.options = $.extend({}, $.fn.button.defaults, options)
+  }
+
+  Button.prototype.setState = function (state) {
     var d = 'disabled'
-      , $el = $(el)
+      , $el = this.$element
       , data = $el.data()
+      , val = $el.is('input') ? 'val' : 'html'
 
     state = state + 'Text'
-    data.resetText || $el.data('resetText', $el.html())
+    data.resetText || $el.data('resetText', $el[val]())
 
-    $el.html( data[state] || $.fn.button.defaults[state] )
+    $el[val](data[state] || this.options[state])
 
-    state == 'loadingText' ?
-      $el.addClass(d).attr(d, d) :
-      $el.removeClass(d).removeAttr(d)
+    // push to event loop to allow forms to submit
+    setTimeout(function () {
+      state == 'loadingText' ?
+        $el.addClass(d).attr(d, d) :
+        $el.removeClass(d).removeAttr(d)
+    }, 0)
   }
 
-  function toggle(el) {
-    $(el).toggleClass('active')
+  Button.prototype.toggle = function () {
+    var $parent = this.$element.parent('[data-toggle="buttons-radio"]')
+
+    $parent && $parent
+      .find('.active')
+      .removeClass('active')
+
+    this.$element.toggleClass('active')
   }
 
-  $.fn.button = function(options) {
+
+ /* BUTTON PLUGIN DEFINITION
+  * ======================== */
+
+  $.fn.button = function (option) {
     return this.each(function () {
-      if (options == 'toggle') {
-        return toggle(this)
-      }
-      options && setState(this, options)
+      var $this = $(this)
+        , data = $this.data('button')
+        , options = typeof option == 'object' && option
+      if (!data) $this.data('button', (data = new Button(this, options)))
+      if (option == 'toggle') data.toggle()
+      else if (option) data.setState(option)
     })
   }
 
@@ -53,10 +79,18 @@
     loadingText: 'loading...'
   }
 
+  $.fn.button.Constructor = Button
+
+
+ /* BUTTON DATA-API
+  * =============== */
+
   $(function () {
-    $('body').delegate('.btn[data-toggle]', 'click', function () {
-      $(this).button('toggle')
+    $('body').on('click.button.data-api', '[data-toggle^=button]', function ( e ) {
+      var $btn = $(e.target)
+      if (!$btn.hasClass('btn')) $btn = $btn.closest('.btn')
+      $btn.button('toggle')
     })
   })
 
-}( window.jQuery || window.ender );
+}(window.jQuery);
