@@ -194,6 +194,7 @@ Thanks to all contributors, in order of appearence:
 - Simon J Greenhill
 - Roman Gladkov
 - Marc Abramowitz
+- Trenton Holmes
 
 Links
 -------------------------------------------------------------------------------
