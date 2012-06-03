@@ -147,6 +147,26 @@ def pypi_upgrade(dist_name):
     return jsonify({"had_upgraded": 0})
 
 
+@app.route('/pypi/install/<dist_name>/<version>')
+def pypi_install(dist_name, version):
+    """ Install a package and return a json
+    with the attribute "had_installed.
+
+    :param dist_name: distribution name
+    :rtype: json
+    :return: json with the attribute "had_installed"
+    """
+    p = subprocess.Popen(["pip","install", dist_name + "==" + version], stdout=subprocess.PIPE)
+    out, err = p.communicate()
+    if "Successfully installed " + dist_name  in out:
+        try:
+            DIST_PYPI_CACHE.remove(dist_name.lower())
+        except KeyError:
+            pass
+        return jsonify({"had_installed": 1})
+    return jsonify({"had_installed": 0})
+
+
 @app.route('/pypi/uninstall/<dist_name>')
 def pypi_uninstall(dist_name):
     """ Uninstall a package and return a json
@@ -159,8 +179,49 @@ def pypi_uninstall(dist_name):
     p = subprocess.Popen(["pip","uninstall", "-y", dist_name], stdout=subprocess.PIPE)
     out, err = p.communicate()
     if "Successfully uninstalled " + dist_name  in out:
+        try:
+            DIST_PYPI_CACHE.remove(dist_name.lower())
+        except KeyError:
+            pass
         return jsonify({"had_uninstalled": 1})
     return jsonify({"had_uninstalled": 0})
+
+
+@app.route('/pypi/install_specific_version/<dist_name>')
+def pypy_install_specific_version(dist_name):
+    """ This is the /pypi/install_specific_version/<dist_name> entry point, it is the interface
+    between Stallion and the PyPI RPC service when installing a specific version of package.
+
+    :param dist_name: the package name (distribution name).
+    """
+    pkg_res = get_pkg_res()
+
+    data = {}
+
+    pkg_dist_version = pkg_res.get_distribution(dist_name).version
+    pypi_rel = get_pypi_releases(dist_name)
+
+    data["dist_name"] = dist_name
+    data["pypi_info"] = pypi_rel
+    data["current_version"] = pkg_dist_version
+
+    if pypi_rel:
+        pypi_last_version = pkg_res.parse_version(pypi_rel[0])
+        current_version = pkg_res.parse_version(pkg_dist_version)
+        last_version = pkg_dist_version.lower() != pypi_rel[0].lower()
+
+        data["last_is_great"] = pypi_last_version > current_version
+        data["last_version_differ"] = last_version
+
+        if data["last_is_great"]:
+            DIST_PYPI_CACHE.add(dist_name.lower())
+        else:
+            try:
+                DIST_PYPI_CACHE.remove(dist_name.lower())
+            except KeyError:
+                pass
+
+    return render_template('pypi_install_specific_version.html', **data)
 
 
 @app.route('/pypi/releases/<dist_name>')
