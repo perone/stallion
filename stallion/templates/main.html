@@ -31,6 +31,7 @@
 		});
 
 		$('#progressbar').progressbar();
+		$('#upgrade_progressbar').progressbar();
 		$('#topbar').dropdown();
     });
 
@@ -38,6 +39,11 @@
 	function set_progress_bar_value(prog_value)
 	{
 		$('#progressbar').progressbar({value: prog_value});
+	}
+
+	function set_upgrade_progress_bar_value(prog_value)
+	{
+		$('#upgrade_progressbar').progressbar({value: prog_value});
 	}
 
 	// Main function to check all updates, it is going to send multiple
@@ -87,6 +93,50 @@
 			}); // ajax
 		}); // each img
 	}
+
+	function upgrade_all()
+	{
+		set_upgrade_progress_bar_value(0);
+
+		$("#upgrade_progress").fadeIn("slow");
+
+		var to_upgrade = $('img[src="/static/down-arrow.png"]').length;
+
+		$('img[src="/static/down-arrow.png"]').each(function(current_distr) {
+			var dist_id = "#" + $(this).prop("id");
+			var dist_key = $(this).attr("pname");
+
+			$.ajaxQueue({
+				url: '/pypi/upgrade/' + dist_key,
+				dataType: "json",
+				cache: false,
+				success: function(data) {
+
+					var prog_value = $("#upgrade_progressbar").progressbar("option", "value");
+
+					if((current_distr+1) >= to_upgrade)
+						$("#upgrade_progress").fadeOut("slow");
+
+					prog_value = prog_value + 100.0/to_upgrade;
+
+					set_upgrade_progress_bar_value(prog_value);
+
+					if(data.has_upgrade) {
+						$(dist_id).attr("src", 
+										"{{ url_for('static', filename='success-icon.png') }}")
+										.stop(true,true).hide().fadeIn();
+					} else {
+						$(dist_id).attr("src", 
+										"{{ url_for('static', filename='error-icon.png') }}")
+										.stop(true,true).hide().fadeIn();
+					}
+
+					$(dist_id).parent().animate({"padding-left": "-=12px"}, "fast");
+
+				}
+			}); // ajax
+		}); // each img
+	}
 </script>
 
   {% block js %}{% endblock %}
@@ -107,6 +157,7 @@
 						<a href="#" class="dropdown-toggle">PyPI Repository</a>
 						<ul class="dropdown-menu">
 							<li><a href="javascript:check_all_updates();">Check all updates</a></li>
+							<li><a href="javascript:upgrade_all();">Upgrade all</a></li>				
 						</ul>
 					</li>
 					<li class="{{ menu_about }}"><a href="{{ url_for('about') }}">About</a></li>
@@ -136,6 +187,12 @@
 		<div id="check_updates" class="progress-span">
 				Checking for updates... <br />
 				<div id="progressbar" style="width: 220px; height: 19px;"></div>
+				<br />
+		</div>
+
+		<div id="upgrade_progress" class="progress-span">
+				Upgrading... <br />
+				<div id="upgrade_progressbar" style="width: 220px; height: 19px;"></div>
 				<br />
 		</div>
 
