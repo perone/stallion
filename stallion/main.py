@@ -143,6 +143,22 @@ def pypi_upgrade(dist_name):
     return jsonify({"had_upgraded": 0})
 
 
+@app.route('/pypi/uninstall/<dist_name>')
+def pypi_uninstall(dist_name):
+    """ Uninstall a package and return a json
+    with the attribute "had_uninstalled.
+
+    :param dist_name: distribution name
+    :rtype: json
+    :return: json with the attribute "had_uninstalled"
+    """
+    p = subprocess.Popen(["pip","uninstall", "-y", dist_name], stdout=subprocess.PIPE)
+    out, err = p.communicate()
+    if "Successfully uninstalled " + dist_name  in out:
+        return jsonify({"had_uninstalled": 1})
+    return jsonify({"had_uninstalled": 0})
+
+
 @app.route('/pypi/releases/<dist_name>')
 def releases(dist_name):
     """ This is the /pypi/releases/<dist_name> entry point, it is the interface
