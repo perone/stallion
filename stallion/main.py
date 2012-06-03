@@ -22,7 +22,7 @@ except ImportError:
 
 import pkg_resources as _pkg_resources
 
-from flask import Flask, render_template, url_for, jsonify
+from flask import Flask, render_template, url_for, jsonify, request
 
 from docutils.core import publish_parts
 
@@ -189,7 +189,7 @@ def pypi_uninstall(dist_name):
 
 
 @app.route('/pypi/install_specific_version/<dist_name>')
-def pypy_install_specific_version(dist_name):
+def pypi_install_specific_version(dist_name):
     """ This is the /pypi/install_specific_version/<dist_name> entry point, it is the interface
     between Stallion and the PyPI RPC service when installing a specific version of package.
 
@@ -198,8 +198,11 @@ def pypy_install_specific_version(dist_name):
     pkg_res = get_pkg_res()
 
     data = {}
-
-    pkg_dist_version = pkg_res.get_distribution(dist_name).version
+    try:
+        pkg_dist_version = pkg_res.get_distribution(dist_name).version
+    except:
+        pkg_dist_version = get_pypi_releases(dist_name)[0]
+        data['pypi_browse'] = True
     pypi_rel = get_pypi_releases(dist_name)
 
     data["dist_name"] = dist_name
@@ -262,6 +265,42 @@ def releases(dist_name):
     return render_template('pypi_update.html', **data)
 
 
+@app.route('/pypi/search/')
+def pypi_search():
+    """ Search entry point."""
+    query = request.args.get('query', '')
+    data = {}
+    data.update(get_shared_data())
+    data['breadpath'] = [Crumb('Search')]
+
+    pypi = get_pypi_proxy()
+    found = pypi.search({'name': query})
+    without_doubles = []
+    aux = set()
+    for result in found:
+        if result['name'] not in aux:
+            without_doubles.append(result['name'])
+            aux.add(result['name'])
+    data['results'] = without_doubles
+    data['installed'] = [dist.project_name for dist in data['distributions']]
+
+    return render_template('pypi_search.html', **data)
+
+
+@app.route('/pypi/browse/<dist_name>')
+def pypi_browse(dist_name):
+    """ Browse entry point."""
+    data = {}
+    data.update(get_shared_data())
+    data['breadpath'] = [Crumb('Browse - %s' % dist_name)]
+
+    pypi = get_pypi_proxy()
+    last_version = pypi.package_releases(dist_name, True)[0]
+    data['dist'] = pypi.release_data(dist_name, last_version)
+
+    return render_template('pypi_browse.html', **data)
+
+
 @app.route('/')
 def index():
     """ The main Flask entry-point (/) for the Stallion server. """
@@ -314,6 +353,7 @@ def distribution(dist_name=None):
     :param dist_name: the package name
     """
 
+    pypi = get_pypi_proxy()
     pkg_dist = get_pkg_res().get_distribution(dist_name)
 
     data = {}

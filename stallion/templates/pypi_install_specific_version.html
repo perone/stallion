@@ -25,9 +25,9 @@
         </div>
         <ul>
         {% for version in pypi_info %}
-            {% if version|lower == current_version|lower %}
+            {% if version|lower == current_version|lower and not pypi_browse %}
                 <li>{{ version }} <span class="label warning">YOUR VERSION</span></li>
-            {% elif version|lower == pypi_info[0]|lower %}
+            {% elif version|lower == pypi_info[0]|lower and not pypi_browse %}
                 <li>{{ version }} <span class="label success" style="cursor:pointer;" name="{{ version }}">INSTALL</span> </li>
             {% else %}
                 <li>{{ version }} <span class="label" style="cursor:pointer;" name="{{ version }}">INSTALL</span></li>
