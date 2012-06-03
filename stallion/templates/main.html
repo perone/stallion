@@ -118,6 +118,7 @@
 
 						if((current_distr+1) >= to_upgrade)
 							$("#upgrade_progress").fadeOut("slow");
+							window.location.reload()
 
 						prog_value = prog_value + 100.0/to_upgrade;
 

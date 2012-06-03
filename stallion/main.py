@@ -139,6 +139,10 @@ def pypi_upgrade(dist_name):
     p = subprocess.Popen(["pip","install", "--verbose" ,"--upgrade", dist_name], stdout=subprocess.PIPE)
     out, err = p.communicate()
     if "Successfully installed " + dist_name  in out:
+        try:
+            DIST_PYPI_CACHE.remove(dist_name.lower())
+        except KeyError:
+            pass
         return jsonify({"had_upgraded": 1})
     return jsonify({"had_upgraded": 0})
 
