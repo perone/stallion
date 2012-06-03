@@ -35,14 +35,14 @@
         $('#btn_install').click(function() {
             $.get('/pypi/install/{{ dist.name }}/{{ dist.version }}', function(data) {
                 if (data.had_installed) {
-                    $("#install_status").addClass("success");
-                    $("#install_status").html("Success!");
-                    window.location.href = "/distribution/{{ dist.name}}";
+                    $('#install_status').addClass('success');
+                    $('#install_status').html('Success!');
+                    window.location.href = '/distribution/{{ dist.name}}';
                 } else {
-                    $("#install_status").addClass("danger");
-                    $("#install_status").html("Something has gone wrong! Check your ~/.pip/pip.log!");
+                    $('#install_status').addClass('danger');
+                    $('#install_status').html('Something has gone wrong! Check your ~/.pip/pip.log!');
                 };
-                $("#install_status").show();
+                $('#install_status').show();
                 $('#btn_install').button('reset');
             });
         });
@@ -64,13 +64,14 @@
                 if (version) {
                     $.get('/pypi/install/{{dist.name}}/' + version, function(data) {
                         if (data.had_installed) {
-                            $("#installation_status").addClass("success");
-                            $("#installation_status").html("Success!");
-                            window.location.href = "/distribution/{{ dist.name}}";
+                            $('#installation_status').addClass('success');
+                            $('#installation_status').html('Success!');
+                            window.location.href = '/distribution/{{ dist.name}}';
                         } else {
-                            $("#installation_status").addClass("danger");
-                            $("#installation_status").html("Something has gone wrong! Check your ~/.pip/pip.log!");
+                            $('#installation_status').addClass('danger');
+                            $('#installation_status').html('Something has gone wrong! Check your ~/.pip/pip.log!');
                         };
+                        $('#installation_status').show();
                     });
                 }
             });
@@ -91,6 +92,7 @@
     <div class="modal-body" id="modal-update-body">
         Will be installed last version, it is okay?
     </div>
+    <div id="install_status" class="alert-message" style="display: none;"></div>
     <div class="modal-footer">
         <a id="btn_install" href="#" class="btn primary" data-loading-text="Installing">Yes</a>
         <a id="btn_dismiss_install" href="#" class="btn">Dismiss</a>

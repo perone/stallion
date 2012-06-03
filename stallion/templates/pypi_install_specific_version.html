@@ -21,8 +21,8 @@
     {% else %}
         <div class="alert-message info">
             <p>Available versions:</p>
-            <div id="installation_status" class="alert-message" style="display: none;"></div>
         </div>
+        <div id="installation_status" class="alert-message" style="display: none;"></div>
         <ul>
         {% for version in pypi_info %}
             {% if version|lower == current_version|lower and not pypi_browse %}
