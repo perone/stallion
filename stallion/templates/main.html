@@ -96,46 +96,54 @@
 
 	function upgrade_all()
 	{
-		set_upgrade_progress_bar_value(0);
-
-		$("#upgrade_progress").fadeIn("slow");
-
 		var to_upgrade = $('img[src="/static/down-arrow.png"]').length;
 
-		$('img[src="/static/down-arrow.png"]').each(function(current_distr) {
-			var dist_id = "#" + $(this).prop("id");
-			var dist_key = $(this).attr("pname");
+		if (to_upgrade) {
 
-			$.ajaxQueue({
-				url: '/pypi/upgrade/' + dist_key,
-				dataType: "json",
-				cache: false,
-				success: function(data) {
+			set_upgrade_progress_bar_value(0);
 
-					var prog_value = $("#upgrade_progressbar").progressbar("option", "value");
+			$("#upgrade_progress").fadeIn("slow");
 
-					if((current_distr+1) >= to_upgrade)
-						$("#upgrade_progress").fadeOut("slow");
+			$('img[src="/static/down-arrow.png"]').each(function(current_distr) {
+				var dist_id = "#" + $(this).prop("id");
+				var dist_key = $(this).attr("pname");
 
-					prog_value = prog_value + 100.0/to_upgrade;
+				$.ajaxQueue({
+					url: '/pypi/upgrade/' + dist_key,
+					dataType: "json",
+					cache: false,
+					success: function(data) {
 
-					set_upgrade_progress_bar_value(prog_value);
+						var prog_value = $("#upgrade_progressbar").progressbar("option", "value");
 
-					if(data.had_upgraded) {
-						$(dist_id).attr("src", 
-										"{{ url_for('static', filename='success-icon.png') }}")
-										.stop(true,true).hide().fadeIn();
-					} else {
-						$(dist_id).attr("src", 
-										"{{ url_for('static', filename='error-icon.png') }}")
-										.stop(true,true).hide().fadeIn();
+						if((current_distr+1) >= to_upgrade)
+							$("#upgrade_progress").fadeOut("slow");
+
+						prog_value = prog_value + 100.0/to_upgrade;
+
+						set_upgrade_progress_bar_value(prog_value);
+
+						if(data.had_upgraded) {
+							$(dist_id).attr("src", 
+											"{{ url_for('static', filename='success-icon.png') }}")
+											.stop(true,true).hide().fadeIn();
+						} else {
+							$(dist_id).attr("src", 
+											"{{ url_for('static', filename='error-icon.png') }}")
+											.stop(true,true).hide().fadeIn();
+						}
+
+						$(dist_id).parent().animate({"padding-left": "-=12px"}, "fast");
+
 					}
-
-					$(dist_id).parent().animate({"padding-left": "-=12px"}, "fast");
-
-				}
-			}); // ajax
-		}); // each img
+				}); // ajax
+			}); // each img
+		} else {
+			$("#upgrade-alert-message").show();
+			window.setTimeout( function(){
+			        $(".alert-message").slideUp();
+			}, 2500);
+		}
 	}
 </script>
 
@@ -190,6 +198,9 @@
 				<br />
 		</div>
 
+		<div id="upgrade-alert-message" class="alert-message warning" style="display:none;text-align: center;">
+			<p>Nothing to upgrade.</p>
+		</div>
 		<div id="upgrade_progress" class="progress-span">
 				Upgrading... <br />
 				<div id="upgrade_progressbar" style="width: 220px; height: 19px;"></div>
