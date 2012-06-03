@@ -28,9 +28,12 @@
 			$('#btn_upgrade').click(function() {
 				$('#btn_upgrade').button('loading');
 				$.get('/pypi/upgrade/{{ dist.project_name }}', function(data) {
-					if (data.has_upgrade) {
+					if (data.had_upgraded) {
+						$("#upgrade_status").addClass("success");
 						$("#upgrade_status").html("Success!");
+
 					} else {
+						$("#upgrade_status").addClass("danger");
 						$("#upgrade_status").html("Something has gone wrong! Check your ~/.pip/pip.log!");
 					};
 					$("#upgrade_status").show();

@@ -121,7 +121,7 @@
 
 					set_upgrade_progress_bar_value(prog_value);
 
-					if(data.has_upgrade) {
+					if(data.had_upgraded) {
 						$(dist_id).attr("src", 
 										"{{ url_for('static', filename='success-icon.png') }}")
 										.stop(true,true).hide().fadeIn();

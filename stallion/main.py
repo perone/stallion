@@ -130,21 +130,17 @@ def check_pypi_update(dist_name):
 @app.route('/pypi/upgrade/<dist_name>')
 def pypi_upgrade(dist_name):
     """ Upgrade a package and return a json
-    with the attribute "has_upgrade.
+    with the attribute "had_upgraded.
 
     :param dist_name: distribution name
     :rtype: json
-    :return: json with the attribute "has_upgrade"
+    :return: json with the attribute "had_upgraded"
     """
     p = subprocess.Popen(["pip","install", "--verbose" ,"--upgrade", dist_name], stdout=subprocess.PIPE)
     out, err = p.communicate()
     if "Successfully installed " + dist_name  in out:
-        try:
-            DIST_PYPI_CACHE.remove(dist_name.lower())
-        except KeyError:
-            pass
-        return jsonify({"has_upgrade": 1})
-    return jsonify({"has_upgrade": 0})
+        return jsonify({"had_upgraded": 1})
+    return jsonify({"had_upgraded": 0})
 
 
 @app.route('/pypi/releases/<dist_name>')
