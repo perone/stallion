@@ -352,8 +352,7 @@ def distribution(dist_name=None):
 
     :param dist_name: the package name
     """
-
-    pypi = get_pypi_proxy()
+    
     pkg_dist = get_pkg_res().get_distribution(dist_name)
 
     data = {}
