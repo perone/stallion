@@ -127,6 +127,7 @@ def check_pypi_update(dist_name):
 
     return jsonify({"has_update": 0})
 
+
 @app.route('/pypi/upgrade/<dist_name>')
 def pypi_upgrade(dist_name):
     """ Upgrade a package and return a json
@@ -136,9 +137,9 @@ def pypi_upgrade(dist_name):
     :rtype: json
     :return: json with the attribute "had_upgraded"
     """
-    p = subprocess.Popen(["pip","install", "--verbose" ,"--upgrade", dist_name], stdout=subprocess.PIPE)
+    p = subprocess.Popen(["pip", "install", "--verbose", "--upgrade", dist_name], stdout=subprocess.PIPE)
     out, err = p.communicate()
-    if "Successfully installed " + dist_name  in out:
+    if "Successfully installed " + dist_name in out:
         try:
             DIST_PYPI_CACHE.remove(dist_name.lower())
         except KeyError:
@@ -156,9 +157,9 @@ def pypi_install(dist_name, version):
     :rtype: json
     :return: json with the attribute "had_installed"
     """
-    p = subprocess.Popen(["pip","install", dist_name + "==" + version], stdout=subprocess.PIPE)
+    p = subprocess.Popen(["pip", "install", dist_name + "==" + version], stdout=subprocess.PIPE)
     out, err = p.communicate()
-    if "Successfully installed " + dist_name  in out:
+    if "Successfully installed " + dist_name in out:
         try:
             DIST_PYPI_CACHE.remove(dist_name.lower())
         except KeyError:
@@ -176,9 +177,9 @@ def pypi_uninstall(dist_name):
     :rtype: json
     :return: json with the attribute "had_uninstalled"
     """
-    p = subprocess.Popen(["pip","uninstall", "-y", dist_name], stdout=subprocess.PIPE)
+    p = subprocess.Popen(["pip", "uninstall", "-y", dist_name], stdout=subprocess.PIPE)
     out, err = p.communicate()
-    if "Successfully uninstalled " + dist_name  in out:
+    if "Successfully uninstalled " + dist_name in out:
         try:
             DIST_PYPI_CACHE.remove(dist_name.lower())
         except KeyError:
