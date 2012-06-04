@@ -14,6 +14,9 @@ import sys
 import platform
 import logging
 import subprocess
+import os
+import urllib2
+import urllib
 
 try:
     import xmlrpclib
@@ -22,7 +25,7 @@ except ImportError:
 
 import pkg_resources as _pkg_resources
 
-from flask import Flask, render_template, url_for, jsonify, request
+from flask import Flask, render_template, url_for, jsonify, request, redirect
 
 from docutils.core import publish_parts
 
@@ -97,6 +100,18 @@ def get_pypi_releases(dist_name):
     ret.sort(key=lambda v: _pkg_resources.parse_version(v), reverse=True)
 
     return ret
+
+
+@app.route('/traceback')
+def traceback():
+    """ Upload last pip's traceback """
+    log = open(os.path.expanduser("~/.pip/pip.log"), "r").read()
+    request = urllib2.Request(
+        'http://dpaste.de/api/',
+        urllib.urlencode([('content', log)]),
+    )
+    response = urllib2.urlopen(request)
+    return redirect(response.read()[1:-1], 301)
 
 
 @app.route('/pypi/check_update/<dist_name>')

@@ -40,7 +40,7 @@
                     window.location.href = '/distribution/{{ dist.name}}';
                 } else {
                     $('#install_status').addClass('danger');
-                    $('#install_status').html('Something has gone wrong! Check your ~/.pip/pip.log!');
+                    $('#install_status').html('Something has gone wrong! Check your ~/.pip/pip.log or <a href="/traceback">upload on dpaste.org</a>.');
                 };
                 $('#install_status').show();
                 $('#btn_install').button('reset');
@@ -69,7 +69,7 @@
                             window.location.href = '/distribution/{{ dist.name}}';
                         } else {
                             $('#installation_status').addClass('danger');
-                            $('#installation_status').html('Something has gone wrong! Check your ~/.pip/pip.log!');
+                            $('#installation_status').html('Something has gone wrong! Check your ~/.pip/pip.log or <a href="/traceback">upload on dpaste.org</a>.');
                         };
                         $('#installation_status').show();
                     });

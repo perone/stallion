@@ -42,7 +42,7 @@
 						window.location.reload()
 					} else {
 						$('#upgrade_status').addClass('danger');
-						$('#upgrade_status').html('Something has gone wrong! Check your ~/.pip/pip.log!');
+						$('#upgrade_status').html('Something has gone wrong! Check your ~/.pip/pip.log or <a href="/traceback">upload on dpaste.org</a>.');
 					};
 					$('#upgrade_status').show();
 					$('#btn_upgrade').button('reset');
@@ -69,7 +69,7 @@
 					window.location.href = '/';
 				} else {
 					$('#uninstall_status').addClass('danger');
-					$('#uninstall_status').html('Something has gone wrong! Check your ~/.pip/pip.log!');
+					$('#uninstall_status').html('Something has gone wrong! Check your ~/.pip/pip.log or <a href="/traceback">upload on dpaste.org</a>.');
 				};
 				$('#uninstall_status').show();
 				$('#btn_uninstall').button('reset');
@@ -98,7 +98,7 @@
 							window.location.reload();
 						} else {
 							$('#installation_status').addClass('danger');
-							$('#installation_status').html('Something has gone wrong! Check your ~/.pip/pip.log!');
+							$('#installation_status').html('Something has gone wrong! Check your ~/.pip/pip.log or <a href="/traceback">upload on dpaste.org</a>.');
 						};
 						$('#installation_status').show()
 					});
