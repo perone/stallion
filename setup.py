@@ -17,6 +17,9 @@ try:
 except ImportError:
     install_requirements.append('simplejson>=2.3.0')
 
+# For run as Windows service
+if sys.platform == 'win32':
+    install_requirements.append('pywin32')
 
 def long_description():
     if sys.version_info >= (3, 0, 0):
@@ -42,7 +45,12 @@ setup(
     zip_safe=False,
     include_package_data=True,
     package_data={
-      'stallion': ['static/*.*', 'templates/*.*'],
+      'stallion': ['static/*.*', 'templates/*.*', 'scripts/*.*'],
+    },
+    entry_points={
+        'console_scripts': [
+            'stallion-service = stallion.scripts.stallion_service:run'
+        ]
     },
     install_requires=install_requirements,
     tests_require=['nose'],
