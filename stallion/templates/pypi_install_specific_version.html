@@ -1,0 +1,49 @@
+<style type="text/css">
+#modal-install-specific-version { position: absolute; }
+</style>
+
+<div class="modal-header">
+    <a href="#" class="close">&times;</a>
+    <h3>Install specific version <small>PyPI Repository</small></h3>
+</div>
+<div class="modal-body" id="modal-update-body">
+    {% if not pypi_info %}
+
+        <div class="alert-message block-message error">
+            <p><strong>No PyPI information available !</strong> Stallion wasn't able to find 
+            the package information at PyPI repository. Some reasons of this failure:</p><br />
+            <ul>
+              <li>The PyPI repository doesn't have any information about the package.</li>
+              <li>Stallion wasn't able to connect to PyPI.</li>
+              <li>The package was manually installed.</li>
+            </ul>
+        </div>
+    {% else %}
+        <div class="alert-message info">
+            <p>Available versions:</p>
+        </div>
+        <div id="installation_status" class="alert-message" style="display: none;"></div>
+        <ul>
+        {% for version in pypi_info %}
+            {% if version|lower == current_version|lower and not pypi_browse %}
+                <li>{{ version }} <span class="label warning">YOUR VERSION</span></li>
+            {% elif version|lower == pypi_info[0]|lower and not pypi_browse %}
+                <li>{{ version }} <span class="label success" style="cursor:pointer;" name="{{ version }}">INSTALL</span> </li>
+            {% else %}
+                <li>{{ version }} <span class="label" style="cursor:pointer;" name="{{ version }}">INSTALL</span></li>
+            {% endif %}
+        {% endfor %}
+        </ul>
+
+    {% endif %}
+
+</div>
+<div class="modal-footer">
+    <a id="btn_dismiss_install_specific_version" href="#" class="btn primary">Dismiss</a>
+</div>
+
+<script type="text/javascript">
+$('#btn_dismiss_install_specific_version').click(function() {
+    $('#modal-install-specific-version').modal('hide');
+});
+</script>

@@ -1,0 +1,22 @@
+{% extends "main.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="span16">
+        <h2>Search results:</h2>
+        {% if results|length %}
+            <ul>
+                {% for package in results %}
+                    {% if package in installed %}
+                        <li> <a href="/distribution/{{ package }}">{{ package }}</a> <span class="label warning">INSTALLED</span></li>
+                    {% else %}
+                        <li> <a href="/pypi/browse/{{ package }}">{{ package }}</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% else %}
+            <h3>Nothing :(</h3>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

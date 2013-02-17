@@ -14,6 +14,14 @@
 	    keyboard: true, show:false
     });
 
+    $('#modal-uninstall').modal({
+	    keyboard: true
+    });
+
+    $('#modal-install-specific-version').modal({
+	    keyboard: true
+    });
+
 	$('#btn_check_updates').button()
 
 	$('#btn_check_updates').click(function() {
@@ -23,12 +31,84 @@
 			$('#modal-update').html(data);
 			$('#modal-update').modal('show');
 			$('#btn_check_updates').button('reset');
+
+			$('#btn_upgrade').button()
+			$('#btn_upgrade').click(function() {
+				$('#btn_upgrade').button('loading');
+				$.get('/pypi/upgrade/{{ dist.project_name }}', function(data) {
+					if (data.had_upgraded) {
+						$('#upgrade_status').addClass('success');
+						$('#upgrade_status').html('Success!');
+						window.location.reload()
+					} else {
+						$('#upgrade_status').addClass('danger');
+						$('#upgrade_status').html('Something has gone wrong! Check your ~/.pip/pip.log or <a href="/traceback">upload on dpaste.org</a>.');
+					};
+					$('#upgrade_status').show();
+					$('#btn_upgrade').button('reset');
+				});
+
+			});
+		});
+
+	});
+
+	$('#btn_uninstall_dialog').button();
+
+	$('#btn_uninstall_dialog').click(function() {
+		$('#modal-uninstall').modal('show');
+
+		$('#btn_dismiss_uninstall').click(function() {
+		        $('#modal-uninstall').modal('hide');
+		 });
+		$('#btn_uninstall').click(function() {
+			$.get('/pypi/uninstall/{{ dist.project_name }}', function(data) {
+				if (data.had_uninstalled) {
+					$('#uninstall_status').addClass('success');
+					$('#uninstall_status').html('Success!');
+					window.location.href = '/';
+				} else {
+					$('#uninstall_status').addClass('danger');
+					$('#uninstall_status').html('Something has gone wrong! Check your ~/.pip/pip.log or <a href="/traceback">upload on dpaste.org</a>.');
+				};
+				$('#uninstall_status').show();
+				$('#btn_uninstall').button('reset');
+			});
+		});
+
+	});
+
+	$('#btn_install_specific_version').button();
+
+	$('#btn_install_specific_version').click(function() {
+		$('#btn_install_specific_version').button('loading');
+
+		$.get('/pypi/install_specific_version/{{ dist.project_name }}', function(data) {
+			$('#modal-install-specific-version').html(data);
+			$('#modal-install-specific-version').modal('show');
+			$('#btn_install_specific_version').button('reset');
+
+			$('span.label').click(function() {
+				var version = $(this).attr('name');
+				if (version) {
+					$.get('/pypi/install/{{dist.project_name}}/' + version, function(data) {
+						if (data.had_installed) {
+							$('#installation_status').addClass('success');
+							$('#installation_status').html('Success!');
+							window.location.reload();
+						} else {
+							$('#installation_status').addClass('danger');
+							$('#installation_status').html('Something has gone wrong! Check your ~/.pip/pip.log or <a href="/traceback">upload on dpaste.org</a>.');
+						};
+						$('#installation_status').show()
+					});
+				}
+			});
 		});
 
 	});
 
  });
-
 </script>
 {% endblock %}
 
@@ -52,12 +132,43 @@
 	</div>
 </div>
 
+<div id="modal-install-specific-version" class="modal hide fade">
+	<div class="modal-header">
+	    <a href="#" class="close">&times;</a>
+	    <h3>Install specific version <small>PyPI Repository</small></h3>
+	</div>
+	<div class="modal-body" id="modal-update-body">
+	</div>
+	<div class="modal-footer">
+	    <a id="btn_dismiss_install_specific_version" href="#" class="btn">Dismiss</a>
+	</div>
+</div>
+
+<div id="modal-uninstall" class="modal hide fade">
+	<div class="modal-header">
+	    <a href="#" class="close">&times;</a>
+	    <h3>Uninstall <small>PyPI Repository</small></h3>
+	</div>
+	<div class="modal-body" id="modal-update-body">
+	        <p>
+	                Are you sure?
+	        </p>
+	        <div id="uninstall_status" class="alert-message" style="display: none;"></div>
+	</div>
+	<div class="modal-footer">
+	    <a id="btn_uninstall" href="#" class="btn primary" data-loading-text="Uninstalling">Yes</a>
+	    <a id="btn_dismiss_uninstall" href="#" class="btn">Dismiss</a>
+	</div>
+</div>
+
 <div class="row">
 	<div class="span8">
 
 	<div class="well" style="padding: 10px 12px;">
 		<div class="page-header"><h3>Available Actions</h3></div>
 		<button class="btn primary" id="btn_check_updates" data-loading-text="Checking...">Check updates</button>
+		<button class="btn" id="btn_install_specific_version" data-loading-text="Loading...">Install specific version</button>
+		<button class="btn danger" id="btn_uninstall_dialog">Uninstall</button>
 	</div>
 
 	{% if  description_render %}

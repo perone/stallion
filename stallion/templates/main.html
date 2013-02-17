@@ -31,6 +31,7 @@
 		});
 
 		$('#progressbar').progressbar();
+		$('#upgrade_progressbar').progressbar();
 		$('#topbar').dropdown();
     });
 
@@ -38,6 +39,11 @@
 	function set_progress_bar_value(prog_value)
 	{
 		$('#progressbar').progressbar({value: prog_value});
+	}
+
+	function set_upgrade_progress_bar_value(prog_value)
+	{
+		$('#upgrade_progressbar').progressbar({value: prog_value});
 	}
 
 	// Main function to check all updates, it is going to send multiple
@@ -87,7 +93,74 @@
 			}); // ajax
 		}); // each img
 	}
+
+	function upgrade_all()
+	{
+		var to_upgrade = $('img[src="/static/down-arrow.png"]').length;
+
+		if (to_upgrade) {
+
+			set_upgrade_progress_bar_value(0);
+
+			$("#upgrade_progress").fadeIn("slow");
+
+			$('img[src="/static/down-arrow.png"]').each(function(current_distr) {
+				var dist_id = "#" + $(this).prop("id");
+				var dist_key = $(this).attr("pname");
+
+				$.ajaxQueue({
+					url: '/pypi/upgrade/' + dist_key,
+					dataType: "json",
+					cache: false,
+					success: function(data) {
+
+						var prog_value = $("#upgrade_progressbar").progressbar("option", "value");
+
+						if((current_distr+1) >= to_upgrade)
+							$("#upgrade_progress").fadeOut("slow");
+							window.location.reload()
+
+						prog_value = prog_value + 100.0/to_upgrade;
+
+						set_upgrade_progress_bar_value(prog_value);
+
+						if(data.had_upgraded) {
+							$(dist_id).attr("src", 
+											"{{ url_for('static', filename='success-icon.png') }}")
+											.stop(true,true).hide().fadeIn();
+						} else {
+							$(dist_id).attr("src", 
+											"{{ url_for('static', filename='error-icon.png') }}")
+											.stop(true,true).hide().fadeIn();
+						}
+
+						$(dist_id).parent().animate({"padding-left": "-=12px"}, "fast");
+
+					}
+				}); // ajax
+			}); // each img
+		} else {
+			$("#upgrade-alert-message").show();
+			window.setTimeout(function() {
+			        $(".alert-message").slideUp();
+			}, 2500);
+		}
+	}
 </script>
+
+<style>
+.navbar-search .search-query {
+    padding-left: 29px;
+    background-image: url('{{ url_for('static', filename='python-icon.png') }}');
+    background-repeat: no-repeat;
+    background-position: 12px 5px;
+}
+
+.navbar-search .search-query:focus, .navbar-search .search-query.focused {
+    padding-left: 30px;
+    background-position: 13px 6px;
+}
+</style>
 
   {% block js %}{% endblock %}
 </head>
@@ -107,10 +180,15 @@
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">PyPI Repository</a>
 						<ul class="dropdown-menu">
 							<li><a href="javascript:check_all_updates();">Check all updates</a></li>
+							<li><a href="javascript:upgrade_all();">Upgrade all</a></li>				
 						</ul>
 					</li>
 					<li class="{{ menu_about }}"><a href="{{ url_for('about') }}">About</a></li>
 				</ul>
+
+				<form class="navbar-search pull-right" action="{{ url_for('pypi_search') }}">
+					<input type="text" class="search-query span3" name="query" placeholder="Search in PyPI">
+				 </form> 
 
 				<ul class="nav secondary-nav">
 				<li><a href="#"><span id="ajax_load" class="progress-span">
@@ -136,6 +214,15 @@
 		<div id="check_updates" class="progress-span">
 				Checking for updates... <br />
 				<div id="progressbar" style="width: 220px; height: 19px;"></div>
+				<br />
+		</div>
+
+		<div id="upgrade-alert-message" class="alert-message warning" style="display:none;text-align: center;">
+			<p>Nothing to upgrade.</p>
+		</div>
+		<div id="upgrade_progress" class="progress-span">
+				Upgrading... <br />
+				<div id="upgrade_progressbar" style="width: 220px; height: 19px;"></div>
 				<br />
 		</div>
 

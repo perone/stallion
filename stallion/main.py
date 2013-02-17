@@ -13,6 +13,10 @@ from optparse import OptionParser
 import sys
 import platform
 import logging
+import subprocess
+import os
+import urllib2
+import urllib
 
 try:
     import xmlrpclib
@@ -21,7 +25,7 @@ except ImportError:
 
 import pkg_resources as _pkg_resources
 
-from flask import Flask, render_template, url_for, jsonify
+from flask import Flask, render_template, url_for, jsonify, request, redirect
 
 from docutils.core import publish_parts
 
@@ -98,6 +102,18 @@ def get_pypi_releases(dist_name):
     return ret
 
 
+@app.route('/traceback')
+def traceback():
+    """ Upload last pip's traceback """
+    log = open(os.path.expanduser("~/.pip/pip.log"), "r").read()
+    request = urllib2.Request(
+        'http://dpaste.de/api/',
+        urllib.urlencode([('content', log)]),
+    )
+    response = urllib2.urlopen(request)
+    return redirect(response.read()[1:-1], 301)
+
+
 @app.route('/pypi/check_update/<dist_name>')
 def check_pypi_update(dist_name):
     """ Just check for updates and return a json
@@ -125,6 +141,106 @@ def check_pypi_update(dist_name):
         pass
 
     return jsonify({"has_update": 0})
+
+
+@app.route('/pypi/upgrade/<dist_name>')
+def pypi_upgrade(dist_name):
+    """ Upgrade a package and return a json
+    with the attribute "had_upgraded.
+
+    :param dist_name: distribution name
+    :rtype: json
+    :return: json with the attribute "had_upgraded"
+    """
+    p = subprocess.Popen(["pip", "install", "--verbose", "--upgrade", dist_name], stdout=subprocess.PIPE)
+    out, err = p.communicate()
+    if "Successfully installed " + dist_name in out:
+        try:
+            DIST_PYPI_CACHE.remove(dist_name.lower())
+        except KeyError:
+            pass
+        return jsonify({"had_upgraded": 1})
+    return jsonify({"had_upgraded": 0})
+
+
+@app.route('/pypi/install/<dist_name>/<version>')
+def pypi_install(dist_name, version):
+    """ Install a package and return a json
+    with the attribute "had_installed.
+
+    :param dist_name: distribution name
+    :rtype: json
+    :return: json with the attribute "had_installed"
+    """
+    p = subprocess.Popen(["pip", "install", dist_name + "==" + version], stdout=subprocess.PIPE)
+    out, err = p.communicate()
+    if "Successfully installed " + dist_name in out:
+        try:
+            DIST_PYPI_CACHE.remove(dist_name.lower())
+        except KeyError:
+            pass
+        return jsonify({"had_installed": 1})
+    return jsonify({"had_installed": 0})
+
+
+@app.route('/pypi/uninstall/<dist_name>')
+def pypi_uninstall(dist_name):
+    """ Uninstall a package and return a json
+    with the attribute "had_uninstalled.
+
+    :param dist_name: distribution name
+    :rtype: json
+    :return: json with the attribute "had_uninstalled"
+    """
+    p = subprocess.Popen(["pip", "uninstall", "-y", dist_name], stdout=subprocess.PIPE)
+    out, err = p.communicate()
+    if "Successfully uninstalled " + dist_name in out:
+        try:
+            DIST_PYPI_CACHE.remove(dist_name.lower())
+        except KeyError:
+            pass
+        return jsonify({"had_uninstalled": 1})
+    return jsonify({"had_uninstalled": 0})
+
+
+@app.route('/pypi/install_specific_version/<dist_name>')
+def pypi_install_specific_version(dist_name):
+    """ This is the /pypi/install_specific_version/<dist_name> entry point, it is the interface
+    between Stallion and the PyPI RPC service when installing a specific version of package.
+
+    :param dist_name: the package name (distribution name).
+    """
+    pkg_res = get_pkg_res()
+
+    data = {}
+    try:
+        pkg_dist_version = pkg_res.get_distribution(dist_name).version
+    except:
+        pkg_dist_version = get_pypi_releases(dist_name)[0]
+        data['pypi_browse'] = True
+    pypi_rel = get_pypi_releases(dist_name)
+
+    data["dist_name"] = dist_name
+    data["pypi_info"] = pypi_rel
+    data["current_version"] = pkg_dist_version
+
+    if pypi_rel:
+        pypi_last_version = pkg_res.parse_version(pypi_rel[0])
+        current_version = pkg_res.parse_version(pkg_dist_version)
+        last_version = pkg_dist_version.lower() != pypi_rel[0].lower()
+
+        data["last_is_great"] = pypi_last_version > current_version
+        data["last_version_differ"] = last_version
+
+        if data["last_is_great"]:
+            DIST_PYPI_CACHE.add(dist_name.lower())
+        else:
+            try:
+                DIST_PYPI_CACHE.remove(dist_name.lower())
+            except KeyError:
+                pass
+
+    return render_template('pypi_install_specific_version.html', **data)
 
 
 @app.route('/pypi/releases/<dist_name>')
@@ -162,6 +278,42 @@ def releases(dist_name):
                 pass
 
     return render_template('pypi_update.html', **data)
+
+
+@app.route('/pypi/search/')
+def pypi_search():
+    """ Search entry point."""
+    query = request.args.get('query', '')
+    data = {}
+    data.update(get_shared_data())
+    data['breadpath'] = [Crumb('Search')]
+
+    pypi = get_pypi_proxy()
+    found = pypi.search({'name': query})
+    without_doubles = []
+    aux = set()
+    for result in found:
+        if result['name'] not in aux:
+            without_doubles.append(result['name'])
+            aux.add(result['name'])
+    data['results'] = without_doubles
+    data['installed'] = [dist.project_name for dist in data['distributions']]
+
+    return render_template('pypi_search.html', **data)
+
+
+@app.route('/pypi/browse/<dist_name>')
+def pypi_browse(dist_name):
+    """ Browse entry point."""
+    data = {}
+    data.update(get_shared_data())
+    data['breadpath'] = [Crumb('Browse - %s' % dist_name)]
+
+    pypi = get_pypi_proxy()
+    last_version = pypi.package_releases(dist_name, True)[0]
+    data['dist'] = pypi.release_data(dist_name, last_version)
+
+    return render_template('pypi_browse.html', **data)
 
 
 @app.route('/')
@@ -215,7 +367,7 @@ def distribution(dist_name=None):
 
     :param dist_name: the package name
     """
-
+    
     pkg_dist = get_pkg_res().get_distribution(dist_name)
 
     data = {}

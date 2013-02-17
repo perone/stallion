@@ -1,0 +1,287 @@
+{% extends "main.html" %}
+
+{% block section_title %}
+    <img src="{{ url_for('static', filename='terminal-icon.png') }}" class="midicon"> {{ dist.name }} 
+    <small>version {{ dist.version }}</small><br/>
+    {% if dist.summary %}<small>{{ dist.summary }}</small>{% endif %}
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+
+ $(document).ready(function() {
+
+    $('#back-to-top').click(function() {
+        window.scrollTo(0,0);
+        return false;
+    });
+
+    $('#modal-install').modal({
+        keyboard: true
+    });
+
+    $('#modal-install-specific-version').modal({
+        keyboard: true
+    });
+
+    $('#btn_install_dialog').button();
+
+    $('#btn_install_dialog').click(function() {
+        $('#modal-install').modal('show');
+
+        $('#btn_dismiss_install').click(function() {
+                $('#modal-install').modal('hide');
+         });
+        $('#btn_install').click(function() {
+            $.get('/pypi/install/{{ dist.name }}/{{ dist.version }}', function(data) {
+                if (data.had_installed) {
+                    $('#install_status').addClass('success');
+                    $('#install_status').html('Success!');
+                    window.location.href = '/distribution/{{ dist.name}}';
+                } else {
+                    $('#install_status').addClass('danger');
+                    $('#install_status').html('Something has gone wrong! Check your ~/.pip/pip.log or <a href="/traceback">upload on dpaste.org</a>.');
+                };
+                $('#install_status').show();
+                $('#btn_install').button('reset');
+            });
+        });
+
+    });
+
+    $('#btn_install_specific_version').button();
+
+    $('#btn_install_specific_version').click(function() {
+        $('#btn_install_specific_version').button('loading');
+
+        $.get('/pypi/install_specific_version/{{ dist.name }}', function(data) {
+            $('#modal-install-specific-version').html(data);
+            $('#modal-install-specific-version').modal('show');
+            $('#btn_install_specific_version').button('reset');
+
+            $('span.label').click(function() {
+                var version = $(this).attr('name');
+                if (version) {
+                    $.get('/pypi/install/{{dist.name}}/' + version, function(data) {
+                        if (data.had_installed) {
+                            $('#installation_status').addClass('success');
+                            $('#installation_status').html('Success!');
+                            window.location.href = '/distribution/{{ dist.name}}';
+                        } else {
+                            $('#installation_status').addClass('danger');
+                            $('#installation_status').html('Something has gone wrong! Check your ~/.pip/pip.log or <a href="/traceback">upload on dpaste.org</a>.');
+                        };
+                        $('#installation_status').show();
+                    });
+                }
+            });
+        });
+
+    });
+
+ });
+</script>
+{% endblock %}
+
+{% block content %}
+<div id="modal-install" class="modal hide fade">
+    <div class="modal-header">
+        <a href="#" class="close">&times;</a>
+        <h3>Install <small>PyPI Repository</small></h3>
+    </div>
+    <div class="modal-body" id="modal-update-body">
+        Will be installed last version, it is okay?
+    </div>
+    <div id="install_status" class="alert-message" style="display: none;"></div>
+    <div class="modal-footer">
+        <a id="btn_install" href="#" class="btn primary" data-loading-text="Installing">Yes</a>
+        <a id="btn_dismiss_install" href="#" class="btn">Dismiss</a>
+    </div>
+</div>
+
+<div id="modal-install-specific-version" class="modal hide fade">
+    <div class="modal-header">
+        <a href="#" class="close">&times;</a>
+        <h3>Install specific version <small>PyPI Repository</small></h3>
+    </div>
+    <div class="modal-body" id="modal-update-body">
+    </div>
+    <div class="modal-footer">
+        <a id="btn_dismiss_install_specific_version" href="#" class="btn">Dismiss</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="span8">
+        <div class="well" style="padding: 10px 12px;">
+            <div class="page-header"><h3>Available Actions</h3></div>
+            <button class="btn success" id="btn_install_dialog" data-loading-text="Loading...">Install</button>
+            <button class="btn" id="btn_install_specific_version" data-loading-text="Loading...">Install specific version</button>
+        </div>
+        {% if  dist.description and dist.description != "UNKNOWN" %}
+
+            {{ dist.description|safe }}
+            <br />
+            <a href="#" id="back-to-top">Back to Top</a>
+        {% else %}
+            <div class="alert-message block-message error">
+                <p><strong>No description information available !</strong> Stallion wasn't able to find 
+                the description information.</p><br />
+                <ul>
+                  <li>The package probably doesn't have the <strong>Description</strong> field metadata.</li>
+                  <li>Stallion wasn't able to find the <strong>PKG-INFO</strong> metadata.</li>
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+    <div class="span8">
+        <div class="well" style="padding: 14px 19px;">
+            <div class="page-header"><h2><img src="{{ url_for('static', filename='info.png') }}" class="midicon"> Package information</h2><br /></div>
+
+            <p> {{ dist.summary }} </p>
+
+            <table class="bordered-table">
+                <tbody>
+                    <tr>
+                        <th>Package <br /> Name</th>
+                        <td>{{ dist.name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Version</th>
+                        <td>{{ dist.version }}</td>
+                    </tr>
+                    <tr>
+                        <th>Platform</th>
+                            <td>
+                                {% set platforms = dist.platform %}
+
+                                {% if not platforms or platforms == "" or platforms == "UNKNOWN" or platform == None %}
+                                    <span class="label important">No platform specified</span>
+                                {% elif platforms is string %}
+                                    {{ platforms }}
+                                {% else %}
+                                    <ul>
+                                    {% for platform in platforms %}
+                                        <li>{{ platform }}</li>
+                                    {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </td>
+                    </tr>
+                    <tr>
+                        <th>Keywords</th>
+                            <td>
+                                {% set keywords = dist.keywords %}
+                                {% if not keywords or keywords == "" or keywords == "UNKNOWN" or keywords == None  %}
+                                    <span class="label warning">No keywords specified</span>
+                                {% elif keywords is string %}
+                                    <span class="tag-lvl1">
+                                        <span class="tag-lvl2">{{ keywords }}</span>
+                                    </span>
+                                {% else %}
+                                    {% for keyw in keywords %}
+                                    <span class="tag-lvl1">
+                                        <span class="tag-lvl2">{{ keyw|title }}</span>
+                                    </span>
+                                    {% endfor %}
+                                {% endif %}
+                            </td>
+                    </tr>      
+                    <tr>
+                        <th>Homepage</th>
+                            <td>
+                                {% if dist.homepage != "UNKNOWN" and dist.homepage != "" and dist.homepage != None and dist.homepage %}
+                                    <a href="{{ dist.homepage }}">
+                                        <img src="{{ url_for('static', filename='world.png') }}" class="midicon">
+                                        {{ dist.homepage }}
+                                    </a>
+                                {% else %}
+                                    <span class="label warning">No homepage specified</span>
+                                {% endif %}
+                            </td>
+                    </tr>     
+                    <tr>
+                        <th>Author</th>
+                        <td>
+                                {% if dist.author != "UNKNOWN" and dist.author != "" and dist.author != None and dist.author %}
+                                    {{ dist.author }}
+                                {% else %}
+                                    <span class="label warning">No author specified</span>
+                                {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Author <br /> Email</th>
+                            <td>
+                                {% if dist.author_email != "UNKNOWN" and dist.author_email != "" and dist.author_email != None and dist.author_email %}
+                                    <a href="mailto:{{ dist.author_email }}">
+                                        <img src="/static/mail.png" class="midicon">
+                                        {{ dist.author_email }}
+                                    </a>
+                                {% else %}
+                                    <span class="label warning">No author_email specified</span>
+                                {% endif %}
+                            </td>
+                    </tr>
+                    <tr>
+                        <th>Project <br /> License</th>
+                            <td>
+                                {% if dist.license != "UNKNOWN" and dist.license != "" and dist.license != None and dist.license %}
+                                    {{ dist.license }}
+                                {% else %}
+                                    <span class="label important">No license specified</span>
+                                {% endif %}
+                            </td>
+                    </tr>
+                    <tr>
+                        <th>Classifiers</th>
+                        <td>
+                            {% set classifier = dist.classifiers %}
+                            {% if classifier %}
+                            <ul class="classifier_un">
+                                {% for value in classifier recursive %}
+                                        <li class="classifier_un">{{ value }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% else %}
+                                <span class="label warning">No classifiers specified</span>
+                            {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Download URL</th>
+                    <td>
+                    {% if dist.download_url  and dist.download_url != "UNKNOWN" and dist.download_url != "" and dist.download_url != None %}
+                        <a href="{{ dist.download_url }}">
+                        <img src="{{ url_for('static', filename='world.png') }}" class="midicon"> 
+                        {{ dist.download_url }}</a>
+                    {% else %}
+                        <span class="label important">No download url specified</span>
+                    {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Requires</th>
+                    <td>
+                        {% set requires = dist.requires %}
+
+                        {% if not requires or requires == "UNKNOWN" or requires == "" or requires == None  %}
+                            <span class="label important">No requirements specified</span>
+                        {% elif requires is string %}
+                            {{ requires }}
+                        {% else %}
+                            <ul>
+                            {% for requirement in requires %}
+                                <li>{{ requirement }}</li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
