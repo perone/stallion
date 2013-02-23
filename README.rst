@@ -1,119 +1,101 @@
-Stallion
-=========
+# Stallion
 
 Stallion is a Python Package Manager interface created to provide an "easy-to-use" visual interface
 for Python newcomers. Today we have many nice distribution utilities like pip, distribute, etc, but
 we don't have a nice visual approach with these same goals. 
 
-Screenshots
--------------------------------------------------------------------------------
+## Screenshots
 
-Screenshot: The home
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### Screenshot: The home
 
-.. image:: http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/main_page.png
+![The home](http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/main_page.png)
 
-Screenshot: Installed package information
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### Screenshot: Installed package information
 
-.. image:: http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/distr.png
+![Installed package information](http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/distr.png)
 
-Screenshot: Package metadata
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### Screenshot: Package metadata
 
-.. image:: http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/metadata.png
+![Package metadata](http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/metadata.png)
 
-Screenshot: Check PyPI for updates available
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### Screenshot: Check PyPI for updates available
 
-.. image:: http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/updates_avail.png
+![Updates](http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/updates_avail.png)
 
-.. image:: http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/updates.png
+![Updates](http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/updates.png)
 
-.. image:: http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/updates2.png
+![Updates](http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/updates2.png)
 
-Screenshot: PyPI version mismatch diagnosis
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Screenshot: PyPI version mismatch diagnosis
 
-.. image:: http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/diagnosis.png
+![Version mismatch](http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/diagnosis.png)
 
-
-Using Stallion
--------------------------------------------------------------------------------
-
-::
+## Using Stallion
 
     python -m stallion.main [--help]
 
-Easy to Install
--------------------------------------------------------------------------------
+## Easy to Install
 
 Installing using easy_install:
-
-::
 
     $ easy_install stallion
     $ python -m stallion.main
 
 Upgrading using easy_install:
 
-::
-
     $ easy_install -U stallion
     $ python -m stallion.main
  
-
 or using pip:
 
 Installing using pip:
-
-::
 
     $ pip install stallion
     $ python -m stallion.main
 
 Upgrading using pip:
 
-::
-
     $ pip install --upgrade stallion
     $ python -m stallion.main
 
 
-Setting a development environment
+## Setting a development environment
 -------------------------------------------------------------------------------
-
-::
 
     $ python setup.py develop
     $ python -m stallion.main
 
-Requirements
--------------------------------------------------------------------------------
+## Requirements
 
 Stallion uses the following external projects:
 
-Flask (https://github.com/mitsuhiko/flask)
-   A microframework based on Werkzeug, Jinja2 and good intentions
+[Flask](https://github.com/mitsuhiko/flask)
 
-Twitter Bootstrap (https://github.com/twitter/bootstrap)
-   HTML, CSS, and JS toolkit from Twitter
+> A microframework based on Werkzeug, Jinja2 and good intentions
 
-docutils (http://docutils.sourceforge.net/)
-   Docutils is an open-source text processing system for processing plaintext documentation
-   into useful formats, such as HTML or LaTeX.
+[Twitter Bootstrap](https://github.com/twitter/bootstrap)
 
-Jinja2 (Flask requirement) (https://github.com/mitsuhiko/jinja2)
-   The Jinja2 template engine
+> HTML, CSS, and JS toolkit from Twitter
 
-Werkzeug (Flask requirement) (https://github.com/mitsuhiko/werkzeug)
-   A flexible WSGI implementation and toolkit
+[docutils](http://docutils.sourceforge.net/)
 
-Simplejson (If you use Python 2.5) (http://pypi.python.org/pypi/simplejson/)
-   Simple, fast, extensible JSON encoder/decoder for Python
+> Docutils is an open-source text processing system for processing plaintext documentation
+> into useful formats, such as HTML or LaTeX.
 
-Compatibility
--------------------------------------------------------------------------------
+[Jinja2](https://github.com/mitsuhiko/jinja2) (Flask requirement)
+
+>The Jinja2 template engine
+
+[Werkzeug](https://github.com/mitsuhiko/werkzeug) (Flask requirement)
+
+> A flexible WSGI implementation and toolkit
+
+[Simplejson](http://pypi.python.org/pypi/simplejson/) (If you use Python 2.5)
+
+> Simple, fast, extensible JSON encoder/decoder for Python
+
+## Compatibility
+
 Stallion is compatible with:
 
   - Python 2.5
@@ -122,13 +104,8 @@ Stallion is compatible with:
   - Python 2.7
   - PyPy 1.7 *(and possibly older versions too)*
 
-Status
--------------------------------------------------------------------------------
-.. image:: https://secure.travis-ci.org/perone/stallion.png?branch=master
-   :target: http://travis-ci.org/perone/stallion
+## Supported browsers
 
-Supported browsers
--------------------------------------------------------------------------------
 Stallion is compatible with:
 
   - Firefox
@@ -136,11 +113,12 @@ Stallion is compatible with:
   - Internet Explorer 9 (IE9)
   - Safari
 
-What's new in release v0.2
--------------------------------------------------------------------------------
+## What's new in release v0.2
 
 Bug fixes
+
    Lot's of bugs were fixed:
+
      - Unicode problem (https://github.com/perone/stallion/issues/15)
      - Python 2.5 compatibility (https://github.com/perone/stallion/issues/12)
      - Ignored explicit port (https://github.com/perone/stallion/issues/6)
@@ -149,26 +127,24 @@ Bug fixes
      - Other small fixes
 
    Global checking feature
+
       Many people asked for a global version updates checking, now you have this
       feature under the menu "PyPI Repository". This option is going to check
       updates for all your packages. A new icon will appear on the sidebar
       packages menu warning in case of a new available update.
    
    Classifiers refactoring
+
       The classifiers of the package are now visually different.
 
-Reporting bug
--------------------------------------------------------------------------------
+## Reporting bug
 
 Open an issue in Github with the traceback. To get the traceback, you'll 
 have to run Stallion in debugging mode:
 
-::
-
     $ python -m stallion.main -drvi
 
-License
--------------------------------------------------------------------------------
+## License
 
    Copyright 2011 Christian S. Perone
 
@@ -184,19 +160,10 @@ License
    See the License for the specific language governing permissions and
    limitations under the License.
 
-Contributors
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Contributors
 
-Thanks to all contributors, in order of appearence:
+  See the [Contributors](https://github.com/perone/stallion/contributors).
+  
+## Links
 
-- Christian S. Perone
-- Thomas Léveil
-- Simon J Greenhill
-- Roman Gladkov
-- Marc Abramowitz
-- Trenton Holmes
-
-Links
--------------------------------------------------------------------------------
-
-* `Project Site (github) <https://github.com/perone/stallion>`_
+[Project Site - Github](https://github.com/perone/stallion)
