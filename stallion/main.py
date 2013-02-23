@@ -97,6 +97,40 @@ def get_pypi_releases(dist_name):
 
     return ret
 
+def get_pypi_search(spec, operator='or'):
+    """Search the package database using the indicated search spec
+
+    The spec may include any of the keywords described in the above list
+    (except 'stable_version' and 'classifiers'), for example: {'description': 'spam'}
+    will search description fields. Within the spec, a field's value can be a string
+    or a list of strings (the values within the list are combined with an OR), for
+    example: {'name': ['foo', 'bar']}. Valid keys for the spec dict are listed here.
+
+    name
+    version
+    author
+    author_email
+    maintainer
+    maintainer_email
+    home_page
+    license
+    summary
+    description
+    keywords
+    platform
+    download_url
+    
+    Arguments for different fields are combined using either "and" (the default) or "or".
+    Example: search({'name': 'foo', 'description': 'bar'}, 'or'). The results are
+    returned as a list of dicts {'name': package name, 'version': package release version,
+    'summary': package release summary}
+    browse(classifiers)
+    """
+    pypi = get_pypi_proxy()
+    ret = pypi.search(spec, operator)
+    ret.sort(key=lambda v: v['_pypi_ordering'], reverse=True)
+    return ret
+
 
 @app.route('/pypi/check_update/<dist_name>')
 def check_pypi_update(dist_name):

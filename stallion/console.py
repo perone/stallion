@@ -9,7 +9,8 @@
 ==================================================================
 '''
 import stallion
-from stallion.main import get_shared_data, get_pkg_res, get_pypi_releases
+from stallion.main import get_shared_data, get_pkg_res
+from stallion.main import get_pypi_search, get_pypi_releases
 from stallion import metadata
 
 from docopt import docopt
@@ -242,7 +243,6 @@ def cmd_check(args):
     else:
         print 'No versions found on PyPI !'
 
-
     print Fore.RESET + Back.RESET + Style.RESET_ALL
 
 def run_main():
@@ -276,7 +276,6 @@ def run_main():
     if arguments['check']:
         cmd_check(arguments)
 
-        
 if __name__ == '__main__':
     init()
     run_main()
