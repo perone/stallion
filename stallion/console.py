@@ -1,4 +1,4 @@
-"""
+'''
 .. module:: console
    :platform: Unix, Windows
    :synopsis: Stallion entry-point for console commands
@@ -7,7 +7,7 @@
 
 :mod:`console` -- Stallion entry-point for console commands
 ==================================================================
-"""
+'''
 import stallion
 from stallion.main import get_shared_data, get_pkg_res, get_pypi_releases
 from stallion import metadata
@@ -20,28 +20,28 @@ from colorama import Fore, Back, Style
 from pkg_resources import DistributionNotFound
 
 def ellipsize(msg, max_size=80):
-    """This function will ellipsize the string.
+    '''This function will ellipsize the string.
 
     :param msg: Text to ellipsize.
     :param max_size: The maximum size before ellipsizing,
                     default is 80.
     :return: The ellipsized string if len > max_size, otherwise
              the original string.
-    """
+    '''
     if len(msg) >= max_size:
-        return "%s (...)" % msg[0:max_size-6]
+        return '%s (...)' % msg[0:max_size-6]
     else:
         return msg
 
 def parse_dict(mdata, key, ellip=False):
-    """ This function will read the field from the dict and
+    ''' This function will read the field from the dict and
     if not present will return the string 'Not Specified'
 
     :param mdata: the distribution info dict
     :param key: the key of the dict
     :ellip: if it will ellipsize
     :return: the string message or 'Not Specified' if empty
-    """
+    '''
     try:
         data = mdata[key]
         if ellip:
@@ -57,13 +57,13 @@ def get_kv_colored(key, value):
     return text
 
 def get_field_formatted(mdata, key):
-    """ This function will get the formatted and colored 
+    ''' This function will get the formatted and colored 
     key data from the dictionary.
 
     :param mdata: distribution dict
     :param key: the key of the dict
     :return: the formatted and colored string
-    """
+    '''
     
     def recursive_dict(d, depth=2, final=''):
         final_str = final
@@ -77,7 +77,7 @@ def get_field_formatted(mdata, key):
                 final_str += '  ' * depth + str(k) + '\n'
                 final_str += recursive_dict(v, depth+1, final)
             else:
-                final_str =+ ("  ")*depth + str(k) + ' ' + str(v) + '\n'
+                final_str =+ ('  ')*depth + str(k) + ' ' + str(v) + '\n'
         return final_str
 
     field = parse_dict(mdata, key.lower())
@@ -92,10 +92,10 @@ def get_field_formatted(mdata, key):
     return text
 
 def cmd_show(args, short=False):
-    """This function implements the package show command.
+    '''This function implements the package show command.
 
     :param args: the docopt parsed arguments
-    """
+    '''
     proj_name = args['<project_name>']
 
     try:
@@ -103,7 +103,7 @@ def cmd_show(args, short=False):
     except:
         print Fore.RED + Style.BRIGHT + 'Error: unable to locate the project \'%s\' !' % proj_name
         print Fore.RESET + Back.RESET + Style.RESET_ALL
-        raise RuntimeError("Project not found !")
+        raise RuntimeError('Project not found !')
 
     pkg_metadata = pkg_dist.get_metadata(metadata.METADATA_NAME)
     parsed, key_known = metadata.parse_metadata(pkg_metadata)
@@ -158,10 +158,10 @@ def cmd_show(args, short=False):
 
 
 def cmd_list(args):
-    """This function implements the package list command.
+    '''This function implements the package list command.
 
     :param args: the docopt parsed arguments
-    """
+    '''
     filt = args['<filter>']
     distributions = get_shared_data()['distributions']
     for d in distributions:
@@ -200,7 +200,7 @@ def cmd_check(args):
     cmd_show(args, short=True)
 
     print
-    print Fore.GREEN + Style.BRIGHT + "Searching for updates on PyPI..."
+    print Fore.GREEN + Style.BRIGHT + 'Searching for updates on PyPI...'
     print
 
     pkg_dist_version = get_pkg_res().get_distribution(proj_name).version
@@ -238,17 +238,15 @@ def cmd_check(args):
         if pypi_last_version < current_version:
             print Fore.YELLOW + Style.BRIGHT + \
                 '  Your version newer than the version available at PyPI !'
-
-
-            
+           
     else:
-        log.info("No versions found on PyPI !")
+        print 'No versions found on PyPI !'
 
 
     print Fore.RESET + Back.RESET + Style.RESET_ALL
 
 def run_main():
-    """Stallion - Python List Packages (PLP)
+    '''Stallion - Python List Packages (PLP)
 
     Usage:
       plp list [<filter>]
@@ -261,7 +259,7 @@ def run_main():
     Options:
       -h --help     Show this screen.
       --version     Show version.
-    """
+    '''
 
     arguments = docopt(run_main.__doc__,
         version='Stallion v.%s - Python List Packages (PLP)' %
