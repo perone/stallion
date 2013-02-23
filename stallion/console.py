@@ -9,7 +9,7 @@
 ==================================================================
 """
 import stallion
-from stallion.main import get_shared_data, get_pkg_res
+from stallion.main import get_shared_data, get_pkg_res, get_pypi_releases
 from stallion import metadata
 
 from docopt import docopt
@@ -91,7 +91,7 @@ def get_field_formatted(mdata, key):
     text = get_kv_colored(key, field)
     return text
 
-def cmd_show(args):
+def cmd_show(args, short=False):
     """This function implements the package show command.
 
     :param args: the docopt parsed arguments
@@ -103,7 +103,7 @@ def cmd_show(args):
     except:
         print Fore.RED + Style.BRIGHT + 'Error: unable to locate the project \'%s\' !' % proj_name
         print Fore.RESET + Back.RESET + Style.RESET_ALL
-        return
+        raise RuntimeError("Project not found !")
 
     pkg_metadata = pkg_dist.get_metadata(metadata.METADATA_NAME)
     parsed, key_known = metadata.parse_metadata(pkg_metadata)
@@ -137,6 +137,9 @@ def cmd_show(args):
 
     for key in distinfo:
         print get_field_formatted(distinfo, key)
+
+    if short:
+        return
 
     print
     print get_kv_colored('location', pkg_dist.location)
@@ -191,12 +194,66 @@ def cmd_list(args):
 
         print Fore.RESET + Back.RESET + Style.RESET_ALL
 
+
+def cmd_check(args):
+    proj_name = args['<project_name>']
+    cmd_show(args, short=True)
+
+    print
+    print Fore.GREEN + Style.BRIGHT + "Searching for updates on PyPI..."
+    print
+
+    pkg_dist_version = get_pkg_res().get_distribution(proj_name).version
+    pypi_rel = get_pypi_releases(proj_name)
+
+    if pypi_rel:
+        pypi_last_version = get_pkg_res().parse_version(pypi_rel[0])
+        current_version = get_pkg_res().parse_version(pkg_dist_version)
+
+        version_index = pypi_rel.index(pkg_dist_version)
+        
+        for version in pypi_rel[0:version_index+3]:
+            print Fore.WHITE + Style.BRIGHT + '  Version %s' % version,
+            if version==pypi_rel[0]:
+                print Fore.BLUE + Style.BRIGHT + '[last version]',
+
+            if version==pkg_dist_version:
+                print Fore.GREEN + Style.BRIGHT + '[your version]',
+
+            print
+
+        print
+
+        if pypi_last_version > current_version:
+            print Fore.RED + Style.BRIGHT + \
+                '  Your version is outdated, you\'re using ' + \
+                Fore.WHITE + Style.BRIGHT + 'v.%s,' % pkg_dist_version + \
+                Fore.RED + Style.BRIGHT + \
+                ' but the last version is ' + Fore.WHITE + Style.BRIGHT + \
+                'v.%s !' % pypi_rel[0]
+
+        if pypi_last_version == current_version:
+            print Fore.GREEN + Style.BRIGHT + '  Your version is updated !'
+
+        if pypi_last_version < current_version:
+            print Fore.YELLOW + Style.BRIGHT + \
+                '  Your version newer than the version available at PyPI !'
+
+
+            
+    else:
+        log.info("No versions found on PyPI !")
+
+
+    print Fore.RESET + Back.RESET + Style.RESET_ALL
+
 def run_main():
     """Stallion - Python List Packages (PLP)
 
     Usage:
       plp list [<filter>]
       plp show <project_name>
+      plp check <project_name>
 
       plp (-h | --help)
       plp --version
@@ -217,6 +274,10 @@ def run_main():
 
     if arguments['show']:
         cmd_show(arguments)
+
+    if arguments['check']:
+        cmd_check(arguments)
+
         
 if __name__ == '__main__':
     init()
