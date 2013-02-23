@@ -256,7 +256,7 @@ def run_main():
     """ The main entry-point of Stallion. """
 
     print('Stallion %s - Python Package Manager' % (stallion.__version__,))
-    print('By %s 2011\n' % (stallion.__author__,))
+    print('By %s 2013\n' % (stallion.__author__,))
     parser = OptionParser()
 
     parser.add_option('-s', '--host', dest='host',
