@@ -265,8 +265,6 @@ def run_main():
         version='Stallion v.%s - Python List Packages (PLP)' %
         stallion.__version__)
     
-    #print(arguments)
-
     if arguments['list']:
         cmd_list(arguments)
 
