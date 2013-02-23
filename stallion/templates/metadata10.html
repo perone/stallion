@@ -21,7 +21,7 @@
 		{% set platforms = distinfo["platform"] %}
 
 		{% if not platforms %}
-			<span class="label important">No platform specified</span>
+			<span class="label label-important">No platform specified</span>
 		{% elif platforms is string %}
 			{{ platforms }}
 		{% else %}
@@ -40,7 +40,7 @@
 		{% set platforms = distinfo["supported-platform"] %}
 
 		{% if not platforms %}
-			<span class="label warning">No supported platform specified</span>
+			<span class="label label-warning">No supported platform specified</span>
 		{% elif platforms is string %}
 			{{ platforms }}
 		{% else %}
@@ -58,7 +58,7 @@
 	<td>
 		{% set keywords = distinfo["keywords"] %}
 		{% if not keywords %}
-			<span class="label warning">No keywords specified</span>
+			<span class="label label-warning">No keywords specified</span>
 		{% elif keywords is string %}
 			<span class="tag-lvl1">
 				<span class="tag-lvl2">{{ keywords }}</span>
@@ -82,7 +82,7 @@
 		<img src="{{ url_for('static', filename='world.png') }}" class="midicon"> 
 		{{ distinfo["home-page"] }}</a>
 	{% else %}
-		<span class="label warning">No home page specified</span>
+		<span class="label label-warning">No home page specified</span>
 	{% endif %}
 	</td>
 </tr>
@@ -94,7 +94,7 @@
 	{% if distinfo["author"] %}
 		{{ distinfo["author"] }}
 	{% else %}
-		<span class="label warning">No author specified</span>
+		<span class="label label-warning">No author specified</span>
 	{% endif %}
 	</td>
 </tr>
@@ -107,7 +107,7 @@
 		<img src="{{ url_for('static', filename='mail.png') }}" class="midicon"> 
 		{{ distinfo["author-email"] }}</a>
 	{% else %}
-		<span class="label important">No author email specified</span>
+		<span class="label label-important">No author email specified</span>
 	{% endif %}
 	</td>
 </tr>
@@ -118,7 +118,7 @@
 	{% if distinfo["license"] %}
 		{{ distinfo["license"] }}
 	{% else %}
-		<span class="label important">No license specified</span>
+		<span class="label label-important">No license specified</span>
 	{% endif %}
 	</td>
 </tr>
@@ -139,7 +139,7 @@
 
 		</ul>
 		{% else %}
-			<span class="label warning">No classifiers specified</span>
+			<span class="label label-warning">No classifiers specified</span>
 		{% endif %}
 
 		<br />

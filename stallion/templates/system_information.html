@@ -1,13 +1,13 @@
 {% extends "main.html" %}
 
 {% block section_title %}
-	<img src="{{ url_for('static', filename='terminal-icon.png') }}" class="midicon"> System Information
+	<img src="{{ url_for('static', filename='terminal-icon.png') }}" class="midiconlarge"> System Information
 {% endblock %}
 
 {% block content %}
 
-<div class="row">
-	<div class="span6">
+<div class="row-fluid">
+	<div class="span3">
 
 	Welcome to <strong>Stallion</strong>, a Package Manager for Python. In this page you'll find information
 	about the system the Python interpreter is running.
@@ -22,9 +22,9 @@
 	on the <a href="{{ url_for('about') }}">About</a> section.
 
 	</div>
-	<div class="span9">
+	<div class="span6">
 
-		<table class="zebra-striped">
+		<table class="table table-striped">
 			<tbody>
 				{% for key, value in system_information|dictsort %}
 				<tr>

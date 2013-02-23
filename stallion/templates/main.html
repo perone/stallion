@@ -8,9 +8,7 @@
   <script type="text/javascript" src="{{ url_for('static', filename='jquery-1.7.1.min.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='jquery-ui-1.8.16.custom.min.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='ajax-queue.js') }}"></script>
-  <script type="text/javascript" src="{{ url_for('static', filename='bootstrap-modal.js') }}"></script>
-  <script type="text/javascript" src="{{ url_for('static', filename='bootstrap-button.js') }}"></script>
-  <script type="text/javascript" src="{{ url_for('static', filename='bootstrap-dropdown.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
 
   <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
   <link href="{{ url_for('static', filename='extra.css') }}" rel="stylesheet">
@@ -93,8 +91,8 @@
 </head>
 
 <body>
-	<div class="topbar">
-		<div class="topbar-inner">
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
 			<div class="container">
 				<a class="brand" href="{{ url_for('index') }}">
 					<img src="{{ url_for('static', filename='stallion_icon.png') }}" class="midicon"> Stallion
@@ -123,86 +121,84 @@
 	</div>
 
 	<div class="container-fluid">
-	<div class="sidebar">
-		<div align="center">
-			<a href="{{ url_for('index') }}">
-				<img src="{{ url_for('static', filename='box.png') }}">
-			</a>
-		</div>
-		<div class="page-header">
-		<h3>Packages</h3>
-		</div>
+		<div class="row-fluid">
 
-		<div id="check_updates" class="progress-span">
-				Checking for updates... <br />
-				<div id="progressbar" style="width: 220px; height: 19px;"></div>
-				<br />
-		</div>
+			<div class="span3">
+
+				<div class="page-header">
+				<h3>Packages</h3>
+				</div>
+
+				<div id="check_updates" class="progress-div">
+						Checking for updates... <br />
+						<div id="progressbar" style="width: 200px; height: 19px;"></div>
+						<br />
+				</div>
 
 
-		<ul class="unstyled">
-		{% for dist_item in distributions|sort(attribute="project_name") %}
+				<ul class="unstyled">
+				{% for dist_item in distributions|sort(attribute="project_name") %}
 
-			{% if dist_item.key|lower in pypi_update_cache %}
-				{% set img_src = url_for('static', filename='down-arrow.png') %}
-			{% else %}
-				{% set img_src = url_for('static', filename='box-icon.png') %}
-			{% endif %}
+					{% if dist_item.key|lower in pypi_update_cache %}
+						{% set img_src = url_for('static', filename='down-arrow.png') %}
+					{% else %}
+						{% set img_src = url_for('static', filename='box-icon.png') %}
+					{% endif %}
 
-			<li>
-				<a href="{{ url_for('distribution', dist_name=dist_item.key) }}">
-					<img id="img_{{ dist_item.key|lower|replace('.','-') }}" src="{{ img_src }}"
-					class="midicon" pname="{{ dist_item.project_name }}"/>
+					<li>
+						<a href="{{ url_for('distribution', dist_name=dist_item.key) }}">
+							<img id="img_{{ dist_item.key|lower|replace('.','-') }}" src="{{ img_src }}"
+							class="midicon" pname="{{ dist_item.project_name }}"/>
 
-				{% if dist and dist.key == dist_item.key %}
-					{{ dist_item.project_name }} {{ dist_item.version }} <img src="{{ url_for('static', filename='left-arrow.png') }}" class="midicon" />
-				{% else %}
-					{{ dist_item.project_name }} {{ dist_item.version }}
-				{% endif %}
+						{% if dist and dist.key == dist_item.key %}
+							{{ dist_item.project_name }} {{ dist_item.version }} <img src="{{ url_for('static', filename='left-arrow.png') }}" class="midicon" />
+						{% else %}
+							{{ dist_item.project_name }} {{ dist_item.version }}
+						{% endif %}
 
-				</a>
+						</a>
 
-			</li>
+					</li>
 
-		{% endfor %}
-		</ul>
-	</div>
+				{% endfor %}
+				</ul>
+			</div> <!-- span3 -->
 
-	<div class="content">
-		<div class="page-header">
-			<h1>Stallion<small> A Package Manager for Python</small></h1>
-		</div>
+			<div class="span9">
+				<div class="page-header">
+					<h1>Stallion<small> A Package Manager for Python</small></h1>
+				</div>
 
-		<ul class="breadcrumb">
-			{% for path in breadpath %}
-				{% if loop.last %}
-					<li class="active">{{ path.title }}</li>
-				{% else %}
-					<li><a href="{{ path.href }}">{{ path.title }}</a><span class="divider">/</span></li>
-				{% endif %}
-			{% endfor %}
-		</ul>
-		<div class="page-header">
-		<h2>{% block section_title %}{% endblock %}</h2>
-		</div>
-		{% block content %}{% endblock %}
+				<ul class="breadcrumb">
+					{% for path in breadpath %}
+						{% if loop.last %}
+							<li class="active">{{ path.title }}</li>
+						{% else %}
+							<li><a href="{{ path.href }}">{{ path.title }}</a><span class="divider">/</span></li>
+						{% endif %}
+					{% endfor %}
+				</ul>
+				<div class="page-header">
+				<h2>{% block section_title %}{% endblock %}</h2>
+				</div>
+				{% block content %}{% endblock %}
 
+			</div> <!-- span9 -->
 
-    <footer class="footer">
-        <p>
-		Created by <em>Christian S. Perone</em> 2011 <a href="http://twitter.com/tarantulae" target="_blank">@tarantulae</a>, <a href="http://pyevolve.sourceforge.net/wordpress" target="_blank">Pyevolve Blog</a>.<br />
+		</div> <!-- row -->
 
-		  Code licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">
-		  Apache License v2.0</a>.
-        </p>
-    </footer>
+		<hr>
 
-	</div>
+	    <footer class="footer">
+	        <p>
+			Created by <em>Christian S. Perone</em> 2011 <a href="http://twitter.com/tarantulae" target="_blank">@tarantulae</a>, <a href="http://pyevolve.sourceforge.net/wordpress" target="_blank">Pyevolve Blog</a>.<br />
 
+			  Code licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">
+			  Apache License v2.0</a>.
+	        </p>
+	    </footer>
 
-</div>
-
-
+	</div> <!-- container -->
 
 </body>
 </html>

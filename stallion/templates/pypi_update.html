@@ -6,7 +6,7 @@
 <div class="modal-body" id="modal-update-body">
 	{% if not pypi_info %}
 
-		<div class="alert-message block-message error">
+		<div class="alert block-message alert-error">
 			<p><strong>No PyPI information available !</strong> Stallion wasn't able to find 
 			the package information at PyPI repository. Some reasons of this failure:</p><br />
 			<ul>
@@ -17,7 +17,7 @@
 		</div>
 	{% elif last_version_differ and not last_is_great %}
 
-		<div class="alert-message warning">
+		<div class="alert alert-warning">
 			<p><strong>Only old version available ?!</strong> Your version is newer than the PyPI
 			version !</p>
 		</div>
@@ -30,14 +30,14 @@
 		</p>
 	{% elif last_version_differ and last_is_great %}
 
-		<div class="alert-message info">
+		<div class="alert alert-info">
 			<p><strong>New version available !</strong> PyPI repository has a new version of the package !</p>
 		</div>
 		<p>
 			A new version of the package <strong>{{ dist_name }}</strong> was found in the official
 			PyPI repository. You have the version <strong>{{ current_version }}</strong> 
 			<span class="label">YOUR VERSION</span>, and the last version on the PyPI repository
-			is <strong>{{ pypi_info[0] }}</strong> <span class="label success">NEW</span>.
+			is <strong>{{ pypi_info[0] }}</strong> <span class="label label-success">NEW</span>.
 		</p>
 		<p>
 			You can use <strong>pip</strong> to update it using the following
@@ -52,7 +52,7 @@
 			<a href="http://www.pip-installer.org">project documentation site</a>.
 		</p>
 	{% else %}
-		<div class="alert-message success">
+		<div class="alert alert-success">
 			<p><strong>Already ok !</strong> Your version is the last version !</p>
 		</div>
 		<p>
@@ -77,7 +77,7 @@
 			{% if version|lower == current_version|lower %}
 				<li>{{ version }} <span class="label">YOUR VERSION</span></li>
 			{% elif version|lower == pypi_info[0]|lower %}
-				<li>{{ version }} <span class="label success">NEW</span></li>
+				<li>{{ version }} <span class="label label-success">NEW</span></li>
 			{% else %}
 				<li>{{ version }}</li>
 			{% endif %}
@@ -89,7 +89,7 @@
 
 </div>
 <div class="modal-footer">
-	<a id="btn_dismiss" href="#" class="btn primary">Dismiss</a>
+	<a id="btn_dismiss" href="#" class="btn btn-primary">Dismiss</a>
 </div>
 
 <script type="text/javascript">

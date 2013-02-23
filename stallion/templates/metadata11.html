@@ -6,7 +6,7 @@
 		<img src="{{ url_for('static', filename='world.png') }}" class="midicon"> 
 		{{ distinfo["download-url"] }}</a>
 	{% else %}
-		<span class="label important">No download url specified</span>
+		<span class="label label-important">No download url specified</span>
 	{% endif %}
 	</td>
 </tr>
@@ -17,7 +17,7 @@
 		{% set requires = distinfo["requires"] %}
 
 		{% if not requires %}
-			<span class="label important">No requirements specified</span>
+			<span class="label label-important">No requirements specified</span>
 		{% elif requires is string %}
 			{{ requires }}
 		{% else %}
@@ -36,7 +36,7 @@
 		{% set provides = distinfo["provides"] %}
 
 		{% if not provides %}
-			<span class="label important">No providers specified</span>
+			<span class="label label-important">No providers specified</span>
 		{% elif provides is string %}
 			{{ provides }}
 		{% else %}
@@ -55,7 +55,7 @@
 		{% set obsoletes = distinfo["obsoletes"] %}
 
 		{% if not obsoletes %}
-			<span class="label important">No obsoletes specified</span>
+			<span class="label label-important">No obsoletes specified</span>
 		{% elif obsoletes is string %}
 			{{ obsoletes }}
 		{% else %}

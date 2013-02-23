@@ -1,13 +1,13 @@
 {% extends "main.html" %}
 
 {% block section_title %}
-	<img src="{{ url_for('static', filename='about.png') }}" class="midicon"> About Stallion
+	<img src="{{ url_for('static', filename='about.png') }}" class="midiconlarge"> About Stallion
 	<small>version {{ version }}</small>
 {% endblock %}
 
 {% block content %}
-<div class="row">
-	<div class="span16">
+<div class="row-fluid">
+	<div class="span9">
 	<p>
 		<strong>Stallion</strong> was created by <a href="{{ author_url }}">{{ author }}</a> to provide an "easy-to-use" visual interface for Python newcomers. Today we have many
 		nice distribution utilities like pip, distribute, etc, but we don't have a nice visual approach with these same goals.
@@ -16,7 +16,7 @@
     <br />
 
 	<div class="page-header">
-        <h2><img src="{{ url_for('static', filename='contribute.png') }}" class="midicon"> Contributors</h2>
+        <h2><img src="{{ url_for('static', filename='contribute.png') }}" class="midiconlarge"> Contributors</h2>
     </div>
 
 	<p>
@@ -33,7 +33,7 @@
 
 
 	<div class="page-header">
-        <h2><img src="{{ url_for('static', filename='contribute.png') }}" class="midicon"> Get involved !</h2>
+        <h2><img src="{{ url_for('static', filename='contribute.png') }}" class="midiconlarge"> Get involved !</h2>
     </div>
 
 	<p>

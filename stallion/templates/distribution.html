@@ -34,7 +34,7 @@
 
 
 {% block section_title %}
-	<img src="{{ url_for('static', filename='terminal-icon.png') }}" class="midicon"> {{ dist.project_name }} 
+	<img src="{{ url_for('static', filename='terminal-icon.png') }}" class="midiconlarge"> {{ dist.project_name }} 
 	<small>version {{ dist.version }}</small><br/>
 	{% if distinfo.summary %}<small>{{ distinfo.summary }}</small>{% endif %}
 {% endblock %}
@@ -52,12 +52,12 @@
 	</div>
 </div>
 
-<div class="row">
-	<div class="span8">
+<div class="row-fluid">
+	<div class="span4">
 
 	<div class="well" style="padding: 10px 12px;">
-		<div class="page-header"><h3>Available Actions</h3></div>
-		<button class="btn primary" id="btn_check_updates" data-loading-text="Checking...">Check updates</button>
+		<h3>Available Actions</h3>
+		<button class="btn btn-primary" id="btn_check_updates" data-loading-text="Checking...">Check updates</button>
 	</div>
 
 	{% if  description_render %}
@@ -76,9 +76,9 @@
 	{% endif %}
 
 	</div>
-	<div class="span8">
+	<div class="span6">
 		<div class="well" style="padding: 14px 19px;">
-			<div class="page-header"><h2><img src="{{ url_for('static', filename='info.png') }}" class="midicon"> Package information</h2><br /></div>
+			<h2><img src="{{ url_for('static', filename='info.png') }}" class="midiconlarge"> Package information</h2><br />
 
 				{% include 'metadata.html' %}
 
