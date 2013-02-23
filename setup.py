@@ -59,6 +59,7 @@ setup(
     entry_points={
         'console_scripts': [
             'stallion = stallion.main:run_main',
+            'plp = stallion.console:run_main'
         ],
     },
 )
