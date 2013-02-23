@@ -71,8 +71,13 @@ def cmd_list(args):
 
     :param args: the docopt parsed arguments
     """
+    filt = args['<filter>']
     distributions = get_shared_data()['distributions']
     for d in distributions:
+        if filt:
+            if filt.lower() not in d.project_name.lower():
+                continue
+
         pkg_dist = get_pkg_res().get_distribution(d.key)
         pkg_metadata = pkg_dist.get_metadata(metadata.METADATA_NAME)
         parsed, key_known = metadata.parse_metadata(pkg_metadata)
@@ -102,7 +107,7 @@ def run_main():
     """Stallion - Python List Packages (PLP)
 
     Usage:
-      plp list
+      plp list [<filter>]
 
       plp (-h | --help)
       plp --version
