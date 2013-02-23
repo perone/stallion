@@ -20,9 +20,9 @@ except ImportError:
 
 def long_description():
     if sys.version_info >= (3, 0, 0):
-        f = open("README.rst", mode="r", encoding="utf-8")
+        f = open("setup.rst", mode="r", encoding="utf-8")
     else:
-        f = open("README.rst", mode="r")
+        f = open("setup.rst", mode="r")
 
     return f.read()
 
