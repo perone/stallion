@@ -8,6 +8,7 @@ install_requirements = [
         'setuptools>=0.6c11',
         'docutils>=0.8.1',
         'jinja2>=2.6',
+        'docopt>=0.6.1'
 ]
 
 # Try to import json, only present as std module
