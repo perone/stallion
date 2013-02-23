@@ -95,6 +95,18 @@ Stallion is compatible with:
   - Internet Explorer 9 (IE9)
   - Safari
 
+
+What's new in release v0.3
+-------------------------------------------------------------------------------
+
+  - Bug fixes, tests, CI with Travis CI
+  - Update to latest Twitter Bootstrap version 2.3.0
+  - Added a sample launchd plist for managing Stallion on Mac OS X
+  - Added a console_scripts entry point for "stallion"
+  - Added -w (--web-browser) option to open a web browser to Stallion
+  - Python 3 compatibility fixes
+  - PEP8 fixes
+
 What's new in release v0.2
 -------------------------------------------------------------------------------
 
@@ -142,6 +154,12 @@ License
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
+
+Contributors
+----------------------
+
+See the `Contributors (github) <https://github.com/perone/stallion/contributors>`_
+
 
 Links
 -------------------------------------------------------------------------------

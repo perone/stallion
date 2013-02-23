@@ -112,7 +112,7 @@ Stallion is compatible with:
   - Internet Explorer 9 (IE9)
   - Safari
 
-## What's new in release v0.3 (unreleased)
+## What's new in release v0.3
 
   - Bug fixes, tests, CI with Travis CI
   - Update to latest Twitter Bootstrap version 2.3.0
