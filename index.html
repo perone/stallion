@@ -3,50 +3,32 @@
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=640" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
 
-    <link rel="stylesheet" href="stylesheets/core.css" media="screen"/>
-    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)"/>
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
 
-    <script type="text/javascript" src="javascripts/modernizr.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
-    <script type="text/javascript">
-      $(document).ready(function () {
-        $('#main_content').headsmart()
-      })
-    </script>
     <title>Stallion by perone</title>
   </head>
 
   <body>
-    <a id="forkme_banner" href="https://github.com/perone/stallion">View on GitHub</a>
-    <div class="shell">
-
-      <header>
-        <span class="ribbon-outer">
-          <span class="ribbon-inner">
-            <h1>Stallion</h1>
-            <h2>Stallion - A Python Package Manager</h2>
-          </span>
-          <span class="left-tail"></span>
-          <span class="right-tail"></span>
-        </span>
-      </header>
-
-      <section id="downloads">
-        <span class="inner">
-          <a href="https://github.com/perone/stallion/zipball/master" class="zip"><em>download</em> .ZIP</a><a href="https://github.com/perone/stallion/tarball/master" class="tgz"><em>download</em> .TGZ</a>
-        </span>
-      </section>
-
-
-      <span class="banner-fix"></span>
-
-
-      <section id="main_content">
+    <header>
+      <div class="inner">
         <h1>Stallion</h1>
+        <h2>Stallion - A Python Package Manager</h2>
+        <a href="https://github.com/perone/stallion" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>Stallion</h1>
 
 <p>Stallion is a Python Package Manager interface created to provide an "easy-to-use" visual interface
 for Python newcomers. Today we have many nice distribution utilities like pip, distribute, etc, but
@@ -80,41 +62,42 @@ we don't have a nice visual approach with these same goals. </p>
 
 <h2>Using Stallion</h2>
 
-<pre><code>python -m stallion.main [--help]
+<pre><code>$ stallion
+</code></pre>
+
+<p>or</p>
+
+<pre><code>$ python -m stallion.main [--help]
 </code></pre>
 
 <h2>Easy to Install</h2>
 
-<p>Installing using easy_install:</p>
-
-<pre><code>$ easy_install stallion
-$ python -m stallion.main
-</code></pre>
-
-<p>Upgrading using easy_install:</p>
-
-<pre><code>$ easy_install -U stallion
-$ python -m stallion.main
-</code></pre>
-
-<p>or using pip:</p>
-
 <p>Installing using pip:</p>
 
 <pre><code>$ pip install stallion
-$ python -m stallion.main
 </code></pre>
 
 <p>Upgrading using pip:</p>
 
 <pre><code>$ pip install --upgrade stallion
-$ python -m stallion.main
+</code></pre>
+
+<p>or using easy install:</p>
+
+<p>Installing using easy_install:</p>
+
+<pre><code>$ easy_install stallion
+</code></pre>
+
+<p>Upgrading using easy_install:</p>
+
+<pre><code>$ easy_install -U stallion
 </code></pre>
 
 <h2>Setting a development environment</h2>
 
 <hr><pre><code>$ python setup.py develop
-$ python -m stallion.main
+$ stallion
 </code></pre>
 
 <h2>Requirements</h2>
@@ -178,6 +161,16 @@ into useful formats, such as HTML or LaTeX.</p>
 <li>Google Chrome</li>
 <li>Internet Explorer 9 (IE9)</li>
 <li>Safari</li>
+</ul><h2>What's new in release v0.3</h2>
+
+<ul>
+<li>Bug fixes, tests, CI with Travis CI</li>
+<li>Update to latest Twitter Bootstrap version 2.3.0</li>
+<li>Added a sample launchd plist for managing Stallion on Mac OS X</li>
+<li>Added a console_scripts entry point for "stallion"</li>
+<li>Added -w (--web-browser) option to open a web browser to Stallion</li>
+<li>Python 3 compatibility fixes</li>
+<li>PEP8 fixes</li>
 </ul><h2>What's new in release v0.2</h2>
 
 <p>Bug fixes</p>
@@ -210,7 +203,7 @@ into useful formats, such as HTML or LaTeX.</p>
 <p>Open an issue in Github with the traceback. To get the traceback, you'll 
 have to run Stallion in debugging mode:</p>
 
-<pre><code>$ python -m stallion.main -drvi
+<pre><code>$ stallion -drvi
 </code></pre>
 
 <h2>License</h2>
@@ -230,32 +223,39 @@ have to run Stallion in debugging mode:</p>
    See the License for the specific language governing permissions and
    limitations under the License.</p>
 
+<h2>Contributors</h2>
+
+<p>See the <a href="https://github.com/perone/stallion/contributors">Contributors</a>.</p>
+
 <h2>Links</h2>
 
 <p><a href="https://github.com/perone/stallion">Project Site - Github</a></p>
-      </section>
+        </section>
 
-      <footer>
-        <span class="ribbon-outer">
-          <span class="ribbon-inner">
-            <p>this project by <a href="https://github.com/perone">perone</a> can be found on <a href="https://github.com/perone/stallion">GitHub</a></p>
-          </span>
-          <span class="left-tail"></span>
-          <span class="right-tail"></span>
-        </span>
-        <p>Generated with <a href="http://pages.github.com">GitHub Pages</a> using Merlot</p>
-        <span class="octocat"></span>
-      </footer>
+        <aside id="sidebar">
+          <a href="https://github.com/perone/stallion/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/perone/stallion/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
 
+          <p class="repo-owner"><a href="https://github.com/perone/stallion"></a> is maintained by <a href="https://github.com/perone">perone</a>.</p>
+
+          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
     </div>
 
-              <script type="text/javascript">
+            <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
           </script>
           <script type="text/javascript">
             try {
-              var pageTracker = _gat._getTracker("<script type="text/javascript">    var _gaq = _gaq || [];   _gaq.push(['_setAccount', 'UA-30560129-1']);   _gaq.push(['_trackPageview']);    (function() {     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);   })();  </script>");
+              var pageTracker = _gat._getTracker("&lt;script type=&quot;text/javascript&quot;&gt;    var _gaq = _gaq || [];   _gaq.push(['_setAccount', 'UA-30560129-1']);   _gaq.push(['_trackPageview']);    (function() {     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);   })();  &lt;/script&gt;");
             pageTracker._trackPageview();
             } catch(err) {}
           </script>
