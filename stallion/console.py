@@ -154,6 +154,20 @@ def cmd_show(args, short=False):
             req_text += ' '*4 + str(req) + '\n'
         print get_kv_colored('requires', req_text)
 
+    entry_points = pkg_dist.get_entry_map()
+    console_scripts = entry_points.get('console_scripts')
+    if console_scripts:
+        console_scr_text = Fore.WHITE + Style.BRIGHT + '  Console Scripts:' + '\n'
+        
+        for name, entry in console_scripts.items():
+            console_scr_text += Fore.YELLOW + Style.BRIGHT + ' '*4 + \
+                name + Fore.WHITE + Style.BRIGHT
+
+            console_scr_text += ' -> ' + Fore.GREEN + Style.BRIGHT + \
+                entry.module_name + ':' + ','.join(entry.attrs) + '\n'
+
+        print console_scr_text
+
     distinfo['classifier'] = classifier
     print get_field_formatted(distinfo, 'classifier')
 
