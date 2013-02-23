@@ -7,3 +7,4 @@ build/
 *.egg-info
 *.class
 .tox
+dist/
