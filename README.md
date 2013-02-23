@@ -32,38 +32,37 @@ we don't have a nice visual approach with these same goals.
 
 ## Using Stallion
 
-    python -m stallion.main [--help]
+    $ stallion
+
+or
+   
+    $ python -m stallion.main [--help]
 
 ## Easy to Install
-
-Installing using easy_install:
-
-    $ easy_install stallion
-    $ python -m stallion.main
-
-Upgrading using easy_install:
-
-    $ easy_install -U stallion
-    $ python -m stallion.main
- 
-or using pip:
 
 Installing using pip:
 
     $ pip install stallion
-    $ python -m stallion.main
 
 Upgrading using pip:
 
     $ pip install --upgrade stallion
-    $ python -m stallion.main
 
+or using easy install:
+
+Installing using easy_install:
+
+    $ easy_install stallion
+
+Upgrading using easy_install:
+
+    $ easy_install -U stallion
 
 ## Setting a development environment
 -------------------------------------------------------------------------------
 
     $ python setup.py develop
-    $ python -m stallion.main
+    $ stallion
 
 ## Requirements
 
@@ -152,7 +151,7 @@ Bug fixes
 Open an issue in Github with the traceback. To get the traceback, you'll 
 have to run Stallion in debugging mode:
 
-    $ python -m stallion.main -drvi
+    $ stallion -drvi
 
 ## License
 

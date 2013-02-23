@@ -10,42 +10,39 @@ Using Stallion
 
 ::
 
-    python -m stallion.main [--help]
+    stallion [--help]
 
 Easy to Install
 -------------------------------------------------------------------------------
-
-Installing using easy_install:
-
-::
-
-    $ easy_install stallion
-    $ python -m stallion.main
-
-Upgrading using easy_install:
-
-::
-
-    $ easy_install -U stallion
-    $ python -m stallion.main
- 
-
-or using pip:
 
 Installing using pip:
 
 ::
 
     $ pip install stallion
-    $ python -m stallion.main
+    $ stallion
 
 Upgrading using pip:
 
 ::
 
     $ pip install --upgrade stallion
-    $ python -m stallion.main
+    $ stallion
 
+or using easy install:
+
+::
+
+    $ easy_install stallion
+    $ stallion
+
+Upgrading using easy_install:
+
+::
+
+    $ easy_install -U stallion
+    $ stallion
+ 
 
 Setting a development environment
 -------------------------------------------------------------------------------
@@ -53,7 +50,7 @@ Setting a development environment
 ::
 
     $ python setup.py develop
-    $ python -m stallion.main
+    $ stallion
 
 Requirements
 -------------------------------------------------------------------------------
@@ -127,7 +124,7 @@ have to run Stallion in debugging mode:
 
 ::
 
-    $ python -m stallion.main -drvi
+    $ stallion -drvi
 
 License
 -------------------------------------------------------------------------------
