@@ -113,6 +113,14 @@ Stallion uses the following external projects:
 
 > Simple, fast, extensible JSON encoder/decoder for Python
 
+[docopt](http://docopt.org/) (used by plp)
+
+> Command-line interface description language
+
+[colorama](https://pypi.python.org/pypi/colorama) (used by plp)
+
+> Cross-platform colored terminal text.
+
 ## Compatibility
 
 Stallion is compatible with:
