@@ -46,10 +46,6 @@ we don't have a nice visual approach with these same goals.
 
 ![Updates](https://raw.github.com/perone/stallion/master/screenshots/plp_scripts_gunicorn.png)
 
-![Updates](https://raw.github.com/perone/stallion/master/screenshots/plp_help.png)
-
-![Updates](https://raw.github.com/perone/stallion/master/screenshots/plp_help.png)
-
 ## Using Stallion
 
     $ stallion
