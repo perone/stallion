@@ -18,7 +18,7 @@ from docopt import docopt
 from colorama import init
 from colorama import Fore, Back, Style
 
-from pkg_resources import DistributionNotFound
+import pkg_resources
 
 def ellipsize(msg, max_size=80):
     '''This function will ellipsize the string.
@@ -102,7 +102,8 @@ def cmd_show(args, short=False):
     try:
         pkg_dist = get_pkg_res().get_distribution(proj_name)
     except:
-        print Fore.RED + Style.BRIGHT + 'Error: unable to locate the project \'%s\' !' % proj_name
+        print Fore.RED + Style.BRIGHT + \
+            'Error: unable to locate the project \'%s\' !' % proj_name
         print Fore.RESET + Back.RESET + Style.RESET_ALL
         raise RuntimeError('Project not found !')
 
@@ -207,9 +208,6 @@ def cmd_list(args):
         print get_field_formatted(distinfo, 'License')
         print get_field_formatted(distinfo, 'Platform')
 
-        print Fore.RESET + Back.RESET + Style.RESET_ALL
-
-
 def cmd_check(args):
     proj_name = args['<project_name>']
     cmd_show(args, short=True)
@@ -259,6 +257,22 @@ def cmd_check(args):
 
     print Fore.RESET + Back.RESET + Style.RESET_ALL
 
+def cmd_scripts(arguments):
+    filt = arguments['<filter>']
+
+    print Fore.YELLOW + Style.BRIGHT + \
+        'Script Name'.ljust(23) + 'Project Name'.ljust(21) + 'Module Name'
+    print '-' * 80
+    for entry in pkg_resources.iter_entry_points('console_scripts'):
+        if(filt):
+            if filt.lower() not in entry.name.lower():
+                continue 
+
+        print Fore.GREEN + Style.BRIGHT + entry.name.ljust(22),
+        print Fore.WHITE + Style.NORMAL + str(entry.dist).ljust(20),
+        print Fore.BLUE + Style.BRIGHT + entry.module_name
+    print Fore.RESET + Back.RESET + Style.RESET_ALL
+
 def run_main():
     '''Stallion - Python List Packages (PLP)
 
@@ -266,6 +280,7 @@ def run_main():
       plp list [<filter>]
       plp show <project_name>
       plp check <project_name>
+      plp scripts [<filter>]
 
       plp (-h | --help)
       plp --version
@@ -288,6 +303,9 @@ def run_main():
     if arguments['check']:
         cmd_check(arguments)
 
+    if arguments['scripts']:
+        cmd_scripts(arguments)
+
 if __name__ == '__main__':
-    init()
+    init(autoreset=True)
     run_main()
