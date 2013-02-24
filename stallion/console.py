@@ -245,7 +245,10 @@ def cmd_check(args):
         pypi_last_version = get_pkg_res().parse_version(pypi_rel[0])
         current_version = get_pkg_res().parse_version(pkg_dist_version)
 
-        version_index = pypi_rel.index(pkg_dist_version)
+        try:
+            version_index = pypi_rel.index(pkg_dist_version)
+        except:
+            version_index = len(pypi_rel)
         
         for version in pypi_rel[0:version_index+3]:
             print Fore.WHITE + Style.BRIGHT + '  Version %s' % version,
@@ -273,6 +276,13 @@ def cmd_check(args):
         if pypi_last_version < current_version:
             print Fore.YELLOW + Style.BRIGHT + \
                 '  Your version newer than the version available at PyPI !'
+
+            print Fore.YELLOW + Style.BRIGHT + '  You\'re using ' + \
+                Fore.WHITE + Style.BRIGHT + 'v.%s,' % pkg_dist_version + \
+                Fore.YELLOW + Style.BRIGHT + \
+                ' but the last version in PyPI ' + Fore.WHITE + Style.BRIGHT + \
+                'v.%s !' % pypi_rel[0]
+
            
     else:
         print 'No versions found on PyPI !'
@@ -318,6 +328,8 @@ def run_main():
     import atexit
     atexit.register(reset_colors)
 
+    init(autoreset=True)
+
     arguments = docopt(run_main.__doc__,
         version='Stallion v.%s - Python List Packages (PLP)' %
         stallion.__version__)
@@ -335,5 +347,4 @@ def run_main():
         cmd_scripts(arguments)
 
 if __name__ == '__main__':
-    init(autoreset=True)
     run_main()
