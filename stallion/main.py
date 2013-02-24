@@ -225,6 +225,18 @@ def index():
 
     return render_template('system_information.html', **data)
 
+@app.route('/console_scripts')
+def console_scripts():
+    """ Entry point for the global console scripts """
+    data = {}
+    data.update(get_shared_data())
+    data['menu_console_scripts'] = 'active'
+    data['breadpath'] = [Crumb('Console Scripts')]
+
+    entry_console = get_pkg_res().iter_entry_points('console_scripts')
+    data['scripts'] = entry_console
+
+    return render_template('console_scripts.html', **data)
 
 @app.route('/about')
 def about():

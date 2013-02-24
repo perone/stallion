@@ -1,0 +1,53 @@
+{% extends "main.html" %}
+
+{% block js %}
+<script type="text/javascript">
+
+ $(document).ready(function() {
+
+	$('#back-to-top').click(function() {
+		window.scrollTo(0,0);
+		return false;
+	});
+
+ });
+
+</script>
+{% endblock %}
+
+
+{% block section_title %}
+	<img src="{{ url_for('static', filename='console-icon.png') }}" class="midiconlarge"> Console Scripts
+	<small>Those are the global scripts available at your shell</small>
+{% endblock %}
+
+{% block content %}
+
+<div class="row-fluid">
+	<div class="span10">
+		<table class="table table-bordered">
+			<thead>
+				<th>Project Name</th>
+				<th>Script Name</th>
+				<th>Module Name (function/method)</th>
+			</thead>
+			<tbody>
+			{% for entry in scripts %}
+			<tr>
+				<td>
+					<a href="{{ url_for('distribution', dist_name=entry.dist.project_name|lower) }}">
+						<img src="{{ url_for('static', filename='box-icon.png') }}" class="midicon"/>
+						{{ entry.dist }}
+					</a>
+				</td>
+				<td>{{ entry.name }}</td>
+				<td>{{ entry.module_name }} <em>({{ entry.attrs|join(",") }})</em></td>
+			</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+		<a href="#" id="back-to-top">Back to Top</a>
+	</div>
+</div>
+
+{% endblock %}
