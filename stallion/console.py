@@ -270,7 +270,8 @@ def cmd_scripts(arguments):
 
         print Fore.GREEN + Style.BRIGHT + entry.name.ljust(22),
         print Fore.WHITE + Style.NORMAL + str(entry.dist).ljust(20),
-        print Fore.BLUE + Style.BRIGHT + entry.module_name
+        print Fore.BLUE + Style.BRIGHT + entry.module_name,
+        print Fore.BLUE + Style.NORMAL + '(' + entry.attrs[0] + ')'
     print Fore.RESET + Back.RESET + Style.RESET_ALL
 
 def run_main():
