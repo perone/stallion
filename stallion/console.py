@@ -173,40 +173,65 @@ def cmd_show(args, short=False):
     print get_field_formatted(distinfo, 'classifier')
 
 
+def cmd_list_detail(dist, distinfo):
+    proj_head = Fore.GREEN + Style.BRIGHT + dist.project_name
+    proj_head += Fore.YELLOW + Style.BRIGHT + ' ' + dist.version
+    print proj_head,
+
+    proj_sum = Fore.WHITE + Style.DIM
+    proj_sum += '- ' + parse_dict(distinfo, 'summary', True)
+    print proj_sum
+
+    print get_field_formatted(distinfo, 'Author'),
+    author_email = distinfo.get('author-email')
+    if author_email:
+        print '<%s>' % author_email
+    else: print
+
+    print get_field_formatted(distinfo, 'Home-page')
+    print get_field_formatted(distinfo, 'License')
+    print get_field_formatted(distinfo, 'Platform')
+
+def cmd_list_compact(dist, distinfo):
+    proj_head = Fore.GREEN + Style.BRIGHT + dist.project_name.ljust(25)
+    proj_head += Fore.WHITE + Style.BRIGHT + ' ' + dist.version.ljust(12)
+    print proj_head,
+
+    proj_sum = Fore.WHITE + Style.DIM
+    proj_sum += ' ' + parse_dict(distinfo, 'summary', True)
+    print proj_sum.ljust(100)
+
 def cmd_list(args):
     '''This function implements the package list command.
 
     :param args: the docopt parsed arguments
     '''
+    compact = args['--compact']
     filt = args['<filter>']
     distributions = get_shared_data()['distributions']
-    for d in distributions:
+
+    if compact:
+        print Fore.YELLOW + Style.BRIGHT + \
+            'Project Name'.ljust(26) + 'Version'.ljust(14) + 'Summary'
+        print '-' * 80
+    
+    for dist in distributions:
         if filt:
-            if filt.lower() not in d.project_name.lower():
+            if filt.lower() not in dist.project_name.lower():
                 continue
 
-        pkg_dist = get_pkg_res().get_distribution(d.key)
+        pkg_dist = get_pkg_res().get_distribution(dist.key)
         pkg_metadata = pkg_dist.get_metadata(metadata.METADATA_NAME)
         parsed, key_known = metadata.parse_metadata(pkg_metadata)
         distinfo = metadata.metadata_to_dict(parsed, key_known)
+
+        if compact:
+            cmd_list_compact(dist, distinfo)
+        else:
+            cmd_list_detail(dist, distinfo)
         
-        proj_head = Fore.GREEN + Style.BRIGHT + d.project_name
-        proj_head += Fore.YELLOW + Style.BRIGHT + ' ' + d.version
-        print proj_head,
+    print Fore.RESET + Back.RESET + Style.RESET_ALL
 
-        proj_sum = Fore.WHITE + Style.DIM
-        proj_sum += '- ' + parse_dict(distinfo, 'summary', True)
-        print proj_sum
-
-        print get_field_formatted(distinfo, 'Author'),
-        author_email = distinfo.get('author-email')
-        if author_email:
-            print '<%s>' % author_email
-        else: print
-
-        print get_field_formatted(distinfo, 'Home-page')
-        print get_field_formatted(distinfo, 'License')
-        print get_field_formatted(distinfo, 'Platform')
 
 def cmd_check(args):
     proj_name = args['<project_name>']
@@ -278,7 +303,7 @@ def run_main():
     '''Stallion - Python List Packages (PLP)
 
     Usage:
-      plp list [<filter>]
+      plp list [--compact] [<filter>] 
       plp show <project_name>
       plp check <project_name>
       plp scripts [<filter>]
@@ -287,6 +312,7 @@ def run_main():
       plp --version
 
     Options:
+      --compact     Compact list format
       -h --help     Show this screen.
       --version     Show version.
     '''
