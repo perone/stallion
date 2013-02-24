@@ -112,6 +112,14 @@ Stallion is compatible with:
   - Internet Explorer 9 (IE9)
   - Safari
 
+## What's new in release v0.4 (development version)
+
+  - Added a new script called 'plp' (Python List Packages)
+  - Added the command 'list' for plp
+  - Added the command 'show' for plp
+  - Added the command 'check' for plp
+  - Added the command 'scripts' for plp
+
 ## What's new in release v0.3
 
   - Bug fixes, tests, CI with Travis CI
