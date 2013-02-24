@@ -50,9 +50,9 @@ we don't have a nice visual approach with these same goals.
 
     $ stallion
 
-or
-   
-    $ python -m stallion.main [--help]
+## Using plp
+  
+    $ plp --help
 
 ## Easy to Install
 
