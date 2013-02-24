@@ -123,6 +123,7 @@ Stallion is compatible with:
     at the web frontend
   - Added the 'Console Scripts' global section on the
     web frontend
+  - Added new font type for the web frontend
 
 ## What's new in release v0.3
 

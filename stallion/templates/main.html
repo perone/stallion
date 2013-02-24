@@ -10,9 +10,12 @@
   <script type="text/javascript" src="{{ url_for('static', filename='ajax-queue.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
 
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700' rel='stylesheet' type='text/css'>
+
   <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
   <link href="{{ url_for('static', filename='extra.css') }}" rel="stylesheet">
   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
 
   {% block head %}{% endblock %}
 
@@ -126,7 +129,7 @@
 			<div class="span3">
 
 				<div class="page-header">
-				<h2>Packages</h2>
+				<h2><img src="{{ url_for('static', filename='box.png') }}" class="midiconlarge" /> Packages</h2>
 				</div>
 
 				<div id="check_updates" class="progress-div">
