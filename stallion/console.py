@@ -104,7 +104,6 @@ def cmd_show(args, short=False):
     except:
         print Fore.RED + Style.BRIGHT + \
             'Error: unable to locate the project \'%s\' !' % proj_name
-        print Fore.RESET + Back.RESET + Style.RESET_ALL
         raise RuntimeError('Project not found !')
 
     pkg_metadata = pkg_dist.get_metadata(metadata.METADATA_NAME)
@@ -287,8 +286,6 @@ def cmd_check(args):
     else:
         print 'No versions found on PyPI !'
 
-    print Fore.RESET + Back.RESET + Style.RESET_ALL
-
 def cmd_scripts(arguments):
     filt = arguments['<filter>']
 
@@ -304,9 +301,6 @@ def cmd_scripts(arguments):
         print Fore.WHITE + Style.NORMAL + str(entry.dist).ljust(20),
         print Fore.BLUE + Style.BRIGHT + entry.module_name,
         print Fore.BLUE + Style.NORMAL + '(' + entry.attrs[0] + ')'
-
-def reset_colors():
-    print Fore.RESET + Back.RESET + Style.RESET_ALL
 
 def run_main():
     '''Stallion - Python List Packages (PLP)
@@ -325,9 +319,6 @@ def run_main():
       -h --help     Show this screen.
       --version     Show version.
     '''
-    import atexit
-    atexit.register(reset_colors)
-
     init(autoreset=True)
 
     arguments = docopt(run_main.__doc__,
