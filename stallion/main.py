@@ -279,6 +279,7 @@ def distribution(dist_name=None):
         pass
 
     data['distinfo'] = distinfo
+    data['entry_map'] = pkg_dist.get_entry_map()
 
     if parts is not None:
         data['description_render'] = parts['body']
