@@ -10,27 +10,45 @@ we don't have a nice visual approach with these same goals.
 
 ![The home](screenshots/main_screen.png)
 
-![The home](http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/main_page.png)
-
 ### Screenshot: Installed package information
 
-![Installed package information](http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/distr.png)
+![Installed package information](screenshots/distribution_top.png)
 
 ### Screenshot: Package metadata
 
-![Package metadata](http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/metadata.png)
+![Package metadata](screenshots/distr_metadata.png)
 
 ### Screenshot: Check PyPI for updates available
 
-![Updates](http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/updates_avail.png)
+![Updates](screenshots/pypi_update.png)
 
-![Updates](http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/updates.png)
+![Updates](screenshots/pypi_update_avail.png)
 
-![Updates](http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/updates2.png)
+![Updates](screenshots/pypi_updated.png)
 
-## Screenshot: PyPI version mismatch diagnosis
+### Screenshot: the 'plp' (Python List Packages) utility
 
-![Version mismatch](http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/diagnosis.png)
+![Updates](screenshots/plp_help.png)
+
+![Updates](screenshots/plp_list_django.png)
+
+![Updates](screenshots/plp_list_django_compact.png)
+
+![Updates](screenshots/plp_big_list.png)
+
+![Updates](screenshots/plp_show_flask.png)
+
+![Updates](screenshots/plp_check_jinja2_no_upd.png)
+
+![Updates](screenshots/plp_check_bottle_upd.png)
+
+![Updates](screenshots/plp_scripts.png)
+
+![Updates](screenshots/plp_scripts_gunicorn.png)
+
+![Updates](screenshots/plp_help.png)
+
+![Updates](screenshots/plp_help.png)
 
 ## Using Stallion
 
