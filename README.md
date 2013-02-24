@@ -8,6 +8,8 @@ we don't have a nice visual approach with these same goals.
 
 ### Screenshot: The home
 
+![The home](screenshots/main_screen.png)
+
 ![The home](http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/main_page.png)
 
 ### Screenshot: Installed package information
