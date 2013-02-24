@@ -8,47 +8,47 @@ we don't have a nice visual approach with these same goals.
 
 ### Screenshot: The home
 
-![The home](screenshots/main_screen.png)
+![The home](https://raw.github.com/perone/stallion/master/screenshots/main_screen.png)
 
 ### Screenshot: Installed package information
 
-![Installed package information](screenshots/distribution_top.png)
+![Installed package information](https://raw.github.com/perone/stallion/master/screenshots/distribution_top.png)
 
 ### Screenshot: Package metadata
 
-![Package metadata](screenshots/distr_metadata.png)
+![Package metadata](https://raw.github.com/perone/stallion/master/screenshots/distr_metadata.png)
 
 ### Screenshot: Check PyPI for updates available
 
-![Updates](screenshots/pypi_update.png)
+![Updates](https://raw.github.com/perone/stallion/master/screenshots/pypi_update.png)
 
-![Updates](screenshots/pypi_update_avail.png)
+![Updates](https://raw.github.com/perone/stallion/master/screenshots/pypi_update_avail.png)
 
-![Updates](screenshots/pypi_updated.png)
+![Updates](https://raw.github.com/perone/stallion/master/screenshots/pypi_updated.png)
 
 ### Screenshot: the 'plp' (Python List Packages) utility
 
-![Updates](screenshots/plp_help.png)
+![Updates](https://raw.github.com/perone/stallion/master/screenshots/plp_help.png)
 
-![Updates](screenshots/plp_list_django.png)
+![Updates](https://raw.github.com/perone/stallion/master/screenshots/plp_list_django.png)
 
-![Updates](screenshots/plp_list_django_compact.png)
+![Updates](https://raw.github.com/perone/stallion/master/screenshots/plp_list_django_compact.png)
 
-![Updates](screenshots/plp_big_list.png)
+![Updates](https://raw.github.com/perone/stallion/master/screenshots/plp_big_list.png)
 
-![Updates](screenshots/plp_show_flask.png)
+![Updates](https://raw.github.com/perone/stallion/master/screenshots/plp_show_flask.png)
 
-![Updates](screenshots/plp_check_jinja2_no_upd.png)
+![Updates](https://raw.github.com/perone/stallion/master/screenshots/plp_check_jinja2_no_upd.png)
 
-![Updates](screenshots/plp_check_bottle_upd.png)
+![Updates](https://raw.github.com/perone/stallion/master/screenshots/plp_check_bottle_upd.png)
 
-![Updates](screenshots/plp_scripts.png)
+![Updates](https://raw.github.com/perone/stallion/master/screenshots/plp_scripts.png)
 
-![Updates](screenshots/plp_scripts_gunicorn.png)
+![Updates](https://raw.github.com/perone/stallion/master/screenshots/plp_scripts_gunicorn.png)
 
-![Updates](screenshots/plp_help.png)
+![Updates](https://raw.github.com/perone/stallion/master/screenshots/plp_help.png)
 
-![Updates](screenshots/plp_help.png)
+![Updates](https://raw.github.com/perone/stallion/master/screenshots/plp_help.png)
 
 ## Using Stallion
 
