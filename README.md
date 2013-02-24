@@ -119,6 +119,8 @@ Stallion is compatible with:
   - Added the command 'show' for plp
   - Added the command 'check' for plp
   - Added the command 'scripts' for plp
+  - Added 'Console Scripts' section into the distribution info
+    at the web frontend
 
 ## What's new in release v0.3
 
