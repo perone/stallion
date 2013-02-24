@@ -230,9 +230,6 @@ def cmd_list(args):
         else:
             cmd_list_detail(dist, distinfo)
         
-    print Fore.RESET + Back.RESET + Style.RESET_ALL
-
-
 def cmd_check(args):
     proj_name = args['<project_name>']
     cmd_show(args, short=True)
@@ -297,6 +294,8 @@ def cmd_scripts(arguments):
         print Fore.WHITE + Style.NORMAL + str(entry.dist).ljust(20),
         print Fore.BLUE + Style.BRIGHT + entry.module_name,
         print Fore.BLUE + Style.NORMAL + '(' + entry.attrs[0] + ')'
+
+def reset_colors():
     print Fore.RESET + Back.RESET + Style.RESET_ALL
 
 def run_main():
@@ -316,6 +315,8 @@ def run_main():
       -h --help     Show this screen.
       --version     Show version.
     '''
+    import atexit
+    atexit.register(reset_colors)
 
     arguments = docopt(run_main.__doc__,
         version='Stallion v.%s - Python List Packages (PLP)' %
