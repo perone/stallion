@@ -3,6 +3,7 @@ include LICENSE setup.rst
 recursive-exclude stallion *.pyc
 recursive-exclude stallion *.pyo
 recursive-exclude docs *
+recursive-exclude screenshots *
 
 recursive-include stallion/static *
 recursive-include stallion/templates *
