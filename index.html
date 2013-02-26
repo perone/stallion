@@ -1,76 +1,86 @@
 <!DOCTYPE html>
 <html>
+
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Stallion : Stallion - A Python Package Manager" />
 
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
-    <title>Stallion by perone</title>
+    <title>Stallion</title>
   </head>
 
   <body>
-    <header>
-      <div class="inner">
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/perone/stallion">View on GitHub</a>
+
+          <h1 id="project_title">Stallion</h1>
+          <h2 id="project_tagline">Stallion - A Python Package Manager</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/perone/stallion/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/perone/stallion/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
         <h1>Stallion</h1>
-        <h2>Stallion - A Python Package Manager</h2>
-        <a href="https://github.com/perone/stallion" class="button"><small>View project on</small>GitHub</a>
-      </div>
-    </header>
 
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
-          <h1>Stallion</h1>
-
-<p>Stallion is a Python Package Manager interface created to provide an "easy-to-use" visual interface
-for Python newcomers. Today we have many nice distribution utilities like pip, distribute, etc, but
-we don't have a nice visual approach with these same goals. </p>
+<p>Stallion is a Python Package Manager interface created to provide an "easy-to-use" visual and also
+a command-line interface for Pythonistas. Today we have many nice distribution utilities like pip,
+distribute, etc, but we don't have a nice visual approach to inspect current installed packages,
+show porjects metadata, check for PyPI updates, etc. </p>
 
 <h2>Screenshots</h2>
 
 <h3>Screenshot: The home</h3>
 
-<p><img src="http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/main_page.png" alt="The home"></p>
+<p><img src="https://raw.github.com/perone/stallion/master/screenshots/main_screen.png" alt="The home"></p>
 
 <h3>Screenshot: Installed package information</h3>
 
-<p><img src="http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/distr.png" alt="Installed package information"></p>
+<p><img src="https://raw.github.com/perone/stallion/master/screenshots/distribution_top.png" alt="Installed package information"></p>
 
 <h3>Screenshot: Package metadata</h3>
 
-<p><img src="http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/metadata.png" alt="Package metadata"></p>
+<p><img src="https://raw.github.com/perone/stallion/master/screenshots/distr_metadata.png" alt="Package metadata"></p>
 
 <h3>Screenshot: Check PyPI for updates available</h3>
 
-<p><img src="http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/updates_avail.png" alt="Updates"></p>
+<p><img src="https://raw.github.com/perone/stallion/master/screenshots/pypi_update.png" alt="Updates"></p>
 
-<p><img src="http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/updates.png" alt="Updates"></p>
+<p><img src="https://raw.github.com/perone/stallion/master/screenshots/pypi_update_avail.png" alt="Updates"></p>
 
-<p><img src="http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/updates2.png" alt="Updates"></p>
+<p><img src="https://raw.github.com/perone/stallion/master/screenshots/pypi_updated.png" alt="Updates"></p>
 
-<h2>Screenshot: PyPI version mismatch diagnosis</h2>
+<h3>Screenshot: the 'plp' (Python List Packages) utility</h3>
 
-<p><img src="http://pyevolve.sourceforge.net/wordpress/wp-content/uploads/2011/12/diagnosis.png" alt="Version mismatch"></p>
+<p><img src="https://raw.github.com/perone/stallion/master/screenshots/plp_help.png" alt="Updates"></p>
 
-<h2>Using Stallion</h2>
+<p><img src="https://raw.github.com/perone/stallion/master/screenshots/plp_list_django.png" alt="Updates"></p>
 
-<pre><code>$ stallion
-</code></pre>
+<p><img src="https://raw.github.com/perone/stallion/master/screenshots/plp_list_django_compact.png" alt="Updates"></p>
 
-<p>or</p>
+<p><img src="https://raw.github.com/perone/stallion/master/screenshots/plp_big_list.png" alt="Updates"></p>
 
-<pre><code>$ python -m stallion.main [--help]
-</code></pre>
+<p><img src="https://raw.github.com/perone/stallion/master/screenshots/plp_show_flask.png" alt="Updates"></p>
 
-<h2>Easy to Install</h2>
+<p><img src="https://raw.github.com/perone/stallion/master/screenshots/plp_check_jinja2_no_upd.png" alt="Updates"></p>
+
+<p><img src="https://raw.github.com/perone/stallion/master/screenshots/plp_check_bottle_upd.png" alt="Updates"></p>
+
+<p><img src="https://raw.github.com/perone/stallion/master/screenshots/plp_scripts.png" alt="Updates"></p>
+
+<p><img src="https://raw.github.com/perone/stallion/master/screenshots/plp_scripts_gunicorn.png" alt="Updates"></p>
+
+<h2>How to Install</h2>
 
 <p>Installing using pip:</p>
 
@@ -94,9 +104,39 @@ we don't have a nice visual approach with these same goals. </p>
 <pre><code>$ easy_install -U stallion
 </code></pre>
 
+<h2>Using Stallion</h2>
+
+<p>You only need to call the script (the -w option will automatically open your browser):</p>
+
+<pre><code>$ stallion -w
+</code></pre>
+
+<h2>Using plp</h2>
+
+<pre><code>$ plp --help
+Stallion - Python List Packages (PLP)
+
+Usage:
+  plp list [--compact] [&lt;filter&gt;]
+  plp show &lt;project_name&gt;
+  plp check &lt;project_name&gt;
+  plp scripts [&lt;filter&gt;]
+
+  plp (-h | --help)
+  plp --version
+
+Options:
+  --compact     Compact list format
+  -h --help     Show this screen.
+  --version     Show version.
+</code></pre>
+
 <h2>Setting a development environment</h2>
 
-<hr><pre><code>$ python setup.py develop
+<hr><p>Developers can setup a development environment using the "develop" command
+from setuptools:</p>
+
+<pre><code>$ python setup.py develop
 $ stallion
 </code></pre>
 
@@ -141,6 +181,18 @@ into useful formats, such as HTML or LaTeX.</p>
 <p>Simple, fast, extensible JSON encoder/decoder for Python</p>
 </blockquote>
 
+<p><a href="http://docopt.org/">docopt</a> (used by plp)</p>
+
+<blockquote>
+<p>Command-line interface description language</p>
+</blockquote>
+
+<p><a href="https://pypi.python.org/pypi/colorama">colorama</a> (used by plp)</p>
+
+<blockquote>
+<p>Cross-platform colored terminal text.</p>
+</blockquote>
+
 <h2>Compatibility</h2>
 
 <p>Stallion is compatible with:</p>
@@ -159,8 +211,21 @@ into useful formats, such as HTML or LaTeX.</p>
 <ul>
 <li>Firefox</li>
 <li>Google Chrome</li>
-<li>Internet Explorer 9 (IE9)</li>
+<li>Internet Explorer 9/10</li>
 <li>Safari</li>
+</ul><h2>What's new in release v0.4</h2>
+
+<ul>
+<li>Introduced 'plp' (Python List Packages)</li>
+<li>Added the command 'list' for plp</li>
+<li>Added the command 'show' for plp</li>
+<li>Added the command 'check' for plp</li>
+<li>Added the command 'scripts' for plp</li>
+<li>Added 'Console Scripts' section into the distribution info
+at the web frontend</li>
+<li>Added the 'Console Scripts' global section on the
+web frontend</li>
+<li>Added new font type for the web frontend</li>
 </ul><h2>What's new in release v0.3</h2>
 
 <ul>
@@ -230,26 +295,18 @@ have to run Stallion in debugging mode:</p>
 <h2>Links</h2>
 
 <p><a href="https://github.com/perone/stallion">Project Site - Github</a></p>
-        </section>
-
-        <aside id="sidebar">
-          <a href="https://github.com/perone/stallion/zipball/master" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/perone/stallion/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
-
-          <p class="repo-owner"><a href="https://github.com/perone/stallion"></a> is maintained by <a href="https://github.com/perone">perone</a>.</p>
-
-          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
-      </div>
+      </section>
     </div>
 
-            <script type="text/javascript">
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Stallion maintained by <a href="https://github.com/perone">perone</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+              <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
           </script>
@@ -259,6 +316,7 @@ have to run Stallion in debugging mode:</p>
             pageTracker._trackPageview();
             } catch(err) {}
           </script>
+
 
   </body>
 </html>
