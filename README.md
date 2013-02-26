@@ -1,8 +1,9 @@
 # Stallion
 
-Stallion is a Python Package Manager interface created to provide an "easy-to-use" visual interface
-for Python newcomers. Today we have many nice distribution utilities like pip, distribute, etc, but
-we don't have a nice visual approach with these same goals. 
+Stallion is a Python Package Manager interface created to provide an "easy-to-use" visual and also
+a command-line interface for Pythonistas. Today we have many nice distribution utilities like pip,
+distribute, etc, but we don't have a nice visual approach to inspect current installed packages,
+show porjects metadata, check for PyPI updates, etc. 
 
 ## Screenshots
 
@@ -46,15 +47,7 @@ we don't have a nice visual approach with these same goals.
 
 ![Updates](https://raw.github.com/perone/stallion/master/screenshots/plp_scripts_gunicorn.png)
 
-## Using Stallion
-
-    $ stallion
-
-## Using plp
-  
-    $ plp --help
-
-## Easy to Install
+## How to Install
 
 Installing using pip:
 
@@ -74,8 +67,36 @@ Upgrading using easy_install:
 
     $ easy_install -U stallion
 
+## Using Stallion
+
+You only need to call the script (the -w option will automatically open your browser):
+
+    $ stallion -w
+
+## Using plp
+  
+    $ plp --help
+    Stallion - Python List Packages (PLP)
+
+    Usage:
+      plp list [--compact] [<filter>]
+      plp show <project_name>
+      plp check <project_name>
+      plp scripts [<filter>]
+
+      plp (-h | --help)
+      plp --version
+
+    Options:
+      --compact     Compact list format
+      -h --help     Show this screen.
+      --version     Show version.
+
 ## Setting a development environment
 -------------------------------------------------------------------------------
+
+Developers can setup a development environment using the "develop" command
+from setuptools:
 
     $ python setup.py develop
     $ stallion
@@ -133,12 +154,12 @@ Stallion is compatible with:
 
   - Firefox
   - Google Chrome
-  - Internet Explorer 9 (IE9)
+  - Internet Explorer 9/10
   - Safari
 
-## What's new in release v0.4 (development version)
+## What's new in release v0.4
 
-  - Added a new script called 'plp' (Python List Packages)
+  - Introduced 'plp' (Python List Packages)
   - Added the command 'list' for plp
   - Added the command 'show' for plp
   - Added the command 'check' for plp
