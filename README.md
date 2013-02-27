@@ -190,6 +190,7 @@ Stallion is compatible with:
 ## What's new in release v0.5 (unreleased, under development)
 
   - Added instructions and exame to use upstart (thanks to Thomas Léveil and Roman Gladkov)
+  - Fixed a bug when the metadata information for classifiers isn't present
 
 ## What's new in release v0.4
 
