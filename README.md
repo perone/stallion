@@ -67,6 +67,36 @@ Upgrading using easy_install:
 
     $ easy_install -U stallion
 
+### Install as a service
+
+On Linux systems having [Upstart](http://upstart.ubuntu.com/) you can set up Stallion as a service easily as follow.
+
+- copy `contrib/upstart/stallion.conf` to `/etc/init/`
+- make a symbolic link for it in `/etc/init.d/`:
+
+    ```shell
+    $ ln -s /etc/init/stallion.conf /etc/init.d/stallion
+    ```
+
+#### Service management
+
+```shell
+$ sudo start stallion
+$ sudo stop stallion
+$ sudo status stallion
+```
+or
+```shell
+$ sudo service stallion start
+$ sudo service stallion stop
+$ sudo service stallion status
+```
+
+#### Service customization
+
+Stallion program output (stdout and stderr) is redirected into the log file at `/var/log/stallion.log`. You can override this by setting a new value to the `LOG` environment variable in file `/etc/default/stallion`.
+
+
 ## Using Stallion
 
 You only need to call the script (the -w option will automatically open your browser):
