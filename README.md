@@ -187,6 +187,10 @@ Stallion is compatible with:
   - Internet Explorer 9/10
   - Safari
 
+## What's new in release v0.5 (unreleased, under development)
+
+  - Added instructions and exame to use upstart (thanks to Thomas Léveil and Roman Gladkov)
+
 ## What's new in release v0.4
 
   - Introduced 'plp' (Python List Packages)
