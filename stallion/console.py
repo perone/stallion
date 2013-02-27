@@ -168,9 +168,9 @@ def cmd_show(args, short=False):
 
         print console_scr_text
 
-    distinfo['classifier'] = classifier
-    print get_field_formatted(distinfo, 'classifier')
-
+    if classifier:
+        distinfo['classifier'] = classifier
+        print get_field_formatted(distinfo, 'classifier')
 
 def cmd_list_detail(dist, distinfo):
     proj_head = Fore.GREEN + Style.BRIGHT + dist.project_name
