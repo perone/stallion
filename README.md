@@ -77,6 +77,7 @@ On Linux systems having [Upstart](http://upstart.ubuntu.com/) you can set up Sta
     ```shell
     $ ln -s /etc/init/stallion.conf /etc/init.d/stallion
     ```
+- copy `contrib/upstart/stallion` to `/etc/default/`
 
 #### Service management
 
@@ -94,7 +95,7 @@ $ sudo service stallion status
 
 #### Service customization
 
-Stallion program output (stdout and stderr) is redirected into the log file at `/var/log/stallion.log`. You can override this by setting a new value to the `LOG` environment variable in file `/etc/default/stallion`.
+You can customize the host and port the stallion service will be listening on by editing the file `/etc/default/stallion`.
 
 
 ## Using Stallion
