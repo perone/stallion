@@ -67,7 +67,16 @@ Upgrading using easy_install:
 
     $ easy_install -U stallion
 
-### Install as a service
+### Installing as a systemd service
+
+If you're running Linux with [systemd](http://www.freedesktop.org/wiki/Software/systemd)
+installed, you can register Stallion as a service by copying `stallion.service`
+and `stallion` (both in `contrib/systemd`) to `/etc/systemd/system` and
+`/etc/conf.d`, respectively.
+
+All standard systemd service management commands (e.g. `systemctl enable` and `systemctl start`) apply.
+
+### Installing as an Upstart service
 
 On Linux systems having [Upstart](http://upstart.ubuntu.com/) you can set up Stallion as a service easily as follow.
 

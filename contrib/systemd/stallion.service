@@ -1,0 +1,12 @@
+[Unit]
+Description=Stallion Python Package Manager
+Wants=network.target
+After=network.target
+
+[Service]
+EnvironmentFile=/etc/conf.d/stallion
+ExecStart=/usr/bin/stallion $STALLION_OPTS
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
