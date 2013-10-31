@@ -56,7 +56,7 @@ def get_pkg_res():
 
 def get_shared_data():
     """ Returns a new dictionary with the shared-data between different
-    Stallion views (ie. a lista of distribution packages).
+    Stallion views (ie. a list of distribution packages).
 
     :rtype: dict
     :return: the dictionary with the shared data.
@@ -97,14 +97,16 @@ def get_pypi_releases(dist_name):
 
     return ret
 
+
 def get_pypi_search(spec, operator='or'):
     """Search the package database using the indicated search spec
 
-    The spec may include any of the keywords described in the above list
-    (except 'stable_version' and 'classifiers'), for example: {'description': 'spam'}
-    will search description fields. Within the spec, a field's value can be a string
-    or a list of strings (the values within the list are combined with an OR), for
-    example: {'name': ['foo', 'bar']}. Valid keys for the spec dict are listed here.
+    The spec may include any of the keywords described in the list above
+    (except 'stable_version' and 'classifiers'), for example:
+    {'description': 'spam'} will search description fields. Within the spec,
+    a field's value can be a string or a list of strings (the values within
+    the list are combined with an OR), for example: {'name': ['foo', 'bar']}.
+    Valid keys for the spec dict are listed here.
 
     name
     version
@@ -119,12 +121,12 @@ def get_pypi_search(spec, operator='or'):
     keywords
     platform
     download_url
-    
-    Arguments for different fields are combined using either "and" (the default) or "or".
-    Example: search({'name': 'foo', 'description': 'bar'}, 'or'). The results are
-    returned as a list of dicts {'name': package name, 'version': package release version,
-    'summary': package release summary}
-    browse(classifiers)
+
+    Arguments for different fields are combined using either "and" (the
+    default) or "or". Example: search({'name': 'foo', 'description': 'bar'},
+    'or'). The results are returned as a list of dicts {'name': package
+    name, 'version': package release version, 'summary': package release
+    summary} browse(classifiers)
     """
     pypi = get_pypi_proxy()
     ret = pypi.search(spec, operator)
@@ -163,8 +165,9 @@ def check_pypi_update(dist_name):
 
 @app.route('/pypi/releases/<dist_name>')
 def releases(dist_name):
-    """ This is the /pypi/releases/<dist_name> entry point, it is the interface
-    between Stallion and the PyPI RPC service when checking for updates.
+    """ This is the /pypi/releases/<dist_name> entry point. It is the
+    interface between Stallion and the PyPI RPC service when checking for
+    updates.
 
     :param dist_name: the package name (distribution name).
     """
@@ -225,6 +228,7 @@ def index():
 
     return render_template('system_information.html', **data)
 
+
 @app.route('/console_scripts')
 def console_scripts():
     """ Entry point for the global console scripts """
@@ -237,6 +241,7 @@ def console_scripts():
     data['scripts'] = entry_console
 
     return render_template('console_scripts.html', **data)
+
 
 @app.route('/about')
 def about():
@@ -274,7 +279,7 @@ def distribution(dist_name=None):
     settings_overrides = {
         'raw_enabled': 0,  # no raw HTML code
         'file_insertion_enabled': 0,  # no file/URL access
-        'halt_level': 2,  # at warnings or errors, raise an exception
+        'halt_level': 2,  # on warnings or errors, raise an exception
         'report_level': 5,  # never report problems with the reST code
     }
 
@@ -307,38 +312,38 @@ def run_main():
     parser = OptionParser()
 
     parser.add_option('-s', '--host', dest='host',
-                    help='The hostname to listen on, ' \
-                         'set to \'0.0.0.0\' to have the '
-                         'server available externally as well. '
-                         'Default is \'127.0.0.1\' (localhost only).',
-                    metavar="HOST", default='127.0.0.1')
+                      help='The hostname to listen on, '
+                           'set to \'0.0.0.0\' to have the '
+                           'server available externally as well. '
+                           'Default is \'127.0.0.1\' (localhost only).',
+                      metavar="HOST", default='127.0.0.1')
 
     parser.add_option('-d', '--debug', action='store_true',
-                  help='Start Stallion in Debug mode (useful to report bugs).',
-                  dest='debug', default=False)
+                      help='Start Stallion in Debug mode (useful to report '
+                           'bugs).', dest='debug', default=False)
 
     parser.add_option('-r', '--reloader', action='store_true',
-                  help='Uses the reloader.', dest='reloader', default=False)
+                      help='Uses the reloader.', dest='reloader',
+                      default=False)
 
     parser.add_option('-i', '--interactive', action='store_true',
-                  help='Enable the interactive interpreter' \
-                       ' for debugging (useful to debug errors).',
-                  dest='evalx', default=False)
+                      help='Enable the interactive interpreter'
+                           ' for debugging (useful to debug errors).',
+                      dest='evalx', default=False)
 
     parser.add_option('-p', '--port', dest='port',
-                    help='The port to listen on. ' \
-                         'Default is the port \'5000\'.',
-                    metavar="PORT", default='5000')
+                      help='The port to listen on. '
+                           'Default is the port \'5000\'.',
+                      metavar="PORT", default='5000')
 
     parser.add_option('-v', '--verbose', dest='verbose', action='store_true',
-                    help='Turn on verbose messages (show HTTP requests).' \
-                         ' Default is False.',
-                    default=False)
+                      help='Turn on verbose messages (show HTTP requests). '
+                           ' Default is False.', default=False)
 
-    parser.add_option('-w', '--web-browser', dest='web_browser', action='store_true',
-                    help='Open a web browser to show Stallion.' \
-                         ' Default is False.',
-                    default=False)
+    parser.add_option('-w', '--web-browser', dest='web_browser',
+                      action='store_true',
+                      help='Open a web browser to show Stallion. '
+                           'Default is False.', default=False)
 
     (options, args) = parser.parse_args()
 

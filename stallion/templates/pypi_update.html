@@ -7,8 +7,8 @@
 	{% if not pypi_info %}
 
 		<div class="alert block-message alert-error">
-			<p><strong>No PyPI information available !</strong> Stallion wasn't able to find 
-			the package information at PyPI repository. Some reasons of this failure:</p><br />
+			<p><strong>No PyPI information available !</strong> Stallion wasn't able to find
+			the package information at PyPI repository. Some reasons for this failure:</p><br />
 			<ul>
 			  <li>The PyPI repository doesn't have any information about the package.</li>
  			  <li>Stallion wasn't able to connect to PyPI.</li>
@@ -23,7 +23,8 @@
 		</div>
 		<p>
 			The last version available at the PyPI repository (<strong>{{ pypi_info[0] }}</strong>) seems
-			to be older than the version (<strong>{{ current_version }}</strong>) you have installed on your Python distribution. Some reasons of this:
+			to be older than the version (<strong>
+            {{ current_version }}</strong>) you have installed on your Python distribution. Some reasons for this:
 			<ul>
 				<li>You have manually installed a development version not yet available at PyPI repository.</li>
 			</ul>
@@ -35,7 +36,7 @@
 		</div>
 		<p>
 			A new version of the package <strong>{{ dist_name }}</strong> was found in the official
-			PyPI repository. You have the version <strong>{{ current_version }}</strong> 
+			PyPI repository. You have the version <strong>{{ current_version }}</strong>
 			<span class="label">YOUR VERSION</span>, and the last version on the PyPI repository
 			is <strong>{{ pypi_info[0] }}</strong> <span class="label label-success">NEW</span>.
 		</p>
@@ -46,7 +47,7 @@
 		<code>
 				pip install --upgrade {{ dist_name }}
 		</code> <br /> <br />
-		
+
 		<p>
 			You can check more information about <strong>pip</strong> on the
 			<a href="http://www.pip-installer.org">project documentation site</a>.
@@ -57,8 +58,8 @@
 		</div>
 		<p>
 			The version <strong>{{ current_version }}</strong> you have installed on
-			your Python distribution is the same as the last version available at 
-			PyPI repository.
+			your Python distribution is the same as the last version available at
+			the PyPI repository.
 		</p>
 
 	{% endif %}
@@ -70,7 +71,7 @@
 		</div>
 		<p>
 		PyPI has <strong>{{ pypi_info|length }}</strong> releases available for the
-		package <strong>{{ dist_name }}</strong>, the last five of them are:
+		package <strong>{{ dist_name }}</strong>. The last five of them are:
 		</p>
 		<ul>
 		{% for version in pypi_info[:5] %}

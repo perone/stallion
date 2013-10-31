@@ -4,12 +4,12 @@ import sys
 
 # Stallion requirements
 install_requirements = [
-        'Flask>=0.8',
-        'setuptools>=0.6c11',
-        'docutils>=0.8.1',
-        'jinja2>=2.6',
-        'docopt>=0.6.1',
-        'colorama>=0.2.5',
+    'Flask>=0.8',
+    'setuptools>=0.6c11',
+    'docutils>=0.8.1',
+    'jinja2>=2.6',
+    'docopt>=0.6.1',
+    'colorama>=0.2.5',
 ]
 
 # Try to import json, only present as std module
@@ -44,7 +44,7 @@ setup(
     zip_safe=False,
     include_package_data=True,
     package_data={
-      'stallion': ['static/*.*', 'templates/*.*'],
+        'stallion': ['static/*.*', 'templates/*.*'],
     },
     install_requires=install_requirements,
     tests_require=['nose'],

@@ -1,4 +1,4 @@
-'''
+"""
 .. module:: console
    :platform: Unix, Windows
    :synopsis: Stallion entry-point for console commands
@@ -7,7 +7,7 @@
 
 :mod:`console` -- Stallion entry-point for console commands
 ==================================================================
-'''
+"""
 import stallion
 from stallion.main import get_shared_data, get_pkg_res
 from stallion.main import get_pypi_search, get_pypi_releases
@@ -20,29 +20,31 @@ from colorama import Fore, Back, Style
 
 import pkg_resources
 
+
 def ellipsize(msg, max_size=80):
-    '''This function will ellipsize the string.
+    """This function will ellipsize the string.
 
     :param msg: Text to ellipsize.
     :param max_size: The maximum size before ellipsizing,
                     default is 80.
     :return: The ellipsized string if len > max_size, otherwise
              the original string.
-    '''
+    """
     if len(msg) >= max_size:
         return '%s (...)' % msg[0:max_size-6]
     else:
         return msg
 
+
 def parse_dict(mdata, key, ellip=False):
-    ''' This function will read the field from the dict and
+    """ This function will read the field from the dict and
     if not present will return the string 'Not Specified'
 
     :param mdata: the distribution info dict
     :param key: the key of the dict
     :ellip: if it will ellipsize
     :return: the string message or 'Not Specified' if empty
-    '''
+    """
     try:
         data = mdata[key]
         if ellip:
@@ -52,25 +54,27 @@ def parse_dict(mdata, key, ellip=False):
     except KeyError:
         return 'Not Specified'
 
+
 def get_kv_colored(key, value):
     text = Fore.WHITE + Style.BRIGHT + '  %s: ' % key.capitalize()
     text += Fore.WHITE + Style.NORMAL + value
     return text
 
+
 def get_field_formatted(mdata, key):
-    ''' This function will get the formatted and colored 
+    """ This function will get the formatted and colored
     key data from the dictionary.
 
     :param mdata: distribution dict
     :param key: the key of the dict
     :return: the formatted and colored string
-    '''
-    
+    """
+
     def recursive_dict(d, depth=2, final=''):
         final_str = final
-        for k,v in sorted(d.items(), key=lambda x: x[0]):
+        for k, v in sorted(d.items(), key=lambda x: x[0]):
             if isinstance(v, dict):
-                if depth==2:
+                if depth == 2:
                     final_str += Fore.BLUE + Style.BRIGHT
                 else:
                     final_str += Fore.WHITE + Style.NORMAL
@@ -78,11 +82,11 @@ def get_field_formatted(mdata, key):
                 final_str += '  ' * depth + str(k) + '\n'
                 final_str += recursive_dict(v, depth+1, final)
             else:
-                final_str =+ ('  ')*depth + str(k) + ' ' + str(v) + '\n'
+                final_str = + '  ' * depth + str(k) + ' ' + str(v) + '\n'
         return final_str
 
     field = parse_dict(mdata, key.lower())
-    
+
     if isinstance(field, list):
         field = ', '.join(field)
 
@@ -92,11 +96,12 @@ def get_field_formatted(mdata, key):
     text = get_kv_colored(key, field)
     return text
 
+
 def cmd_show(args, short=False):
-    '''This function implements the package show command.
+    """This function implements the package show command.
 
     :param args: the docopt parsed arguments
-    '''
+    """
     proj_name = args['<project_name>']
 
     try:
@@ -157,8 +162,9 @@ def cmd_show(args, short=False):
     entry_points = pkg_dist.get_entry_map()
     console_scripts = entry_points.get('console_scripts')
     if console_scripts:
-        console_scr_text = Fore.WHITE + Style.BRIGHT + '  Console Scripts:' + '\n'
-        
+        console_scr_text = Fore.WHITE + Style.BRIGHT \
+            + '  Console Scripts:' + '\n'
+
         for name, entry in console_scripts.items():
             console_scr_text += Fore.YELLOW + Style.BRIGHT + ' '*4 + \
                 name + Fore.WHITE + Style.BRIGHT
@@ -171,6 +177,7 @@ def cmd_show(args, short=False):
     if classifier:
         distinfo['classifier'] = classifier
         print get_field_formatted(distinfo, 'classifier')
+
 
 def cmd_list_detail(dist, distinfo):
     proj_head = Fore.GREEN + Style.BRIGHT + dist.project_name
@@ -185,11 +192,13 @@ def cmd_list_detail(dist, distinfo):
     author_email = distinfo.get('author-email')
     if author_email:
         print '<%s>' % author_email
-    else: print
+    else:
+        print
 
     print get_field_formatted(distinfo, 'Home-page')
     print get_field_formatted(distinfo, 'License')
     print get_field_formatted(distinfo, 'Platform')
+
 
 def cmd_list_compact(dist, distinfo):
     proj_head = Fore.GREEN + Style.BRIGHT + dist.project_name.ljust(25)
@@ -200,11 +209,12 @@ def cmd_list_compact(dist, distinfo):
     proj_sum += ' ' + parse_dict(distinfo, 'summary', True)
     print proj_sum.ljust(100)
 
+
 def cmd_list(args):
-    '''This function implements the package list command.
+    """This function implements the package list command.
 
     :param args: the docopt parsed arguments
-    '''
+    """
     compact = args['--compact']
     filt = args['<filter>']
     distributions = get_shared_data()['distributions']
@@ -213,7 +223,7 @@ def cmd_list(args):
         print Fore.YELLOW + Style.BRIGHT + \
             'Project Name'.ljust(26) + 'Version'.ljust(14) + 'Summary'
         print '-' * 80
-    
+
     for dist in distributions:
         if filt:
             if filt.lower() not in dist.project_name.lower():
@@ -228,7 +238,8 @@ def cmd_list(args):
             cmd_list_compact(dist, distinfo)
         else:
             cmd_list_detail(dist, distinfo)
-        
+
+
 def cmd_check(args):
     proj_name = args['<project_name>']
     cmd_show(args, short=True)
@@ -248,13 +259,13 @@ def cmd_check(args):
             version_index = pypi_rel.index(pkg_dist_version)
         except:
             version_index = len(pypi_rel)
-        
+
         for version in pypi_rel[0:version_index+3]:
             print Fore.WHITE + Style.BRIGHT + '  Version %s' % version,
-            if version==pypi_rel[0]:
+            if version == pypi_rel[0]:
                 print Fore.BLUE + Style.BRIGHT + '[last version]',
 
-            if version==pkg_dist_version:
+            if version == pkg_dist_version:
                 print Fore.GREEN + Style.BRIGHT + '[your version]',
 
             print
@@ -279,12 +290,11 @@ def cmd_check(args):
             print Fore.YELLOW + Style.BRIGHT + '  You\'re using ' + \
                 Fore.WHITE + Style.BRIGHT + 'v.%s,' % pkg_dist_version + \
                 Fore.YELLOW + Style.BRIGHT + \
-                ' but the last version in PyPI ' + Fore.WHITE + Style.BRIGHT + \
-                'v.%s !' % pypi_rel[0]
-
-           
+                ' but the last version in PyPI ' + Fore.WHITE \
+                + Style.BRIGHT + 'v.%s !' % pypi_rel[0]
     else:
         print 'No versions found on PyPI !'
+
 
 def cmd_scripts(arguments):
     filt = arguments['<filter>']
@@ -293,20 +303,21 @@ def cmd_scripts(arguments):
         'Script Name'.ljust(23) + 'Project Name'.ljust(21) + 'Module Name'
     print '-' * 80
     for entry in pkg_resources.iter_entry_points('console_scripts'):
-        if(filt):
+        if filt:
             if filt.lower() not in entry.name.lower():
-                continue 
+                continue
 
         print Fore.GREEN + Style.BRIGHT + entry.name.ljust(22),
         print Fore.WHITE + Style.NORMAL + str(entry.dist).ljust(20),
         print Fore.BLUE + Style.BRIGHT + entry.module_name,
         print Fore.BLUE + Style.NORMAL + '(' + entry.attrs[0] + ')'
 
+
 def run_main():
-    '''Stallion - Python List Packages (PLP)
+    """Stallion - Python List Packages (PLP)
 
     Usage:
-      plp list [--compact] [<filter>] 
+      plp list [--compact] [<filter>]
       plp show <project_name>
       plp check <project_name>
       plp scripts [<filter>]
@@ -318,13 +329,13 @@ def run_main():
       --compact     Compact list format
       -h --help     Show this screen.
       --version     Show version.
-    '''
+    """
     init(autoreset=True)
 
     arguments = docopt(run_main.__doc__,
-        version='Stallion v.%s - Python List Packages (PLP)' %
-        stallion.__version__)
-    
+                       version='Stallion v.%s - Python List Packages (PLP)' %
+                               stallion.__version__)
+
     if arguments['list']:
         cmd_list(arguments)
 

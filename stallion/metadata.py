@@ -64,26 +64,28 @@ METADATA_NAME = 'PKG-INFO'
 
 
 def parse_metadata(metadata):
-    """ Parse the package PKG-INFO metadata. Currently supports versions 1.0 (PEP-0241),
+    """ Parse the package PKG-INFO metadata. Currently supports versions 1.0
+    (PEP-0241),
     1.1 (PEP-0314), 1.2 (PEP-0345).
 
     :param metadata: the raw PKG-INFO metadata text
     :type metadata: string
     :rtype: tuple
-    :return: (parsed_metadata, key_known), the parsed_metadata is the rfc822.Message
-             object and the key_known is the fields found in the metadata info which
-             is part of the metadata version specification
+    :return: (parsed_metadata, key_known), the parsed_metadata is the rfc822
+    .Message
+             object and the key_known is the fields found in themetadata
+             info which is part of the metadata version specification
     """
     parsed_metadata = Parser().parsestr(metadata)
     metadata_spec = set(HEADER_META[parsed_metadata['metadata-version']])
     key_exist = set([s.lower() for s in parsed_metadata.keys()])
-    return (parsed_metadata, key_exist.intersection(metadata_spec))
+    return parsed_metadata, key_exist.intersection(metadata_spec)
 
 
 def clean_lead_ws_description(metadata, field_name):
-    """ Sometimes the metadata fields are a mess, this function is intended to remove the leading
-    extra space some authors add in front of the 'description' field and to handle some other
-    field cases.
+    """ Sometimes the metadata fields are a mess. This function is intended
+    to remove the leading extra space some authors add in front of the
+    'description' field and to handle some other field cases.
 
     :param metadata: the metadata text
     :param field_name: the name of the field, like 'description'
@@ -97,18 +99,21 @@ def clean_lead_ws_description(metadata, field_name):
         return max(set(lst), key=lst.count)
 
     if field_name.lower() == 'description':
-        leading_ws_count = [calc_leading(line) for line in metadata.splitlines()]
+        leading_ws_count = [calc_leading(line)
+                            for line in metadata.splitlines()]
         most_common_ws_count = most_common(leading_ws_count)
 
         strip_split = metadata.strip().splitlines()
-        return '\n'.join([line[most_common_ws_count:] if line.startswith(' ' * most_common_ws_count) else line
-                          for line in strip_split])
+        return '\n'.join([line[most_common_ws_count:] if line.startswith(
+            ' ' * most_common_ws_count) else line
+            for line in strip_split])
     else:
         return ' '.join([line.strip() for line in metadata.splitlines()])
 
 
 def field_process(field_name, field_value):
-    """ Processes a field, it changes the 'UNKNOWN' values for None, clear leading whitespaces, etc.
+    """ Processes a field, it changes the 'UNKNOWN' values for None,
+    clears leading whitespaces, etc.
 
     :param field_name: the field name
     :param field_value: the value of the field
@@ -149,10 +154,11 @@ def field_process(field_name, field_value):
 
 
 def metadata_to_dict(parsed_metadata, key_known):
-    """ This is the main function used to process the parsed metadata into a structured
-    and pre-processed data dictionary.
+    """ This is the main function used to process the parsed metadata into a
+    structured and pre-processed data dictionary.
 
-    :param parsed_metadata: the return of the function :func:`stallion.metadata.parse_metadata`.
+    :param parsed_metadata: the return of the function
+    :func:`stallion.metadata.parse_metadata`.
     :rtype: dictionary
     :returns: the processed metadata dictionary
     """
