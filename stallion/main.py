@@ -56,7 +56,7 @@ def get_pkg_res():
 
 def get_shared_data():
     """ Returns a new dictionary with the shared-data between different
-    Stallion views (ie. a lista of distribution packages).
+    Stallion views (ie. a list of distribution packages).
 
     :rtype: dict
     :return: the dictionary with the shared data.
@@ -101,7 +101,7 @@ def get_pypi_releases(dist_name):
 def get_pypi_search(spec, operator='or'):
     """Search the package database using the indicated search spec
 
-    The spec may include any of the keywords described in the above list
+    The spec may include any of the keywords described in the list above
     (except 'stable_version' and 'classifiers'), for example:
     {'description': 'spam'} will search description fields. Within the spec,
     a field's value can be a string or a list of strings (the values within
@@ -165,8 +165,9 @@ def check_pypi_update(dist_name):
 
 @app.route('/pypi/releases/<dist_name>')
 def releases(dist_name):
-    """ This is the /pypi/releases/<dist_name> entry point, it is the interface
-    between Stallion and the PyPI RPC service when checking for updates.
+    """ This is the /pypi/releases/<dist_name> entry point. It is the
+    interface between Stallion and the PyPI RPC service when checking for
+    updates.
 
     :param dist_name: the package name (distribution name).
     """
@@ -278,7 +279,7 @@ def distribution(dist_name=None):
     settings_overrides = {
         'raw_enabled': 0,  # no raw HTML code
         'file_insertion_enabled': 0,  # no file/URL access
-        'halt_level': 2,  # at warnings or errors, raise an exception
+        'halt_level': 2,  # on warnings or errors, raise an exception
         'report_level': 5,  # never report problems with the reST code
     }
 

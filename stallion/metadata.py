@@ -64,7 +64,7 @@ METADATA_NAME = 'PKG-INFO'
 
 
 def parse_metadata(metadata):
-    """ Parse the package PKG-INFO metadata. Currently supportsversions 1.0
+    """ Parse the package PKG-INFO metadata. Currently supports versions 1.0
     (PEP-0241),
     1.1 (PEP-0314), 1.2 (PEP-0345).
 
@@ -83,7 +83,7 @@ def parse_metadata(metadata):
 
 
 def clean_lead_ws_description(metadata, field_name):
-    """ Sometimes the metadata fields are a mess, this function is intended
+    """ Sometimes the metadata fields are a mess. This function is intended
     to remove the leading extra space some authors add in front of the
     'description' field and to handle some other field cases.
 
@@ -113,7 +113,7 @@ def clean_lead_ws_description(metadata, field_name):
 
 def field_process(field_name, field_value):
     """ Processes a field, it changes the 'UNKNOWN' values for None,
-    clear leading whitespaces, etc.
+    clears leading whitespaces, etc.
 
     :param field_name: the field name
     :param field_value: the value of the field
