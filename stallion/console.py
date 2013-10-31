@@ -72,7 +72,7 @@ def get_field_formatted(mdata, key):
 
     def recursive_dict(d, depth=2, final=''):
         final_str = final
-        for k,v in sorted(d.items(), key=lambda x: x[0]):
+        for k, v in sorted(d.items(), key=lambda x: x[0]):
             if isinstance(v, dict):
                 if depth == 2:
                     final_str += Fore.BLUE + Style.BRIGHT
@@ -291,7 +291,7 @@ def cmd_check(args):
                 Fore.WHITE + Style.BRIGHT + 'v.%s,' % pkg_dist_version + \
                 Fore.YELLOW + Style.BRIGHT + \
                 ' but the last version in PyPI ' + Fore.WHITE \
-                  + Style.BRIGHT + 'v.%s !' % pypi_rel[0]
+                + Style.BRIGHT + 'v.%s !' % pypi_rel[0]
     else:
         print 'No versions found on PyPI !'
 
