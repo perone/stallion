@@ -10,6 +10,11 @@
 """
 from optparse import OptionParser
 
+try:
+    reload
+except NameError:
+    from imp import reload
+
 import sys
 import platform
 import logging
