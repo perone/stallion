@@ -1,10 +1,10 @@
+import pkg_resources as _pkg_resources
+from xmlrpc.client import ServerProxy
+import unittest
 import sys
 sys.path.insert(0, '.')
-
-import unittest
 from stallion import main
-from xmlrpclib import ServerProxy
-import pkg_resources as _pkg_resources
+
 
 
 class TestMain(unittest.TestCase):

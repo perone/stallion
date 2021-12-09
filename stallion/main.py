@@ -8,33 +8,29 @@
 :mod:`main` -- main Stallion entry-point
 ==================================================================
 """
+import stallion
+from stallion import metadata
 from optparse import OptionParser
+import sys
+import platform
+import logging
+import pkg_resources as _pkg_resources
+from flask import Flask, render_template, url_for, jsonify
+from docutils.core import publish_parts
+from xmlrpc.client import ServerProxy
+
+try:
+    import reload
+except ImportError:
+    reload = None
 
 try:
     reload
 except NameError:
-    from imp import reload
+    from importlib import reload
 
-import sys
-import platform
-import logging
-
-try:
-    import xmlrpclib
-except ImportError:
-    import xmlrpc.client
-
-import pkg_resources as _pkg_resources
-
-from flask import Flask, render_template, url_for, jsonify
-
-from docutils.core import publish_parts
-
-import stallion
-from stallion import metadata
 
 app = Flask(__name__)
-
 PYPI_XMLRPC = 'http://pypi.python.org/pypi'
 
 # This is a cache with flags to show if a distribution
@@ -44,6 +40,7 @@ DIST_PYPI_CACHE = set()
 
 class Crumb(object):
     """ Represents each level on the bootstrap breadcrumb. """
+
     def __init__(self, title, href='#'):
         """ Instatiates a new breadcrum level.
 
@@ -55,7 +52,8 @@ class Crumb(object):
 
 
 def get_pkg_res():
-    reload(_pkg_resources)
+    if reload is not None:
+        reload(_pkg_resources)
     return _pkg_resources
 
 
@@ -79,7 +77,7 @@ def get_pypi_proxy():
     :rtype: xmlrpclib.ServerProxy
     :return: the RPC ServerProxy to PyPI repository.
     """
-    return xmlrpclib.ServerProxy(PYPI_XMLRPC)
+    return ServerProxy(PYPI_XMLRPC)
 
 
 def get_pypi_releases(dist_name):
@@ -101,6 +99,7 @@ def get_pypi_releases(dist_name):
     ret.sort(key=lambda v: _pkg_resources.parse_version(v), reverse=True)
 
     return ret
+
 
 def get_pypi_search(spec, operator='or'):
     """Search the package database using the indicated search spec
@@ -230,6 +229,7 @@ def index():
 
     return render_template('system_information.html', **data)
 
+
 @app.route('/console_scripts')
 def console_scripts():
     """ Entry point for the global console scripts """
@@ -242,6 +242,7 @@ def console_scripts():
     data['scripts'] = entry_console
 
     return render_template('console_scripts.html', **data)
+
 
 @app.route('/about')
 def about():
@@ -283,7 +284,10 @@ def distribution(dist_name=None):
         'report_level': 5,  # never report problems with the reST code
     }
 
-    pkg_metadata = pkg_dist.get_metadata(metadata.METADATA_NAME)
+    try:
+        pkg_metadata = pkg_dist.get_metadata(metadata.METADATA_NAME[0])
+    except FileNotFoundError:
+        pkg_metadata = pkg_dist.get_metadata(metadata.METADATA_NAME[1])
     parsed, key_known = metadata.parse_metadata(pkg_metadata)
     distinfo = metadata.metadata_to_dict(parsed, key_known)
 
@@ -312,38 +316,38 @@ def run_main():
     parser = OptionParser()
 
     parser.add_option('-s', '--host', dest='host',
-                    help='The hostname to listen on, ' \
-                         'set to \'0.0.0.0\' to have the '
-                         'server available externally as well. '
-                         'Default is \'127.0.0.1\' (localhost only).',
-                    metavar="HOST", default='127.0.0.1')
+                      help='The hostname to listen on, ' \
+                           'set to \'0.0.0.0\' to have the '
+                           'server available externally as well. '
+                           'Default is \'127.0.0.1\' (localhost only).',
+                      metavar="HOST", default='127.0.0.1')
 
     parser.add_option('-d', '--debug', action='store_true',
-                  help='Start Stallion in Debug mode (useful to report bugs).',
-                  dest='debug', default=False)
+                      help='Start Stallion in Debug mode (useful to report bugs).',
+                      dest='debug', default=False)
 
     parser.add_option('-r', '--reloader', action='store_true',
-                  help='Uses the reloader.', dest='reloader', default=False)
+                      help='Uses the reloader.', dest='reloader', default=False)
 
     parser.add_option('-i', '--interactive', action='store_true',
-                  help='Enable the interactive interpreter' \
-                       ' for debugging (useful to debug errors).',
-                  dest='evalx', default=False)
+                      help='Enable the interactive interpreter' \
+                           ' for debugging (useful to debug errors).',
+                      dest='evalx', default=False)
 
     parser.add_option('-p', '--port', dest='port',
-                    help='The port to listen on. ' \
-                         'Default is the port \'5000\'.',
-                    metavar="PORT", default='5000')
+                      help='The port to listen on. ' \
+                           'Default is the port \'5000\'.',
+                      metavar="PORT", default='5000')
 
     parser.add_option('-v', '--verbose', dest='verbose', action='store_true',
-                    help='Turn on verbose messages (show HTTP requests).' \
-                         ' Default is False.',
-                    default=False)
+                      help='Turn on verbose messages (show HTTP requests).' \
+                           ' Default is False.',
+                      default=False)
 
     parser.add_option('-w', '--web-browser', dest='web_browser', action='store_true',
-                    help='Open a web browser to show Stallion.' \
-                         ' Default is False.',
-                    default=False)
+                      help='Open a web browser to show Stallion.' \
+                           ' Default is False.',
+                      default=False)
 
     (options, args) = parser.parse_args()
 
@@ -358,6 +362,7 @@ def run_main():
 
     app.run(debug=options.debug, host=options.host, port=int(options.port),
             use_evalex=options.evalx, use_reloader=options.reloader)
+
 
 if __name__ == '__main__':
     run_main()

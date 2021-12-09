@@ -9,9 +9,8 @@
 ==================================================================
 """
 
-import string
 from email.parser import Parser
-import pkg_resources
+from typing import List
 
 # Tuple metadata format
 # (Field Name, lowered field name, Optional)
@@ -54,13 +53,24 @@ HEADER_META_1_2 = HEADER_META_1_1 + (
     'project-url',
 )
 
+# Initial version of 2.0
+HEADER_META_2_0 = HEADER_META_1_2 + (
+)
+
+# Initial version of 2.1
+HEADER_META_2_1 = HEADER_META_2_0 + (
+)
+
 HEADER_META = {
     '1.0': HEADER_META_1_0,
     '1.1': HEADER_META_1_1,
     '1.2': HEADER_META_1_2,
+    '2.0': HEADER_META_2_0,
+    '2.1': HEADER_META_2_1,
 }
 
-METADATA_NAME = 'PKG-INFO'
+# METADATA_NAME = 'PKG-INFO'
+METADATA_NAME: List[str] = ['PKG-INFO', 'METADATA']
 
 
 def parse_metadata(metadata):
@@ -77,7 +87,7 @@ def parse_metadata(metadata):
     parsed_metadata = Parser().parsestr(metadata)
     metadata_spec = set(HEADER_META[parsed_metadata['metadata-version']])
     key_exist = set([s.lower() for s in parsed_metadata.keys()])
-    return (parsed_metadata, key_exist.intersection(metadata_spec))
+    return parsed_metadata, key_exist.intersection(metadata_spec)
 
 
 def clean_lead_ws_description(metadata, field_name):
@@ -90,6 +100,7 @@ def clean_lead_ws_description(metadata, field_name):
     :rtype: string
     :return: the processed metadata
     """
+
     def calc_leading(line):
         return len(line) - len(line.lstrip())
 

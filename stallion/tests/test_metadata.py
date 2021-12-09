@@ -1,8 +1,6 @@
+import unittest
 import sys
 sys.path.insert(0, '.')
-
-import unittest
-
 from stallion import __version__
 from stallion.metadata import parse_metadata, metadata_to_dict
 
@@ -35,6 +33,7 @@ class Test_metadata(unittest.TestCase):
             'author-email': 'armin.ronacher@active-4.com',
             'description': 'Jinja2\n~~~~~~\n\nJinja2 is a template engine written in pure Python.  It provides a\n`Django`_ inspired non-XML syntax but supports inline expressions and\nan optional `sandboxed`_ environment.\n\nNutshell\n--------\n\nHere a small example of a Jinja template::\n\n    {% extends \'base.html\' %}\n    {% block title %}Memberlist{% endblock %}\n    {% block content %}\n      <ul>\n      {% for user in users %}\n        <li><a href="{{ user.url }}">{{ user.username }}</a></li>\n      {% endfor %}\n      </ul>\n    {% endblock %}\n\nPhilosophy\n----------\n\nApplication logic is for the controller but don\'t try to make the life\nfor the template designer too hard by giving him too few functionality.\n\nFor more informations visit the new `Jinja2 webpage`_ and `documentation`_.\n\n.. _sandboxed: http://en.wikipedia.org/wiki/Sandbox_(computer_security)\n.. _Django: http://www.djangoproject.com/\n.. _Jinja2 webpage: http://jinja.pocoo.org/\n.. _documentation: http://jinja.pocoo.org/2/documentation/'
         }, ret)
+
 
 if __name__ == '__main__':
     print("Stallion v.%s" % __version__)
