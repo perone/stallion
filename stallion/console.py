@@ -227,11 +227,6 @@ def cmd_list(args):
                 continue
 
         pkg_dist = get_pkg_res().get_distribution(dist.key)
-        # Quick fix
-        for i in range(len(metadata.METADATA_NAME)):
-            print(i, end=" ")
-            print(metadata.METADATA_NAME[i])
-
         try:
             pkg_metadata = pkg_dist.get_metadata(metadata.METADATA_NAME[0])
         except FileNotFoundError:
